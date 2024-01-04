@@ -10,8 +10,8 @@ function App() {
   const [psw, setPsw] = useState("");
   const submitLogin =()=>{
     const data = {
-      correo: email,
-      contrasena:psw,
+      email: email,
+      passwordUser:psw,
     }
     console.log(data);
   }
@@ -21,23 +21,55 @@ function App() {
   const [pswC, setPswC] = useState("");
   const createUser = () =>{
     const data = {
-      correo: emailC,
-      nombre: nameC,
-      contraseña: pswC,
+      idUser: usuariosDB.length+1,
+      role: 'cliente',
+      nameUser: nameC,
+      email: emailC,
+      passwordUser: pswC,
+      state: 'activo',
     }
+    // Actualizar el estado (setTareasDB_2) para que React sepa que ha cambiado
+    setUsuariosDB((prevTareas) => [...prevTareas, data]);
     console.log(data);
   }
+
 //funcionalidad para crear tareas
   const [title,setTitle] = useState("");
   const [desc,setDesc] = useState("");
   const createWork = () =>{
     const data = {
-      title: title,
-      description: desc,
+      nameList: title,
+      nameUser: yo[0].nameUser,
+      idUser: yo[0].idUser,
     }
-    console.log(data);
+
+    const data2 = {
+      idList: tareasDB_2.length + 1,
+      nameList: title,
+      description: desc,
+      state: 0,
+      idUserFK: yo[0].idUser,
+    }
+  // Actualizar el estado (setTareasDB) para que React sepa que ha cambiado
+  setTareasDB((prevTareas) => [...prevTareas, data]);
+  // Actualizar el estado (setTareasDB_2) para que React sepa que ha cambiado
+  setTareasDB_2((prevTareas) => [...prevTareas, data2]);
   }
 
+//array de prueba Tareas
+const [tareasDB_2, setTareasDB_2] = useState([]);
+  
+//array de prueba Usuarios
+ const [usuariosDB,setUsuariosDB] = useState([])
+
+//array de prueba Tareas
+  const [tareasDB,setTareasDB] = useState([]);
+
+//array de prueba con mis datos
+  const [yo,setYo] = useState([{idUser: 4,  nameUser: 'pedro',}]);
+
+
+//codigo html funtional
   return (
     <div className="App">
       
@@ -83,7 +115,9 @@ function App() {
       <div id='admin_page'>
         <table>
           <tr>
-            <th>Admin: nombre del usuario</th>
+            {yo.map((user) => (
+              <th key={user.idUser}>Admin: {user.nameUser}</th>
+            ))}
             <th> <button>usuarios</button> </th>
             <th> <button>tareas</button> </th>
           </tr>
@@ -93,30 +127,35 @@ function App() {
             <th>nombre</th>
             <th>estado</th>
           </tr>
-          <tr>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-          </tr>
-            <h3>tareas</h3>
+          {usuariosDB.map((usuario, index) => (
+            <tr key={index}>
+              <th>{index + 1}</th>
+              <th>{usuario.nameUser}</th>
+              <th>{usuario.state}</th>
+            </tr>
+          ))}
+          <h3>tareas</h3>
           <tr>
             <th>contador</th>
             <th>nombre usuario</th>
             <th>nombre tarea</th>
           </tr>
-          <tr>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-          </tr>
+          {tareasDB.map((usuario,index) => (
+            <tr key={index}>
+              <th>{index + 1}</th>
+              <th>{usuario.nameUser} / {usuario.idUser}</th>
+              <th>{usuario.nameList}</th>
+            </tr>
+          ))}
         </table>
       </div><br />
 
       <div id='client_page'>
-        <div>
-          Client: nombre del usuario
-        </div>
 
+        {yo.map((user) => (
+          <div key={user.idUser}> Client: {user.nameUser} </div>
+        ))}
+        
         <div id='formClient'>
           <form>
             <h3>Formulario para crear las tareas</h3>
@@ -135,13 +174,15 @@ function App() {
             <th>¿Completada?</th>
             <th>Borrar</th>
           </tr>
-          <tr>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-            <th> <input type="checkbox" name="cheked" id="check" /> </th>
-            <th><AiOutlineDelete /></th>
-          </tr>
+         {tareasDB_2.map((tareas,index) => (
+            <tr key={index}>
+              <th>{index + 1}</th>
+              <th>{tareas.nameList}</th>
+              <th>{tareas.description}</th>
+              <th> <input type="checkbox" name="cheked" id="check" /> </th>
+              <th><AiOutlineDelete /></th>
+            </tr>
+          ))}
         </table>
       </div>
 

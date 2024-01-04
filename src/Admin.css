@@ -1,0 +1,29 @@
+/* Aca los estilos de la interfas del administrador */
+#admin_page {
+    background-color: #1a237e;
+    padding: 20px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      h3 { color: #fff; }
+      th {
+        background-color: #4527a0;
+        color: #fff;
+        padding: 10px;
+        text-align: left;
+        button {
+          background-color: #1565c0;
+          color: #fff;
+          border: none;
+          padding: 8px 12px;
+          cursor: pointer;
+        }
+      }
+      th,td {
+        border: 1px solid #90a4ae;
+        padding: 8px;
+      }
+    }
+  }
+  
