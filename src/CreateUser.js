@@ -1,25 +1,30 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './CreateUser.css';
 
 function CreateUser() {
     
+  useEffect(() => {
+    // Llamamos a la función getUser al montar el componente
+    getUser();
+  }, []);
+
 //funcionalidad para crear usuarios
-    const [emailC, setEmailC] = useState("");
-    const [nameC, setNameC] = useState("");
-    const [pswC, setPswC] = useState("");
+  const [emailC, setEmailC] = useState("");
+  const [nameC, setNameC] = useState("");
+  const [pswC, setPswC] = useState("");
 
-    let [msnNameC,setMsnNameC] = useState(false);
-    let [msnEmailC,setMsnEmailC] = useState(false);
-    let [MsnPswC,setMsnPswC] = useState(false);
+  let [msnNameC,setMsnNameC] = useState(false);
+  let [msnEmailC,setMsnEmailC] = useState(false);
+  let [MsnPswC,setMsnPswC] = useState(false);
 
-    const createUser = () =>{
+  const createUser = () =>{
     const data = {
-        idUser: usuariosDB.length+1,
-        role: 'cliente',
-        nameUser: nameC,
-        email: emailC,
-        passwordUser: pswC,
-        state: 'activo',
+      idUser: usuariosDB.length+1,
+      role: 'client',
+      nameUser: nameC,
+      email: emailC,
+      passwordUser: pswC,
+      state: 'activo',
     }
     if(nameC === ""|| emailC ==='' ||pswC ===''){
       if(nameC === ''){ setMsnNameC(true); } else{ setMsnNameC(false); }
@@ -35,17 +40,25 @@ function CreateUser() {
       setNameC('');
       setPswC('');
     }
-// Actualizar el estado (setTareasDB_2) para que React sepa que ha cambiado
-      
-    }
+  }
   
-//array de prueba Usuarios
- const [usuariosDB,setUsuariosDB] = useState([
-    {  idUser: 2,  nameUser: 'lucas',  state: 'activo'},
-    {  idUser: 3,  nameUser: 'pablo',  state: 'activo'},
-    {  idUser: 4,  nameUser: 'pedro',  state: 'activo'},
-    {  idUser: 5,  nameUser: 'judas',  state: 'activo'},
-  ])
+// aca un metodo que trae los usuarios y los buarda en setUsuariosDB
+  const urlUsers = 'http://localhost:5000/getUser';
+  async function getUser() {
+    try {
+      const response = await fetch(urlUsers);
+      if (!response) {
+        throw new Error('Error al obtener los datos');
+      }
+      const data = await response.json();
+      // Actualizamos el estado con los datos obtenidos
+      setUsuariosDB(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  //array de prueba Usuarios
+  const [usuariosDB,setUsuariosDB] = useState([])
 
 
   return (
@@ -60,8 +73,7 @@ function CreateUser() {
                     <th> Name </th>
                     <th> <input type="text" id='Pnombre' value={nameC} onChange={(e)=>setNameC(e.target.value)}/> </th>
                     {msnNameC === true ? (<tr className='error'> campo Name es requerido</tr>):""}
-                </tr>
-                
+                </tr>   
                 <tr>
                     <th> Email </th>
                     <th> <input type="email" id='Pcorreo' value={emailC} onChange={(e)=>setEmailC(e.target.value)}/> </th>

@@ -4,7 +4,7 @@ import react, {useState} from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
 
 function App() {
-
+/*
 // funcionalidad del login
   const [email, setEmail] = useState("");
   const [psw, setPsw] = useState("");
@@ -187,5 +187,5 @@ const [tareasDB_2, setTareasDB_2] = useState([]);
       </div>
 
     </div>
-)}
+)*/}
 export default App;

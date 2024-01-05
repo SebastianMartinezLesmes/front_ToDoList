@@ -1,7 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Admin.css';
 
 function Admin(){
+
+  useEffect(() => {
+    // Llamamos a la función getUser y getList al montar el componente
+    getUser();
+    getList();
+  }, []);
 
     const [email, setEmail] = useState("");
     const [psw, setPsw] = useState("");
@@ -40,35 +46,56 @@ function Admin(){
       idUser: yo[0].idUser,
     }
 
-    const data2 = {
-      idList: tareasDB_2.length + 1,
-      nameList: title,
-      description: desc,
-      state: 0,
-      idUserFK: yo[0].idUser,
-    }
   // Actualizar el estado (setTareasDB) para que React sepa que ha cambiado
   setTareasDB((prevTareas) => [...prevTareas, data]);
-  // Actualizar el estado (setTareasDB_2) para que React sepa que ha cambiado
-  setTareasDB_2((prevTareas) => [...prevTareas, data2]);
   }
 
-//array de prueba Tareas
-const [tareasDB_2, setTareasDB_2] = useState([]);
+// aca un metodo que trae los usuarios y los buarda en setUsuariosDB
+  const urlUsers = 'http://localhost:5000/getUser';
   
+  async function getUser() {
+    try {
+      const response = await fetch(urlUsers);
+      if (!response) {
+        throw new Error('Error al obtener los datos');
+      }
+      console.log(response)
+      const data = await response.json();
+      // Actualizamos el estado con los datos obtenidos
+      setUsuariosDB(data);
+      console.log(usuariosDB)
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 //array de prueba Usuarios
- const [usuariosDB,setUsuariosDB] = useState([
-    {  idUser: 2,  nameUser: 'lucas',  state: 'activo'},
-    {  idUser: 3,  nameUser: 'pablo',  state: 'activo'},
-    {  idUser: 4,  nameUser: 'pedro',  state: 'activo'},
-    {  idUser: 5,  nameUser: 'judas',  state: 'activo'},
-  ])
+  const [usuariosDB,setUsuariosDB] = useState([])
 
+// aca un metodo que trae los usuarios y los buarda en setTareasDB
+  const UrlList = 'http://localhost:5000/getList';
+  async function getList() {
+    try {
+      const response = await fetch(UrlList);
+      if (!response) {
+        throw new Error('Error al obtener los datos');
+      }
+      console.log(response)
+      const data = await response.json();
+      // Actualizamos el estado con los datos obtenidos
+      setTareasDB(data);
+      console.log(tareasDB)
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 //array de prueba Tareas
   const [tareasDB,setTareasDB] = useState([]);
 
 //array de prueba con mis datos
   const [yo,setYo] = useState([{idUser: 4,  nameUser: 'pedro',}]);
+
+  const [showU, setShowU] = useState(false);
+  const [showL, setShowL] = useState(false);
 
     return(
         <>
@@ -78,35 +105,53 @@ const [tareasDB_2, setTareasDB_2] = useState([]);
                     {yo.map((user) => (
                     <th key={user.idUser}>Admin: {user.nameUser}</th>
                     ))}
-                    <th> <button>usuarios</button> </th>
-                    <th> <button>tareas</button> </th>
+                    <th> <button onClick={() => setShowU(!showU)}>usuarios</button> </th>
+                    <th> <button onClick={() => setShowL(!showL)}>tareas</button> </th>
                 </tr>
-                <h3>usuarios</h3>
-                <tr>
-                    <th>contador</th>
-                    <th>nombre</th>
-                    <th>estado</th>
-                </tr>
-                {usuariosDB.map((usuario, index) => (
-                    <tr key={index}>
-                    <th>{index + 1}</th>
-                    <th>{usuario.nameUser}</th>
-                    <th>{usuario.state}</th>
+                {showU && (
+                  <>
+                  <h3>usuarios</h3>
+                    <tr>
+                      <th>contador</th>
+                      <th>nombre</th>
+                      <th>Correo</th>
+                      <th>estado</th>
                     </tr>
-                ))}
-                <h3>tareas</h3>
-                <tr>
-                    <th>contador</th>
-                    <th>nombre usuario</th>
-                    <th>nombre tarea</th>
-                </tr>
-                {tareasDB.map((usuario,index) => (
-                    <tr key={index}>
-                    <th>{index + 1}</th>
-                    <th>{usuario.nameUser} / {usuario.idUser}</th>
-                    <th>{usuario.nameList}</th>
+                    {usuariosDB.map((usuario, index) => (
+                      <tr key={index}>
+                        <th>{index + 1}</th>
+                        <th>{usuario.nameUser}</th>
+                        <th>{usuario.email}</th>
+                        <th>{usuario.state !== 0 ? 'Activo' : 'Inactivo'}</th>
+                      </tr>
+                    ))}
+                  </>
+                )}
+                {showL && (
+                  <>
+                    <h3>tareas</h3>
+                    <tr>
+                        <th>contador</th>
+                        <th>nombre usuario</th>
+                        <th>nombre tarea</th>
+                        <th> estado</th>
                     </tr>
-                ))}
+                    {tareasDB.map((tarea, index) => {
+                      // Busca el usuario correspondiente a la tarea actual
+                      const usuario = usuariosDB.find(user => user.idUser === tarea.idUserFK);
+
+                      return (
+                        <tr key={index}>
+                          <th>{index + 1}</th>
+                          <th>{usuario ? usuario.nameUser : 'Usuario no encontrado'} </th>
+                          <th>{tarea.nameList}</th>
+                          <th>{tarea.state}</th>
+                        </tr>
+                      );
+                    })}
+                  </>
+                )}
+
                 </table>
             </div>
         </>

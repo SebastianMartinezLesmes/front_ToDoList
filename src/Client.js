@@ -8,11 +8,10 @@ function Client() {
     const [email, setEmail] = useState("");
     const [psw, setPsw] = useState("");
     const submitLogin =()=>{
-    const data = {
-        email: email,
-        passwordUser:psw,
-    }
-    console.log(data);
+      const data = {
+          email: email,
+          passwordUser:psw,
+      }
     }
 //funcionalidad para crear usuarios
     const [emailC, setEmailC] = useState("");
@@ -29,7 +28,6 @@ function Client() {
     }
 // Actualizar el estado (setTareasDB_2) para que React sepa que ha cambiado
     setUsuariosDB((prevTareas) => [...prevTareas, data]);
-        console.log(data);
     }
 
     //funcionalidad para crear tareas
