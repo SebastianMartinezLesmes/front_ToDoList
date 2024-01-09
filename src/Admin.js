@@ -113,8 +113,8 @@ function Admin(){
                   <h3>usuarios</h3>
                     <tr>
                       <th>contador</th>
-                      <th>nombre</th>
-                      <th>Correo</th>
+                      <th>nombre usuario</th>
+                      <th>Correo usuario</th>
                       <th>estado</th>
                     </tr>
                     {usuariosDB.map((usuario, index) => (
@@ -145,7 +145,7 @@ function Admin(){
                           <th>{index + 1}</th>
                           <th>{usuario ? usuario.nameUser : 'Usuario no encontrado'} </th>
                           <th>{tarea.nameList}</th>
-                          <th>{tarea.state}</th>
+                          <th>{tarea.state !== 0 ? 'Complata' : 'Incompleta'}</th>
                         </tr>
                       );
                     })}
