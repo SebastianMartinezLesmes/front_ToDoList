@@ -86,9 +86,6 @@ function CreateUser() {
 
   return (
     <>
-      <div id='head'>
-        <h2>crear usuario</h2>
-      </div>
       <div id='crearUsuario_form'>
           <form>
             <div>

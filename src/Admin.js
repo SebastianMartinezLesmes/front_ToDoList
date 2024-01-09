@@ -92,7 +92,7 @@ function Admin(){
   const [tareasDB,setTareasDB] = useState([]);
 
 //array de prueba con mis datos
-  const [yo,setYo] = useState([{idUser: 4,  nameUser: 'pedro',}]);
+  const [yo,setYo] = useState([{idUser: 0,  nameUser: '', role: ''}]);
 
   const [showU, setShowU] = useState(false);
   const [showL, setShowL] = useState(false);
@@ -105,14 +105,15 @@ function Admin(){
                     {yo.map((user) => (
                     <th key={user.idUser}>Admin: {user.nameUser}</th>
                     ))}
+                    <th></th>
                     <th> <button onClick={() => setShowU(!showU)}>usuarios</button> </th>
                     <th> <button onClick={() => setShowL(!showL)}>tareas</button> </th>
                 </tr>
                 {showU && (
                   <>
-                  <h3>usuarios</h3>
+                  <h3>Usuarios</h3>
                     <tr>
-                      <th>contador</th>
+                      <th></th>
                       <th>nombre usuario</th>
                       <th>Correo usuario</th>
                       <th>estado</th>
@@ -129,9 +130,9 @@ function Admin(){
                 )}
                 {showL && (
                   <>
-                    <h3>tareas</h3>
+                    <h3>Tareas</h3>
                     <tr>
-                        <th>contador</th>
+                        <th></th>
                         <th>nombre usuario</th>
                         <th>nombre tarea</th>
                         <th> estado</th>

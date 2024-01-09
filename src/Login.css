@@ -1,6 +1,10 @@
 /* Aca estan los estilos del fomulario de login */
 #head{
+  display: flex;
   text-align: center;
+  h2{
+    margin-right: 20px;
+  }
 }
 #login_form{
   display: flex;
@@ -32,7 +36,37 @@
       margin-bottom: 10px
     }
     a{
-      text-align: center;
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+/* Aca los estilos de Crear Usuario */
+#crearUsuario_form{
+  display: flex;
+  justify-content: center;
+  form{
+    display: flex;
+    padding: 20px;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    background-color: rgb(192, 185, 185);
+    div{
+      tr{
+        #Pcorreo, #Ppassword, #Pnombre{
+          margin-left: 10px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+    button{
+      height: 30px;
+      width: 100%;
+      color: white;
+      background-color: red;
+      margin-bottom: 10px
     }
   }
 }

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import Login from './Login';
-import CreateUser from './CreateUser';
+import CreateUser from './CreateUser'; /* interfas de crear usuario */
 import Admin from './Admin';
 import Client from './Client';
 
@@ -12,8 +12,5 @@ root.render(
   <React.StrictMode>
     <App /><br/>
     <Login/>
-    <CreateUser/>
-    <Admin/>
-    <Client/>
   </React.StrictMode>
 );
