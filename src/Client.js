@@ -4,23 +4,27 @@ import './Client.css';
 
 import axios from 'axios';
 
-
 function Client() {
 
   useEffect(() => {
-    // Llamamos a la función getUser y getList al montar el componente
+    // Llamamos a la función getUser y getLocalStorage al montar el componente
     getList();
+    getLocalStorage();
   }, []);
 
-    //funcionalidad para crear tareas
+
+//array de prueba Usuarios
+  const [usuariosDB,setUsuariosDB] = useState([])
+
+//funcionalidad para crear tareas
   const [title,setTitle] = useState("");
   const [desc,setDesc] = useState("");
 
   const createWork = async () => {
     const data = {
       nameList: title,
-      nameUser: yo[0].nameUser,
-      idUser: yo[0].idUser,
+      nameUser: yo.nameUser,
+      idUser: yo.idUser,
     };
   
     const url = 'http://localhost:5000/createList';
@@ -28,7 +32,7 @@ function Client() {
       idList: tareasDB.length + 1,
       nameList: title,
       description: desc,
-      idUserFK: yo[0].idUser,
+      idUserFK: yo.idUser,
     };
     console.log(data2);
     try {
@@ -105,24 +109,39 @@ function Client() {
 //array de prueba Tareas
   const [tareasDB_2, setTareasDB_2] = useState([]);
 
-//array de prueba con mis datos
-  const [yo,setYo] = useState([{idUser: 11,  nameUser: 'cain',}]);
-
-// Filtrar las tareas que cumplen con la condición
-  const filteredTareas = tareasDB_2.filter(tarea => tarea.idUserFK === yo[0].idUser);
-
-  console.log(filteredTareas)
-
   const [mostrarLista, setMostrarLista] = useState(true);
 
   const toggleVista = () => {
     setMostrarLista((prevState) => !prevState);
   };
 
+//array de prueba con mis datos
+  const [yo,setYo] = useState([]);
+
+// aca se trae la informacion del locaStorage
+  async function getLocalStorage (){
+    const usuarioEnLocalStorage = localStorage.getItem('usuarioEncontrado');
+
+    if (usuarioEnLocalStorage) {
+      // Convertir la cadena JSON a un objeto JavaScript
+      const usuarioDesdeLocalStorage = JSON.parse(usuarioEnLocalStorage);
+      setYo(usuarioDesdeLocalStorage)
+      // Imprimir en la consola el usuario almacenado en localStorage
+      console.log('Usuario encontrado en localStorage:', usuarioDesdeLocalStorage);
+    } else {
+      console.log('No hay usuario almacenado en localStorage.');
+    }
+  }
+
+  // Filtrar las tareas que cumplen con la condición
+  const filteredTareas = tareasDB_2.filter(tarea => tarea.idUserFK === yo.idUser); //aca esta el error de inicializacion antes de...
+
+
   return (
     <>
       <div id='client_page'>
 
+        <h3 key={yo.idUser}>tareas de {yo.nameUser}</h3> <button onClick={toggleVista}>cambiar vista</button>
         <div id='formClient'>
           <form>
             <h3>Formulario para crear las tareas</h3>
@@ -132,19 +151,16 @@ function Client() {
           </form>
         </div>
 
-        <h3>tareas</h3>
         <div>
-          <button onClick={toggleVista}>cambiar vista</button>
-
-          {mostrarLista ? (
+          {!mostrarLista ? (
             <table>
               <thead>
                 <tr>
                   <th>contador</th>
                   <th>nombre tarea</th>
                   <th>detalle</th>
-                  <th>Acciones</th>
-
+                  <th>¿Completado?</th>
+                  <th>¿Borrar?</th>
                 </tr>
               </thead>
               <tbody>
@@ -153,7 +169,9 @@ function Client() {
                     <th>{index + 1}</th>
                     <th>{tareas.nameList}</th>
                     <th>
-                      <button className='update-button'> Detalle </button>
+                      <div id="descrip">
+                        {tareas.description}
+                      </div>
                     </th>
                     <th>
                       <button className='update-button' onClick={() => update(tareas._id)}> <AiOutlineCheckCircle /> </button>

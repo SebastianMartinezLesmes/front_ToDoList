@@ -39,9 +39,11 @@
       border-collapse: collapse;
       margin-top: 20px;
       th {
+        text-align: center;
           background-color: #2980b9; 
           color: #fff;
           padding: 10px;
+          width: 200px;
           text-align: left;
           .update-button {
               padding: 8px;
@@ -73,7 +75,6 @@
       }
       th, td {
           border: 1px solid #ddd;
-          padding: 8px;
       }
   }
 }
@@ -147,4 +148,12 @@
           color: black;
       }
   }
+}
+
+#descrip{
+    background-color: red;
+    width: 100%;
+    border-collapse: collapse;
+    max-height: 80px;
+    overflow: auto;
 }

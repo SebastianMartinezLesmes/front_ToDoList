@@ -7,7 +7,9 @@ function Admin(){
     // Llamamos a la función getUser y getList al montar el componente
     getUser();
     getList();
+    getLocalStorage();
   }, []);
+  
 
     const [email, setEmail] = useState("");
     const [psw, setPsw] = useState("");
@@ -71,7 +73,7 @@ function Admin(){
 //array de prueba Usuarios
   const [usuariosDB,setUsuariosDB] = useState([])
 
-// aca un metodo que trae los usuarios y los buarda en setTareasDB
+// aca un metodo que trae los usuarios y los guarda en setTareasDB
   const UrlList = 'http://localhost:5000/getList';
   async function getList() {
     try {
@@ -92,7 +94,22 @@ function Admin(){
   const [tareasDB,setTareasDB] = useState([]);
 
 //array de prueba con mis datos
-  const [yo,setYo] = useState([{idUser: 0,  nameUser: '', role: ''}]);
+  const [yo,setYo] = useState([]);
+
+// aca se trae la informacion del locaStorage
+  async function getLocalStorage (){
+    const usuarioEnLocalStorage = localStorage.getItem('usuarioEncontrado');
+
+    if (usuarioEnLocalStorage) {
+      // Convertir la cadena JSON a un objeto JavaScript
+      const usuarioDesdeLocalStorage = JSON.parse(usuarioEnLocalStorage);
+      setYo(usuarioDesdeLocalStorage)
+      // Imprimir en la consola el usuario almacenado en localStorage
+      console.log('Usuario encontrado en localStorage:', usuarioDesdeLocalStorage);
+    } else {
+      console.log('No hay usuario almacenado en localStorage.');
+    }
+  }
 
   const [showU, setShowU] = useState(false);
   const [showL, setShowL] = useState(false);
@@ -102,9 +119,8 @@ function Admin(){
             <div id='admin_page'>
                 <table>
                 <tr>
-                    {yo.map((user) => (
-                    <th key={user.idUser}>Admin: {user.nameUser}</th>
-                    ))}
+                    <th key={yo.idUser}>Admin: {yo.nameUser}</th>
+                    
                     <th></th>
                     <th> <button onClick={() => setShowU(!showU)}>usuarios</button> </th>
                     <th> <button onClick={() => setShowL(!showL)}>tareas</button> </th>

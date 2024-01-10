@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import './Login.css';
-import CreateUser from './CreateUser';
-
 import Admin from './Admin';
 import Client from './Client';
+
+import { useHistory } from 'react-router-dom';
 
 function Login() {
 
@@ -78,6 +78,7 @@ function Login() {
   let [msnPsw,setMsnPsw] = useState(false);
   let [msnYo,setMsnYo] = useState(false);
 
+// funcion de login
   const submitLogin = () => {
     // Validación de campos
     if (email === '' || psw === '') {
@@ -107,16 +108,28 @@ function Login() {
         setYo(usuarioEncontrado);
         setMsnYo(false);
         console.log('Usuario encontrado:', usuarioEncontrado);
-      
-        const key = 'usuarioEncontrado';
+        
+        // aca se guarda el usuario en el localStorage
         try {
-          window.localStorage.setItem(key, JSON.stringify(usuarioEncontrado));
-          console.log('Guardado exitosamente en el localStorage.');
+          // Guardar el usuario encontrado en el localStorage
+          localStorage.setItem('usuarioEncontrado', JSON.stringify(usuarioEncontrado));
         } catch (error) {
-          console.error(error);
-          console.log('Error al enviar datos al localStorage');
+          console.error('Error al guardar en el localStorage:', error);
         }
         
+        const usuarioEnLocalStorage = localStorage.getItem('usuarioEncontrado');
+
+        // Verificar si el valor existe
+        if (usuarioEnLocalStorage) {
+          // Convertir la cadena JSON a un objeto JavaScript
+          const usuarioDesdeLocalStorage = JSON.parse(usuarioEnLocalStorage);
+          
+          // Imprimir en la consola el usuario almacenado en localStorage
+          console.log('Usuario almacenado en localStorage exitosamente:', usuarioDesdeLocalStorage);
+        } else {
+          console.log('No hay usuario almacenado en localStorage.');
+        }
+
       } else {
         console.log('Usuario no encontrado');
         setMsnYo(true);
@@ -133,7 +146,6 @@ function Login() {
   
   const [yo, setYo] = useState([]); // Proporciona un valor inicial si es necesario
   
-
 // aca un metodo que trae los usuarios y los buarda en setUsuariosDB
   const urlUsers = 'http://localhost:5000/getUser';
   async function getUser() {
@@ -142,11 +154,9 @@ function Login() {
       if (!response) {
         throw new Error('Error al obtener los datos');
       }
-      console.log(response)
       const data = await response.json();
       // Actualizamos el estado con los datos obtenidos
       setUsuariosDB(data);
-      console.log(usuariosDB)
     } catch (error) {
       console.error('Error:', error);
     }
