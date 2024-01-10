@@ -107,15 +107,14 @@ function Login() {
         setYo(usuarioEncontrado);
         setMsnYo(false);
         console.log('Usuario encontrado:', usuarioEncontrado);
-  
-        // Almacenar el usuario encontrado en el localStorage
+      
         const key = 'usuarioEncontrado';
         try {
-          window.localStorage.setItem(key, usuarioEncontrado);
+          window.localStorage.setItem(key, JSON.stringify(usuarioEncontrado));
           console.log('Guardado exitosamente en el localStorage.');
         } catch (error) {
-          console.error(error)
-          console.log('Error al enviar datos al localStorage')
+          console.error(error);
+          console.log('Error al enviar datos al localStorage');
         }
         
       } else {
@@ -132,7 +131,7 @@ function Login() {
     }
   };
   
-  const [yo, setYo] = useState({}); // Proporciona un valor inicial si es necesario
+  const [yo, setYo] = useState([]); // Proporciona un valor inicial si es necesario
   
 
 // aca un metodo que trae los usuarios y los buarda en setUsuariosDB

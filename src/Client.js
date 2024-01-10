@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import './Client.css';
 import { AiOutlineDelete, AiOutlineCheckCircle } from 'react-icons/ai';
+import './Client.css';
+
+import axios from 'axios';
+
 
 function Client() {
 
@@ -52,35 +55,63 @@ function Client() {
     }
   };
 
-// aca un metodo que trae los usuarios y los buarda en setTareasDB
-const UrlList = 'http://localhost:5000/getList';
-async function getList() {
-  try {
-    const response = await fetch(UrlList);
-    if (!response) {
-      throw new Error('Error al obtener los datos');
+  async function borrar(id) {
+    console.log(id);
+    let urlDeleteList = `http://localhost:5000/deleteList/${id}`;
+  
+    try {
+      const response = await axios.delete(urlDeleteList);
+      console.log('respuesta exitosa', response);
+      getList();
+    } catch (error) {
+      console.error('error de peticion', error);
     }
-    console.log(response)
-    const data = await response.json();
-    // Actualizamos el estado con los datos obtenidos
-    setTareasDB(data);
-    setTareasDB_2(data);
-    console.log(tareasDB);
-  } catch (error) {
-    console.error('Error:', error);
   }
-}
+
+  async function update(id) {
+    console.log(id);
+    let urlUpdateList = `http://localhost:5000/updateList/${id}`;
+  
+    try {
+      const response = await axios.put(urlUpdateList);
+      console.log('respuesta exitosa', response.data);
+      getList();
+    } catch (error) {
+      console.error('error de peticion', error);
+    }
+  }
+  
+// aca un metodo que trae los usuarios y los buarda en setTareasDB
+  const UrlList = 'http://localhost:5000/getList';
+  async function getList() {
+    try {
+      const response = await fetch(UrlList);
+      if (!response) {
+        throw new Error('Error al obtener los datos');
+      }
+      console.log(response)
+      const data = await response.json();
+      // Actualizamos el estado con los datos obtenidos
+      setTareasDB(data);
+      setTareasDB_2(data);
+      console.log(tareasDB);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 //array de prueba Tareas
-const [tareasDB,setTareasDB] = useState([]);
+  const [tareasDB,setTareasDB] = useState([]);
 
 //array de prueba Tareas
-const [tareasDB_2, setTareasDB_2] = useState([]);
+  const [tareasDB_2, setTareasDB_2] = useState([]);
 
 //array de prueba con mis datos
   const [yo,setYo] = useState([{idUser: 11,  nameUser: 'cain',}]);
 
 // Filtrar las tareas que cumplen con la condición
   const filteredTareas = tareasDB_2.filter(tarea => tarea.idUserFK === yo[0].idUser);
+
+  console.log(filteredTareas)
 
   const [mostrarLista, setMostrarLista] = useState(true);
 
@@ -112,8 +143,8 @@ const [tareasDB_2, setTareasDB_2] = useState([]);
                   <th>contador</th>
                   <th>nombre tarea</th>
                   <th>detalle</th>
-                  <th>¿Completada?</th>
-                  <th>Borrar</th>
+                  <th>Acciones</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -122,19 +153,13 @@ const [tareasDB_2, setTareasDB_2] = useState([]);
                     <th>{index + 1}</th>
                     <th>{tareas.nameList}</th>
                     <th>
-                    <button className='update-button'>
-                        Detalle
-                      </button>
+                      <button className='update-button'> Detalle </button>
                     </th>
                     <th>
-                      <button className='update-button'>
-                        <AiOutlineCheckCircle />
-                      </button>
+                      <button className='update-button' onClick={() => update(tareas._id)}> <AiOutlineCheckCircle /> </button>
                     </th>
                     <th>
-                      <button className='delete-button'>
-                        <AiOutlineDelete />
-                      </button>
+                      <button className='delete-button' onClick={() => borrar(tareas._id)}> <AiOutlineDelete /> </button>
                     </th>
                   </tr>
                 ))}

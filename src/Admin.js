@@ -146,7 +146,7 @@ function Admin(){
                           <th>{index + 1}</th>
                           <th>{usuario ? usuario.nameUser : 'Usuario no encontrado'} </th>
                           <th>{tarea.nameList}</th>
-                          <th>{tarea.state !== 0 ? 'Complata' : 'Incompleta'}</th>
+                          <th>{tarea.state !== 0 ? 'Complatada' : 'Pendiente'}</th>
                         </tr>
                       );
                     })}
