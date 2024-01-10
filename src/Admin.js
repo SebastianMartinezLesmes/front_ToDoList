@@ -117,12 +117,12 @@ function Admin(){
     return(
         <>
             <div id='admin_page'>
-                <table>
+              <div id='soyYo' key={yo.idUser}>Admin: {yo.nameUser}</div>
+              <table>
                 <tr>
-                    <th key={yo.idUser}>Admin: {yo.nameUser}</th>
-                    
-                    <th></th>
                     <th> <button onClick={() => setShowU(!showU)}>usuarios</button> </th>
+                    <th></th>
+                    <th></th>
                     <th> <button onClick={() => setShowL(!showL)}>tareas</button> </th>
                 </tr>
                 {showU && (
@@ -169,7 +169,7 @@ function Admin(){
                   </>
                 )}
 
-                </table>
+              </table>
             </div>
         </>
     );

@@ -141,7 +141,7 @@ function Client() {
     <>
       <div id='client_page'>
 
-        <h3 key={yo.idUser}>tareas de {yo.nameUser}</h3> <button onClick={toggleVista}>cambiar vista</button>
+        <h3 key={yo.idUser}>tareas de {yo.nameUser}</h3> <button id='changeMode' onClick={toggleVista}>cambiar vista</button>
         <div id='formClient'>
           <form>
             <h3>Formulario para crear las tareas</h3>

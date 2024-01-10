@@ -176,7 +176,7 @@ function Login() {
       
       {window ? (
         <div>
-          <h2 onClick={changeWindow}>Registrarse</h2>
+          <h2 id='titPrin' onClick={changeWindow}>Login</h2>
           <div id='login_form'>
           <form>
             <div>
@@ -203,7 +203,7 @@ function Login() {
         </div>
       ) : (
         <div>
-          <h2 onClick={changeWindow}>Login</h2>
+          <h2 id='titSec' onClick={changeWindow}>Registrarse</h2>
           <div id='crearUsuario_form'>
             <form>
               <div>
@@ -230,7 +230,6 @@ function Login() {
       )}
       
     </div>
-    <p>Soy: {yo.nameUser} // {yo.idUser} // {yo.role}</p>
 
     {yo.role === 'client' ? <h2> <Client/> </h2> : yo.role === 'administrador' ? <h2> <Admin/> </h2> : null}
     </>
