@@ -1,35 +1,103 @@
 /* Aca los estilos de la interfas del administrador */
 #admin_page {
-    background-color: #1a237e;
-    padding: 20px;
-    #soyYo{
-      display: flex;
-      justify-content: center;
-      color: #fff;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      h3 { color: #fff; }
-      th {
-        border-radius: 10px;
-        background-color: red;
-        color: #fff;
-       
-        text-align: left;
-        button {
-          background-color: #1565c0;
-          color: #fff;
-          border: none;
-          padding: 8px 12px;
-          cursor: pointer;
-        }
-      }
-      th,td {
-        border: 1px solid #90a4ae;
-        padding: 8px;
-      }
+  background-color: #6a73db;
+  padding: 20px;
+  #soyYo{
+    display: flex;
+    justify-content: center;
+  }
+  #butns{
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    margin: 20px;
+
+    button{
+      background-color: rgb(0, 132, 255);
+      font-size: 15px;
+      margin-right: 10px;
+      border-radius: 10px;
+      width: 100px;
+      height: 45px;
     }
   }
+
+  button{
+    background-color: rgb(0, 132, 255);
+    font-size: 15px;
+    margin-right: 10px;
+    border-radius: 10px;
+    width: 100px;
+    height: 45px;
+  }
+
+}
+
+#contentUsers{
+  justify-content: center;
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: transparent;
+
+  #listUsers{
+    display: flex;
+    align-items: center;
+    width: 250px;
+    background-color: #3498db;
+    border: solid 1px black;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
   
+    #cont{
+      align-items: center;
+      padding: 10px;
+      margin-right: 10px;
+      background-color: transparent;
+      border: solid 1px black;
+      border-radius: 50%;
+    }
+    #stateUser{
+      margin-left: 20px;
+    }
+  }
+}
+
+#contentList_C{
+  justify-content: center;
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: transparent;
+}
+#contentList{
+  margin: 2%;
+  align-items: center;
+  height: 150px;
+  width: 45%;
+  display: flex;
+  border-radius: 15px;
+  background-color: #3498db;
+  border: solid 1px black;
+
+  #count{
+    text-align: center;
+    align-items: center;
+    padding: 10px;
+    margin: 10px;
+    background-color: transparent;
+    border: solid 1px black;
+    border-radius: 50%;
+  }
+
+  p{
+    margin-right: 40px;
+  }
+  
+  #nameWorkList{
+    width: 250px;
+    height: 90px;
+    overflow: auto;
+  }
+}

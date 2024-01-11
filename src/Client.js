@@ -12,10 +12,6 @@ function Client() {
     getLocalStorage();
   }, []);
 
-
-//array de prueba Usuarios
-  const [usuariosDB,setUsuariosDB] = useState([])
-
 //funcionalidad para crear tareas
   const [title,setTitle] = useState("");
   const [desc,setDesc] = useState("");
@@ -186,16 +182,16 @@ function Client() {
           ) : (
             <div id='content_cards'>
               {filteredTareas.map((tarea, index) => (
-                <div className='card' key={index}>
+                <div className='card' key={tarea._id}>
                   <div className='card-item'>
                     <h2 className='card-title'>{tarea.nameList}</h2>
                     <p className='card-description'>{tarea.description}</p>
                   </div>
                   <div className='card-actions'>
-                    <button className='update-button'>
+                    <button className='update-button' onClick={() => update(tarea._id)}>
                       <AiOutlineCheckCircle />
                     </button>
-                    <button className='delete-button'>
+                    <button className='delete-button' onClick={() => borrar(tarea._id)}>
                       <AiOutlineDelete />
                     </button>
                   </div>

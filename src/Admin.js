@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from 'react';
+import { FaEye } from 'react-icons/fa'; //<FaEye />
+
 import './Admin.css';
 
 function Admin(){
@@ -10,47 +12,23 @@ function Admin(){
     getLocalStorage();
   }, []);
   
-
-    const [email, setEmail] = useState("");
-    const [psw, setPsw] = useState("");
-    const submitLogin =()=>{
-    const data = {
-        email: email,
-        passwordUser:psw,
-    }
-    console.log(data);
-    }
 //funcionalidad para crear usuarios
     const [emailC, setEmailC] = useState("");
     const [nameC, setNameC] = useState("");
     const [pswC, setPswC] = useState("");
     const createUser = () =>{
-    const data = {
-        idUser: usuariosDB.length+1,
-        role: 'cliente',
-        nameUser: nameC,
-        email: emailC,
-        passwordUser: pswC,
-        state: 'activo',
-    }
+      const data = {
+          idUser: usuariosDB.length+1,
+          role: 'cliente',
+          nameUser: nameC,
+          email: emailC,
+          passwordUser: pswC,
+          state: 'activo',
+      }
 // Actualizar el estado (setTareasDB_2) para que React sepa que ha cambiado
-    setUsuariosDB((prevTareas) => [...prevTareas, data]);
+      setUsuariosDB((prevTareas) => [...prevTareas, data]);
         console.log(data);
     }
-
-    //funcionalidad para crear tareas
-  const [title,setTitle] = useState("");
-  const [desc,setDesc] = useState("");
-  const createWork = () =>{
-    const data = {
-      nameList: title,
-      nameUser: yo[0].nameUser,
-      idUser: yo[0].idUser,
-    }
-
-  // Actualizar el estado (setTareasDB) para que React sepa que ha cambiado
-  setTareasDB((prevTareas) => [...prevTareas, data]);
-  }
 
 // aca un metodo que trae los usuarios y los buarda en setUsuariosDB
   const urlUsers = 'http://localhost:5000/getUser';
@@ -111,66 +89,81 @@ function Admin(){
     }
   }
 
-  const [showU, setShowU] = useState(false);
-  const [showL, setShowL] = useState(false);
+  const administradoresCount = usuariosDB.filter(usuario => usuario.role === 'administrador').length;
+  const clientCount = usuariosDB.filter(usuario => usuario.role === 'client').length;
+  const usersActiveCount = usuariosDB.filter(usuario => usuario.state === 'activo').length;
+  const usersInactiveCount = usuariosDB.filter(usuario => usuario.state === 'inactivo').length;
+
+  const [showAdmin, setShowAdmin] = useState('');
+  const [vista,setVista] = useState('');
 
     return(
         <>
-            <div id='admin_page'>
-              <div id='soyYo' key={yo.idUser}>Admin: {yo.nameUser}</div>
-              <table>
-                <tr>
-                    <th> <button onClick={() => setShowU(!showU)}>usuarios</button> </th>
-                    <th></th>
-                    <th></th>
-                    <th> <button onClick={() => setShowL(!showL)}>tareas</button> </th>
-                </tr>
-                {showU && (
-                  <>
-                  <h3>Usuarios</h3>
-                    <tr>
-                      <th></th>
-                      <th>nombre usuario</th>
-                      <th>Correo usuario</th>
-                      <th>estado</th>
-                    </tr>
+          <div id='admin_page'>
+            <div id='soyYo' key={yo.idUser}>
+              Admin: {yo.nameUser}
+            </div>
+            <div id='butns'>
+              <button onClick={() => setShowAdmin('users')}>usuarios</button> 
+              <button onClick={() => setShowAdmin('list')}>tareas</button> 
+            </div>
+            <table>
+
+              {showAdmin === 'users' && (
+                <>
+                  <button onClick={() => setVista('todos')}>todos</button>
+                  <button onClick={() => setVista('state')}>estados</button>
+                  <button onClick={() => setVista('rol')}>roles</button>
+                  {vista === 'todos' && (
+                    <>
+                      <h4> Usuarios: {usuariosDB.length} </h4> 
+                    </>
+                  )}
+                  {vista === 'state' && (
+                    <>
+                      <h4> Activos: {usersActiveCount}</h4>
+                      <h4> Inactivos: {usersInactiveCount}</h4>
+                    </>
+                  )}
+                  {vista === 'rol' && (
+                    <>
+                      <h4> Administradores: {administradoresCount} </h4>
+                      <h4> Clientes: {clientCount} </h4>
+                    </>
+                  )}
+                  <div id='contentUsers'>
                     {usuariosDB.map((usuario, index) => (
-                      <tr key={index}>
-                        <th>{index + 1}</th>
-                        <th>{usuario.nameUser}</th>
-                        <th>{usuario.email}</th>
-                        <th>{usuario.state !== 0 ? 'Activo' : 'Inactivo'}</th>
-                      </tr>
+                      <div key={index} id='listUsers'>
+                        <p id='cont'>{(index + 1).toString().padStart(2, '0')}</p>
+                        <p> {usuario.nameUser}</p> 
+                        <p id='stateUser'> {usuario.state}</p>
+                      </div>
                     ))}
-                  </>
-                )}
-                {showL && (
-                  <>
-                    <h3>Tareas</h3>
-                    <tr>
-                        <th></th>
-                        <th>nombre usuario</th>
-                        <th>nombre tarea</th>
-                        <th> estado</th>
-                    </tr>
+                  </div>
+                </>
+              )}
+              {showAdmin === 'list' && (
+                <>
+                  <h3>Tareas Creadas: {tareasDB.length}</h3> 
+                  <div id='contentList_C'>
                     {tareasDB.map((tarea, index) => {
                       // Busca el usuario correspondiente a la tarea actual
                       const usuario = usuariosDB.find(user => user.idUser === tarea.idUserFK);
-
                       return (
-                        <tr key={index}>
-                          <th>{index + 1}</th>
-                          <th>{usuario ? usuario.nameUser : 'Usuario no encontrado'} </th>
-                          <th>{tarea.nameList}</th>
-                          <th>{tarea.state !== 0 ? 'Complatada' : 'Pendiente'}</th>
-                        </tr>
+                        <div id='contentList' key={index}>
+                          <span id='count'>{(index + 1).toString().padStart(2, '0')} </span>
+                          <p> {usuario ? usuario.nameUser : 'Usuario no encontrado'}  </p>
+                          <p id='nameWorkList'> {tarea.nameList} </p>
+                          <p> {tarea.state !== 0 ? 'Completada' : 'Pendiente'} </p> 
+                        </div>
                       );
                     })}
-                  </>
-                )}
+                  </div>
+                </>
+              )}
 
-              </table>
-            </div>
+            </table>
+          </div>
         </>
     );
 }

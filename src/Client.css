@@ -103,6 +103,8 @@
     .card-title {
         background-color: transparent;
         font-style: italic;
+        max-height: 30px;
+        overflow: auto;
     }
 
     .card-description {

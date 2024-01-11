@@ -112,6 +112,7 @@ function Login() {
         // aca se guarda el usuario en el localStorage
         try {
           // Guardar el usuario encontrado en el localStorage
+          localStorage.clear();
           localStorage.setItem('usuarioEncontrado', JSON.stringify(usuarioEncontrado));
         } catch (error) {
           console.error('Error al guardar en el localStorage:', error);
