@@ -74,3 +74,13 @@
     }
   }
 }
+
+#especial, #especial2{
+  border-radius: 10px;
+  background-color: transparent;
+  margin: 10px;
+  font-size: 20px;
+  width: 100px;
+  height: 40px;
+
+}

@@ -114,6 +114,7 @@ function Login() {
           // Guardar el usuario encontrado en el localStorage
           localStorage.clear();
           localStorage.setItem('usuarioEncontrado', JSON.stringify(usuarioEncontrado));
+          setWindow('')
         } catch (error) {
           console.error('Error al guardar en el localStorage:', error);
         }
@@ -165,46 +166,43 @@ function Login() {
 //array de prueba Usuarios
   const [usuariosDB,setUsuariosDB] = useState({})
 
-  const [window,setWindow] = useState(true)
-  const changeWindow = () => {
-    setWindow(!window);
-    getUser();
-  };
+  const [window,setWindow] = useState('login')
 
   return (
     <>
       <div>
       
-      {window ? (
+      {window === 'login' && (
         <div>
-          <h2 id='titPrin' onClick={changeWindow}>Login</h2>
+          <h2 id='titPrin' onClick={() => setWindow('register')}>Login</h2>
           <div id='login_form'>
           <form>
             <div>
                 <tr>
-                <th> Email </th>
-                <th> <input type="email" id='correo' onChange={(e)=>setEmail(e.target.value)}/> </th>
-                {msnEmail === true ? (<tr> campo Email es requerido</tr>):""}
+                  <th> Email </th>
+                  <th> <input type="email" id='correo' onChange={(e)=>setEmail(e.target.value)}/> </th>
+                  {msnEmail === true ? (<tr> campo Email es requerido</tr>):""}
                 </tr>
-                
+          
                 <tr>
-                <th> Password </th>
-                <th> <input type="password" id='password' onChange={(e)=>setPsw(e.target.value)}/> </th>
-                {msnPsw === true ? (<tr> campo Password es requerido</tr>):""}
+                  <th> Password </th>
+                  <th> <input type="password" id='password' onChange={(e)=>setPsw(e.target.value)}/> </th>
+                  {msnPsw === true ? (<tr> campo Password es requerido</tr>):""}
                 </tr>
 
                 {msnYo === true ? (<div id='msnNoUser'> <tr> Usuario no encontrado, intente nuevamente</tr> </div>):""}
                 
                 <button type='button' onClick={submitLogin}>Iniciar sesión</button><br />
-                <a href="#" onClick={changeWindow}>Crear usuario</a>
+                <a href="#" onClick={() => setWindow('register')}>Crear usuario</a>
 
             </div>
           </form>
         </div>
         </div>
-      ) : (
+      )}
+      {window === 'register' &&  (
         <div>
-          <h2 id='titSec' onClick={changeWindow}>Registrarse</h2>
+          <h2 id='titSec' onClick={() => setWindow('login')}>Registrarse</h2>
           <div id='crearUsuario_form'>
             <form>
               <div>
@@ -224,6 +222,7 @@ function Login() {
                     {MsnPswC === true ? (<tr className='error'> campo Password es requerido</tr>):""}
                 </tr>
                 <button type='button' onClick={createUser}>Crear Usuario</button>
+                <a href="#" onClick={() => setWindow('login')}>login</a>
               </div>
             </form>
           </div>
@@ -231,8 +230,22 @@ function Login() {
       )}
       
     </div>
-
-    {yo.role === 'client' ? <h2> <Client/> </h2> : yo.role === 'administrador' ? <h2> <Admin/> </h2> : null}
+    {window === '' &&(
+      <>
+        {yo.role === 'client' && (
+          <>
+            <button id='especial' onClick={() => setWindow('login')}>login</button>
+            <Client/>
+          </>
+        )}  
+        { yo.role === 'administrador' && (
+          <>
+            <button id='especial2' onClick={() => setWindow('login')}>login</button>
+            <h2> <Admin/> </h2>
+          </>
+        )}
+      </>
+    )}
     </>
   );
 

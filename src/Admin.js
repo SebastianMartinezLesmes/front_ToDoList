@@ -93,8 +93,11 @@ function Admin(){
   const clientCount = usuariosDB.filter(usuario => usuario.role === 'client').length;
   const usersActiveCount = usuariosDB.filter(usuario => usuario.state === 'activo').length;
   const usersInactiveCount = usuariosDB.filter(usuario => usuario.state === 'inactivo').length;
+  
+  const listComplete = tareasDB.filter(tareas => tareas.state !== 0).length;
+  const listincomplete = tareasDB.filter(tareas => tareas.state === 0).length;
 
-  const [showAdmin, setShowAdmin] = useState('');
+  const [showAdmin, setShowAdmin] = useState('list');
   const [vista,setVista] = useState('');
 
     return(
@@ -104,19 +107,21 @@ function Admin(){
               Admin: {yo.nameUser}
             </div>
             <div id='butns'>
-              <button onClick={() => setShowAdmin('users')}>usuarios</button> 
-              <button onClick={() => setShowAdmin('list')}>tareas</button> 
+              <button id='button1' onClick={() => setShowAdmin('users')}>usuarios</button> 
+              <button id='button2' onClick={() => setShowAdmin('list')}>tareas</button> 
             </div>
             <table>
 
               {showAdmin === 'users' && (
-                <>
-                  <button onClick={() => setVista('todos')}>todos</button>
-                  <button onClick={() => setVista('state')}>estados</button>
-                  <button onClick={() => setVista('rol')}>roles</button>
+                <> 
+                  <button id='buttonC' onClick={() => setVista('')}>Nada</button>
+                  <button id='buttonT' onClick={() => setVista('todos')}>Todos</button>
+                  <button id='buttonE' onClick={() => setVista('state')}>Estados</button>
+                  <button id='buttonR' onClick={() => setVista('rol')}>Roles</button>
                   {vista === 'todos' && (
                     <>
-                      <h4> Usuarios: {usuariosDB.length} </h4> 
+                      <h4> Total de Usuarios:  </h4> 
+                      <h4>{usuariosDB.length}  </h4> 
                     </>
                   )}
                   {vista === 'state' && (
@@ -145,6 +150,8 @@ function Admin(){
               {showAdmin === 'list' && (
                 <>
                   <h3>Tareas Creadas: {tareasDB.length}</h3> 
+                  <h3>Tareas Completadas: {listComplete}</h3>
+                  <h3>Tareas Incompletas {listincomplete}</h3>
                   <div id='contentList_C'>
                     {tareasDB.map((tarea, index) => {
                       // Busca el usuario correspondiente a la tarea actual

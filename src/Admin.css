@@ -1,6 +1,6 @@
 /* Aca los estilos de la interfas del administrador */
 #admin_page {
-  background-color: #6a73db;
+  background-color: transparent;
   padding: 20px;
   #soyYo{
     display: flex;
@@ -20,9 +20,26 @@
       width: 100px;
       height: 45px;
     }
+
+    #button1{
+      background-color: rgb(0, 132, 255);
+      font-size: 15px;
+      margin-right: 10px;
+      border-radius: 10px;
+      width: 100px;
+      height: 45px;
+    }
+    #button2{
+      background-color: rgba(30, 255, 0, 0.658);
+      font-size: 15px;
+      margin-right: 10px;
+      border-radius: 10px;
+      width: 100px;
+      height: 45px;
+    }
   }
 
-  button{
+  #buttonC, #buttonT, #buttonE, #buttonR{
     background-color: rgb(0, 132, 255);
     font-size: 15px;
     margin-right: 10px;
@@ -70,34 +87,34 @@
   display: flex;
   flex-wrap: wrap;
   background-color: transparent;
-}
-#contentList{
-  margin: 2%;
-  align-items: center;
-  height: 150px;
-  width: 45%;
-  display: flex;
-  border-radius: 15px;
-  background-color: #3498db;
-  border: solid 1px black;
-
-  #count{
-    text-align: center;
+  #contentList{
+    margin: 2%;
     align-items: center;
-    padding: 10px;
-    margin: 10px;
-    background-color: transparent;
+    height: 150px;
+    width: 45%;
+    display: flex;
+    border-radius: 15px;
+    background-color: rgba(30, 255, 0, 0.658);
     border: solid 1px black;
-    border-radius: 50%;
-  }
-
-  p{
-    margin-right: 40px;
-  }
   
-  #nameWorkList{
-    width: 250px;
-    height: 90px;
-    overflow: auto;
+    #count{
+      text-align: center;
+      align-items: center;
+      padding: 10px;
+      margin: 10px;
+      background-color: transparent;
+      border: solid 1px black;
+      border-radius: 50%;
+    }
+  
+    p{
+      margin-right: 40px;
+    }
+    
+    #nameWorkList{
+      width: 250px;
+      max-height: 90px;
+      overflow: auto;
+    }
   }
 }
