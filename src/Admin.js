@@ -67,6 +67,18 @@ function Admin(){
     setFiltro(tareasDB);
     setMsg('all')
   }
+  
+  async function allListComplete() {
+    setFiltro(tareasDB);
+    setFiltro(tareasDB.filter(tareas => tareas.state === 1));
+    setMsg('all')
+  }
+  
+  async function allListPending() {
+    setFiltro(tareasDB);
+    setFiltro(tareasDB.filter(tareas => tareas.state === 0));
+    setMsg('all')
+  }
 
   async function doFilter() {
     if (worksFiltro === '') {
@@ -190,7 +202,11 @@ function Admin(){
                   )}
 
                   <div id='serach_filter'>
-                    <button onClick={allList}>Todas las tareas</button>
+                    <p id='miniFilters'>
+                      <button onClick={allList}>Todas las tareas</button>
+                      <button onClick={allListComplete}>Tareas completadas</button>
+                      <button onClick={allListPending}>Tareas pendientes</button>
+                    </p>
                     <span>
                       <label>Busqueda: </label>
                       <input type='text' placeholder='Nombre del usuario' onChange={(e) => setWorksFiltro(e.target.value)}></input>
