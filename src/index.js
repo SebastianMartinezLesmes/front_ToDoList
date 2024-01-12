@@ -10,7 +10,7 @@ import Client from './Client';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App /><br/>
+    <App />
     <Login/>
   </React.StrictMode>
 );

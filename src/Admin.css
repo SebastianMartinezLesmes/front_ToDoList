@@ -47,7 +47,6 @@
     width: 100px;
     height: 45px;
   }
-
 }
 
 #contentUsers{
@@ -60,7 +59,7 @@
   #listUsers{
     display: flex;
     align-items: center;
-    width: 250px;
+    width: 280px;
     background-color: #3498db;
     border: solid 1px black;
     border-radius: 10px;
@@ -75,8 +74,15 @@
       border: solid 1px black;
       border-radius: 50%;
     }
+
+    #nameUserAdmin{
+      max-height: 55px;
+      overflow-y: auto; 
+      overflow-x: hidden;
+      margin: 10px;
+    }
     #stateUser{
-      margin-left: 20px;
+      margin: 10px;
     }
   }
 }
@@ -87,8 +93,9 @@
   display: flex;
   flex-wrap: wrap;
   background-color: transparent;
+  
   #contentList{
-    margin: 2%;
+    margin: 1%;
     align-items: center;
     height: 150px;
     width: 45%;
@@ -108,13 +115,64 @@
     }
   
     p{
-      margin-right: 40px;
+      font-family: 'Times New Roman', Times, serif;
+      padding: 10px;
+      width: 250px;
+      max-height: 45px;
+      overflow-y: auto; 
+      overflow-x: hidden;
     }
     
-    #nameWorkList{
-      width: 250px;
-      max-height: 90px;
-      overflow: auto;
+    #nameWorkList {
+      width: 300px;
+      max-height: 70px;
+      margin-right: 10px;
+      overflow-y: auto; /* o "auto" dependiendo de tu preferencia */
+      overflow-x: hidden;
     }
+    
+  }
+}
+
+.grid-container {
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  #f{
+    display: flex;
+    
+    div{
+      border: solid 1px #5c5959;
+      border-radius: 10px;
+      padding: 20px;
+    }
+  }
+  .grid-item{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 10px;
+  }
+}
+
+#serach_filter{
+  display: flex;
+  flex-direction: column;
+  span{
+    input{
+      width: 800px;
+      height: 20px;
+      font-size: auto;
+      border-radius: 8px;
+    }
+  }
+
+  button{
+    margin: 10px;
+    border-radius: 8px;
+    width: 100px;
+    height: auto;
   }
 }

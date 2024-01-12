@@ -31,43 +31,63 @@ function Login() {
       state: 'activo',
     };
   
+    // verificacion de campos
     if (nameC === "" || emailC === '' || pswC === '') {
-      if (nameC === '') setMsnNameC(true); else setMsnNameC(false);
-  
-      if (emailC === '') setMsnEmailC(true); else setMsnEmailC(false);
-  
-      if (pswC === '') setMsnPswC(true); else setMsnPswC(false);
-    } else {
-      const urlCreate = "http://localhost:5000/createUser";
-      try {
-        const response = await fetch(urlCreate, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
-  
-        if (response.ok) {
-          // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario.
-          console.log('Usuario creado exitosamente');          
-        } else {
-          console.error('Error al crear el usuario');
-        }
-      } catch (error) {
-        console.error('Error al realizar la solicitud:', error);
-      }
-  
-      setUsuariosDB((prevTareas) => [...prevTareas, data]);
-      console.log(data);
-      setMsnNameC(false);
-      setMsnEmailC(false);
-      setMsnPswC(false);
-      setEmailC('');
-      setNameC('');
-      setPswC('');
+      if (nameC === '') {setMsnNameC(true);} else setMsnNameC(false);
+      if (emailC === '') {setMsnEmailC(true);} else setMsnEmailC(false);
+      if (pswC === '') {setMsnPswC(true);} else setMsnPswC(false);
 
-      setWindow(!window);
+      setTimeout(() => { // Establecer los estados a false después de 4 segundos
+        setMsnNameC(false);
+        setMsnEmailC(false);
+        setMsnPswC(false);
+      }, 4000);
+
+    } else {
+
+      const usuarioEncontrado_other = usuariosDB.find(
+        (u) => u.email === emailC
+      );
+    
+      if (usuarioEncontrado_other){
+        setMsg(true);
+        console.log('Correo encontrado, fallo al registrar el usuario: '+usuarioEncontrado_other)
+      }
+      else {
+        console.log(`Correo NO encontrado, iniciando registro del usuario ${usuarioEncontrado_other}... `)
+        setTimeout(() => { 
+          setMsg(false);
+        }, 4000);
+        
+        const urlCreate = "http://localhost:5000/createUser";
+        try {
+          const response = await fetch(urlCreate, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+    
+          if (response.ok) {
+            // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario.
+            console.log('Usuario creado exitosamente'); 
+          } else {
+            console.error('Error al crear el usuario');
+          }
+        } catch (error) {
+          console.error('Error al realizar la solicitud:', error);
+        }
+        
+        setUsuariosDB((prevTareas) => [...prevTareas, data]);
+        console.log(data);
+
+        setEmailC('');
+        setNameC('');
+        setPswC('');
+        
+        setWindow('login');
+      }
     }
   };
       
@@ -77,6 +97,7 @@ function Login() {
   let [msnEmail,setMsnEmail] = useState(false);
   let [msnPsw,setMsnPsw] = useState(false);
   let [msnYo,setMsnYo] = useState(false);
+  let [msg,setMsg] = useState(false)
 
 // funcion de login
   const submitLogin = () => {
@@ -164,7 +185,7 @@ function Login() {
     }
   }
 //array de prueba Usuarios
-  const [usuariosDB,setUsuariosDB] = useState({})
+  const [usuariosDB,setUsuariosDB] = useState([])
 
   const [window,setWindow] = useState('login')
 
@@ -172,34 +193,33 @@ function Login() {
     <>
       <div>
       
-      {window === 'login' && (
-        <div>
-          <h2 id='titPrin' onClick={() => setWindow('register')}>Login</h2>
-          <div id='login_form'>
-          <form>
-            <div>
-                <tr>
-                  <th> Email </th>
-                  <th> <input type="email" id='correo' onChange={(e)=>setEmail(e.target.value)}/> </th>
-                  {msnEmail === true ? (<tr> campo Email es requerido</tr>):""}
-                </tr>
-          
-                <tr>
-                  <th> Password </th>
-                  <th> <input type="password" id='password' onChange={(e)=>setPsw(e.target.value)}/> </th>
-                  {msnPsw === true ? (<tr> campo Password es requerido</tr>):""}
-                </tr>
+        {window === 'login' && (
+          <>
+            <h2 id='titPrin' onClick={() => setWindow('register')}>Login</h2>
+            <div id='login_form'>
+              <form>
+                <div>
+                    <tr>
+                      <th> Email </th>
+                      <th> <input type="email" id='correo' onChange={(e)=>setEmail(e.target.value)}/> </th>
+                      {msnEmail === true ? (<tr> campo Email es requerido</tr>):""}
+                    </tr>
+              
+                    <tr>
+                      <th> Password </th>
+                      <th> <input type="password" id='password' onChange={(e)=>setPsw(e.target.value)}/> </th>
+                      {msnPsw === true ? (<tr> campo Password es requerido</tr>):""}
+                    </tr>
 
-                {msnYo === true ? (<div id='msnNoUser'> <tr> Usuario no encontrado, intente nuevamente</tr> </div>):""}
-                
-                <button type='button' onClick={submitLogin}>Iniciar sesión</button><br />
-                <a href="#" onClick={() => setWindow('register')}>Crear usuario</a>
-
+                    {msnYo === true ? (<div id='msnNoUser'> <tr> Usuario no encontrado, intente nuevamente</tr> </div>):""}
+                    
+                    <button type='button' onClick={submitLogin}>Iniciar sesión</button><br />
+                    <a href="#" onClick={() => setWindow('register')}>Crear usuario</a>
+                </div>
+              </form>
             </div>
-          </form>
-        </div>
-        </div>
-      )}
+          </>
+        )}
       {window === 'register' &&  (
         <div>
           <h2 id='titSec' onClick={() => setWindow('login')}>Registrarse</h2>
@@ -209,20 +229,25 @@ function Login() {
                 <tr>
                     <th> Name </th>
                     <th> <input type="text" id='Pnombre' value={nameC} onChange={(e)=>setNameC(e.target.value)}/> </th>
-                    {msnNameC === true ? (<tr className='error'> campo Name es requerido</tr>):""}
+                    {msnNameC === true ? (<tr className='error'> Campo requerido</tr>):""}
                 </tr>   
                 <tr>
                     <th> Email </th>
                     <th> <input type="email" id='Pcorreo' value={emailC} onChange={(e)=>setEmailC(e.target.value)}/> </th>
-                    {msnEmailC === true ? (<tr className='error'> campo Email es requerido</tr>):""}
+                    {msnEmailC === true ? (<tr className='error'> Campo requerido</tr>):""}
                 </tr>
                 <tr>
                     <th> Password </th>
                     <th> <input type="password" id='Ppassword' value={pswC} onChange={(e)=>setPswC(e.target.value)}/> </th>
-                    {MsnPswC === true ? (<tr className='error'> campo Password es requerido</tr>):""}
+                    {MsnPswC === true ? (<tr className='error'> Campo requerido</tr>):""}
                 </tr>
                 <button type='button' onClick={createUser}>Crear Usuario</button>
                 <a href="#" onClick={() => setWindow('login')}>login</a>
+                {msg &&(
+                  <>
+                    <span> Correo ya registrado </span>
+                  </>
+                )}
               </div>
             </form>
           </div>
@@ -230,22 +255,22 @@ function Login() {
       )}
       
     </div>
-    {window === '' &&(
-      <>
-        {yo.role === 'client' && (
-          <>
-            <button id='especial' onClick={() => setWindow('login')}>login</button>
-            <Client/>
-          </>
-        )}  
-        { yo.role === 'administrador' && (
-          <>
-            <button id='especial2' onClick={() => setWindow('login')}>login</button>
-            <h2> <Admin/> </h2>
-          </>
-        )}
-      </>
-    )}
+      {window === '' &&(
+        <>
+          {yo.role === 'client' && (
+            <>
+              <button id='especial' onClick={() => setWindow('login')}>login</button>
+              <Client/>
+            </>
+          )}  
+          { yo.role === 'administrador' && (
+            <>
+              <button id='especial2' onClick={() => setWindow('login')}>login</button>
+              <h2> <Admin/> </h2>
+            </>
+          )}
+        </>
+      )}
     </>
   );
 

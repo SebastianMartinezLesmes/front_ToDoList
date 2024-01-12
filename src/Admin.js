@@ -16,19 +16,6 @@ function Admin(){
     const [emailC, setEmailC] = useState("");
     const [nameC, setNameC] = useState("");
     const [pswC, setPswC] = useState("");
-    const createUser = () =>{
-      const data = {
-          idUser: usuariosDB.length+1,
-          role: 'cliente',
-          nameUser: nameC,
-          email: emailC,
-          passwordUser: pswC,
-          state: 'activo',
-      }
-// Actualizar el estado (setTareasDB_2) para que React sepa que ha cambiado
-      setUsuariosDB((prevTareas) => [...prevTareas, data]);
-        console.log(data);
-    }
 
 // aca un metodo que trae los usuarios y los buarda en setUsuariosDB
   const urlUsers = 'http://localhost:5000/getUser';
@@ -71,6 +58,35 @@ function Admin(){
 //array de prueba Tareas
   const [tareasDB,setTareasDB] = useState([]);
 
+  const [filtro,setFiltro] = useState([])
+  const [worksFiltro,setWorksFiltro] = useState('')
+
+// funcion para filtrar
+  const [msg,setMsg] = useState('all')
+  async function allList() {
+    setFiltro(tareasDB);
+    setMsg('all')
+  }
+
+  async function doFilter() {
+    if (worksFiltro === '') {
+      setFiltro(tareasDB);
+      setMsg('all')
+    } else {
+      const filtered = tareasDB.filter(tarea =>
+        (usuariosDB.find(user => user.idUser === tarea.idUserFK)?.nameUser.toLowerCase().includes(worksFiltro.toLowerCase()))
+        );
+        
+        if (filtered.length !== 0) {
+          setMsg('one')
+          setFiltro(filtered);
+        } else {
+          const notUser = [{ idUserFK: null, nameList: 'Tarea no encontrada', state: null }];
+        setFiltro(notUser);
+      }
+    }
+  }
+
 //array de prueba con mis datos
   const [yo,setYo] = useState([]);
 
@@ -94,8 +110,8 @@ function Admin(){
   const usersActiveCount = usuariosDB.filter(usuario => usuario.state === 'activo').length;
   const usersInactiveCount = usuariosDB.filter(usuario => usuario.state === 'inactivo').length;
   
-  const listComplete = tareasDB.filter(tareas => tareas.state !== 0).length;
-  const listincomplete = tareasDB.filter(tareas => tareas.state === 0).length;
+  const listComplete = filtro.filter(tareas => tareas.state === 1).length;
+  const listincomplete = filtro.filter(tareas => tareas.state === 0).length;
 
   const [showAdmin, setShowAdmin] = useState('list');
   const [vista,setVista] = useState('');
@@ -140,8 +156,8 @@ function Admin(){
                     {usuariosDB.map((usuario, index) => (
                       <div key={index} id='listUsers'>
                         <p id='cont'>{(index + 1).toString().padStart(2, '0')}</p>
-                        <p> {usuario.nameUser}</p> 
                         <p id='stateUser'> {usuario.state}</p>
+                        <p id='nameUserAdmin'> {usuario.nameUser}</p> 
                       </div>
                     ))}
                   </div>
@@ -149,20 +165,54 @@ function Admin(){
               )}
               {showAdmin === 'list' && (
                 <>
-                  <h3>Tareas Creadas: {tareasDB.length}</h3> 
-                  <h3>Tareas Completadas: {listComplete}</h3>
-                  <h3>Tareas Incompletas {listincomplete}</h3>
-                  <div id='contentList_C'>
-                    {tareasDB.map((tarea, index) => {
-                      // Busca el usuario correspondiente a la tarea actual
-                      const usuario = usuariosDB.find(user => user.idUser === tarea.idUserFK);
-                      return (
-                        <div id='contentList' key={index}>
-                          <span id='count'>{(index + 1).toString().padStart(2, '0')} </span>
-                          <p> {usuario ? usuario.nameUser : 'Usuario no encontrado'}  </p>
-                          <p id='nameWorkList'> {tarea.nameList} </p>
-                          <p> {tarea.state !== 0 ? 'Completada' : 'Pendiente'} </p> 
+                  {msg === 'all' && (
+                    <>
+                    <div class="grid-container">
+                      <div id='f'>
+                        <div class="grid-item"> <p>Creadas</p> <span> {filtro.length}</span> </div>
+                        <div class="grid-item"> <p>Completadas</p> <span> {listComplete}</span> </div>
+                        <div class="grid-item"> <p>Pendientes</p> <span> {listincomplete}</span></div>
+                      </div>
+                    </div>
+                  </>
+                  )}
+                  {msg === 'one' && (
+                    <>
+                      <div class="grid-container">
+                        <div id='f'>
+                          <div class="grid-item"> <p>usuario</p> <span>{worksFiltro}</span> </div>
+                          <div class="grid-item"> <p>Creadas</p> <span> {filtro.length}</span> </div>
+                          <div class="grid-item"> <p>Completadas</p> <span> {listComplete}</span> </div>
+                          <div class="grid-item"> <p>Pendientes</p> <span> {listincomplete}</span></div>
                         </div>
+                      </div>
+                    </>
+                  )}
+
+                  <div id='serach_filter'>
+                    <button onClick={allList}>Todas las tareas</button>
+                    <span>
+                      <label>Busqueda: </label>
+                      <input type='text' placeholder='Nombre del usuario' onChange={(e) => setWorksFiltro(e.target.value)}></input>
+                      <button onClick={doFilter}>Filtrar</button>
+                    </span>
+                  </div>
+
+                  <div id='contentList_C'>
+                    {filtro.map((tarea, index) => {
+                      const usuario = usuariosDB.find(user => user.idUser === tarea.idUserFK); // Busca el usuario correspondiente a la tarea actual
+
+                      return (
+                        <>
+                          <div id='contentList' key={index}>
+                            <span id='count'>{(index + 1).toString().padStart(2, '0')} </span>
+                            <p> {usuario ? usuario.nameUser : ''}  </p>
+                            {tarea.state === 1 &&( <p> {tarea.state === 1 ? 'Completada' : ''} </p> )}
+                            {tarea.state === 0 &&( <p> {tarea.state === 0 ? 'Pendiente' : ''} </p> )}
+                            {tarea.state === null &&( <p> {tarea.state === null ? 'no Encontrado' : ''} </p> )}
+                            <p id='nameWorkList'> {tarea.nameList} </p>                            
+                          </div>
+                        </>
                       );
                     })}
                   </div>
