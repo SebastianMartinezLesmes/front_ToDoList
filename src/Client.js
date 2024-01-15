@@ -28,8 +28,8 @@ function Client() {
       setTimeout(() => {
         setMsgTitle(false);
         setMsgDesc(false);
-      }, 3000);
-      return;
+      }, 2000);
+      return; // Evitar continuar si hay campos no llenados
     }
     const data = {
       nameList: title,
@@ -68,6 +68,13 @@ function Client() {
       console.error('Error de red:', error);
     }
   };
+
+// logica para confirmar la eliminacion de la tarea
+  const [drop, setDrop] = useState(false)
+
+  function changeConfirmDrop (){
+    setDrop(true)
+  }
 
   async function borrar(id) {
     console.log(id);
@@ -146,7 +153,6 @@ function Client() {
   // Filtrar las tareas que cumplen con la condición
   const filteredTareas = tareasDB_2.filter(tarea => tarea.idUserFK === yo.idUser); //aca esta el error de inicializacion antes de...
 
-
   return (
     <>
       <div id='client_page'>
@@ -204,7 +210,17 @@ function Client() {
                       )}
                     </th>
                     <th>
-                      <button className='delete-button' onClick={() => borrar(tareas._id)}> <AiOutlineDelete /> </button>
+                      {drop  === false &&(
+                        <>
+                          <button className='delete-button' onClick={() => changeConfirmDrop()}>¿Borrar?</button>
+                        </>
+                      )}
+                      {drop &&(
+                        <>
+                          <button className='delete-button' onClick={() => borrar(tareas._id)}> <AiOutlineDelete /> </button>
+                        </>
+                      )} 
+                      
                     </th>
                   </tr>
                 ))}
@@ -219,14 +235,32 @@ function Client() {
                     <p className='card-description'>{tarea.description}</p>
                   </div>
                   <div className='card-actions'>
+
                     {tarea.state !== 1 &&(
                       <button className='update-button' onClick={() => update(tarea._id)}>
-                        <AiOutlineCheckCircle />
+                         <AiOutlineCheckCircle /> 
                       </button>
                     )}
-                    <button className='delete-button' onClick={() => borrar(tarea._id)}>
-                      <AiOutlineDelete />
-                    </button>
+
+                    {drop &&(
+                      <>
+                        {tarea.state === 1 &&(
+                          <button className='delete-button' onClick={() => borrar(tarea._id)}>
+                            <AiOutlineDelete />
+                          </button>
+                        )}
+                      </>
+                    )}
+                    {drop === false &&(
+                      <>
+                        {tarea.state === 1 &&(
+                          <button className='delete-button' onClick={() => changeConfirmDrop()}>
+                            ¿Borrar?
+                          </button>
+                        )}
+                      </>
+                    )}
+
                   </div>
                   <div>
                     {tarea.state === 1 &&( <p className='card-description'> {tarea.state === 1 ? 'Completada' : ''} </p> )}
