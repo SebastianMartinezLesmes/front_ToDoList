@@ -191,7 +191,7 @@ function Login() {
 
   return (
     <>
-      <div>
+      <div id='super_content'>
       
         {window === 'login' && (
           <>
@@ -220,57 +220,59 @@ function Login() {
             </div>
           </>
         )}
-      {window === 'register' &&  (
-        <div>
-          <h2 id='titSec' onClick={() => setWindow('login')}>Registrarse</h2>
-          <div id='crearUsuario_form'>
-            <form>
-              <div>
-                <tr>
-                    <th> Name </th>
-                    <th> <input type="text" id='Pnombre' value={nameC} onChange={(e)=>setNameC(e.target.value)}/> </th>
-                    {msnNameC === true ? (<tr className='error'> Campo requerido</tr>):""}
-                </tr>   
-                <tr>
-                    <th> Email </th>
-                    <th> <input type="email" id='Pcorreo' value={emailC} onChange={(e)=>setEmailC(e.target.value)}/> </th>
-                    {msnEmailC === true ? (<tr className='error'> Campo requerido</tr>):""}
-                </tr>
-                <tr>
-                    <th> Password </th>
-                    <th> <input type="password" id='Ppassword' value={pswC} onChange={(e)=>setPswC(e.target.value)}/> </th>
-                    {MsnPswC === true ? (<tr className='error'> Campo requerido</tr>):""}
-                </tr>
-                <button type='button' onClick={createUser}>Crear Usuario</button>
-                <a href="#" onClick={() => setWindow('login')}>login</a>
-                {msg &&(
-                  <>
-                    <span> Correo ya registrado </span>
-                  </>
-                )}
-              </div>
-            </form>
+        {window === 'register' &&  (
+          <div>
+            <h2 id='titSec' onClick={() => setWindow('login')}>Registrarse</h2>
+            <div id='crearUsuario_form'>
+              <form>
+                <div>
+                  <tr>
+                      <th> Name </th>
+                      <th> <input type="text" id='Pnombre' value={nameC} onChange={(e)=>setNameC(e.target.value)}/> </th>
+                      {msnNameC === true ? (<tr className='error'> Campo requerido</tr>):""}
+                  </tr>   
+                  <tr>
+                      <th> Email </th>
+                      <th> <input type="email" id='Pcorreo' value={emailC} onChange={(e)=>setEmailC(e.target.value)}/> </th>
+                      {msnEmailC === true ? (<tr className='error'> Campo requerido</tr>):""}
+                  </tr>
+                  <tr>
+                      <th> Password </th>
+                      <th> <input type="password" id='Ppassword' value={pswC} onChange={(e)=>setPswC(e.target.value)}/> </th>
+                      {MsnPswC === true ? (<tr className='error'> Campo requerido</tr>):""}
+                  </tr>
+                  <button type='button' onClick={createUser}>Crear Usuario</button>
+                  <a href="#" onClick={() => setWindow('login')}>login</a>
+                  {msg &&(
+                    <>
+                      <span> Correo ya registrado </span>
+                    </>
+                  )}
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       
-    </div>
-      {window === '' &&(
-        <>
-          {yo.role === 'client' && (
-            <>
-              <button id='especial' onClick={() => setWindow('login')}>login</button>
-              <Client/>
-            </>
-          )}  
-          { yo.role === 'administrador' && (
-            <>
-              <button id='especial2' onClick={() => setWindow('login')}>login</button>
-              <h2> <Admin/> </h2>
-            </>
-          )}
-        </>
-      )}
+      </div>
+      <div id='mini_content'>
+        {window === '' &&(
+          <>
+            {yo.role === 'client' && (
+              <>
+                <button id='especial' onClick={() => setWindow('login')}>login</button>
+                <Client/>
+              </>
+            )}  
+            { yo.role === 'administrador' && (
+              <>
+                <button id='especial2' onClick={() => setWindow('login')}>login</button>
+                <h2> <Admin/> </h2>
+              </>
+            )}
+          </>
+        )}
+      </div>
     </>
   );
 

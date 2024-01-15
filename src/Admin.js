@@ -174,6 +174,7 @@ async function doFilter() {
 
   function getAllU(){
     setVista('todos')
+    allUsers();
   }
 
   return(

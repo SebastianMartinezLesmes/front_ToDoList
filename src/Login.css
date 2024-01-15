@@ -1,5 +1,12 @@
+#super_content{
+  margin-top: 20%;
+}
+#mini_content{
+  margin-top: -20%;
+}
 /* Aca estan los estilos del fomulario de login */
 #head{
+
   display: flex;
   text-align: center;
   h2{
@@ -72,6 +79,10 @@
       background-color: red;
       margin-bottom: 10px
     }
+    a{
+      display: flex;
+      justify-content: center;
+    }
   }
 }
 
@@ -84,7 +95,7 @@
   width: 100px;
   height: 40px;
   transition: background-color 1s, color 2s;
-  color: #333; /* Color del texto en escala de grises */
+  color: black; /* Color del texto en escala de grises */
 }
 
 #especial:hover,
