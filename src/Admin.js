@@ -10,6 +10,7 @@ function Admin(){
     getUser();
     getList();
     getLocalStorage();
+    doFilter();
   }, []);
   
 //funcionalidad para crear usuarios
@@ -59,34 +60,68 @@ function Admin(){
   const [tareasDB,setTareasDB] = useState([]);
 
   const [filtro,setFiltro] = useState([])
+  const [filtroU,setFiltroU] = useState([])
   const [worksFiltro,setWorksFiltro] = useState('')
 
-// funcion para filtrar
-  const [msg,setMsg] = useState('all')
-  async function allList() {
-    setFiltro(tareasDB);
-    setMsg('all')
-  }
-  
-  async function allListComplete() {
-    setFiltro(tareasDB);
-    setFiltro(tareasDB.filter(tareas => tareas.state === 1));
-    setMsg('all')
-  }
-  
-  async function allListPending() {
-    setFiltro(tareasDB);
-    setFiltro(tareasDB.filter(tareas => tareas.state === 0));
-    setMsg('all')
-  }
+// funcion para filtrar todas las tareas
+const [msg,setMsg] = useState('all')
+async function allList() {
+  setFiltro(tareasDB);
+  setMsg('all')
+}
 
-  async function doFilter() {
-    if (worksFiltro === '') {
-      setFiltro(tareasDB);
-      setMsg('all')
-    } else {
-      const filtered = tareasDB.filter(tarea =>
-        (usuariosDB.find(user => user.idUser === tarea.idUserFK)?.nameUser.toLowerCase().includes(worksFiltro.toLowerCase()))
+// funcion para filtrar todas las tareas completadas
+async function allListComplete() {
+  setFiltro(tareasDB);
+  setFiltro(tareasDB.filter(tareas => tareas.state === 1));
+  setMsg('all')
+}
+
+// funcion para filtrar todas las tareas pendientes
+async function allListPending() {
+  setFiltro(tareasDB);
+  setFiltro(tareasDB.filter(tareas => tareas.state === 0));
+  setMsg('all')
+}
+
+
+// funcion para filtrar todos los usuarios 
+async function allUsers() {
+  setFiltroU(usuariosDB);
+  setMsg('all')
+}
+// funcion para filtrar todos los usuarios activos
+async function allUsersActive() {
+  setFiltroU(usuariosDB);
+  setFiltroU(usuariosDB.filter(users => users.state === 'activo'));
+  setMsg('all')
+}
+// funcion para filtrar todos los usuarios administradores
+async function allUsersAdmin() {
+  setFiltroU(usuariosDB);
+  setFiltroU(usuariosDB.filter(users => users.role === "administrador"));
+  setMsg('all')
+}
+// funcion para filtrar todos los usuarios clientes
+async function allUsersClient() {
+  setFiltroU(usuariosDB);
+  setFiltroU(usuariosDB.filter(users => users.role === 'client'));
+  setMsg('all')
+}
+// funcion para filtrar todos los usuarios inactivos
+async function allUsersInactive() {
+  setFiltroU(usuariosDB);
+  setFiltroU(usuariosDB.filter(users => users.state === 'inactivo'));
+  setMsg('all')
+}
+
+async function doFilter() {
+  if (worksFiltro === '' || worksFiltro === ' ') {
+    setFiltro(tareasDB);
+    setMsg('all')
+  } else {
+    const filtered = tareasDB.filter(tarea =>
+      (usuariosDB.find(user => user.idUser === tarea.idUserFK)?.nameUser.toLowerCase().includes(worksFiltro.toLowerCase()))
         );
         
         if (filtered.length !== 0) {
@@ -125,119 +160,136 @@ function Admin(){
   const listComplete = filtro.filter(tareas => tareas.state === 1).length;
   const listincomplete = filtro.filter(tareas => tareas.state === 0).length;
 
-  const [showAdmin, setShowAdmin] = useState('list');
+  const [showAdmin, setShowAdmin] = useState('users');
   const [vista,setVista] = useState('');
 
-    return(
-        <>
-          <div id='admin_page'>
-            <div id='soyYo' key={yo.idUser}>
-              Admin: {yo.nameUser}
-            </div>
-            <div id='butns'>
-              <button id='button1' onClick={() => setShowAdmin('users')}>usuarios</button> 
-              <button id='button2' onClick={() => setShowAdmin('list')}>tareas</button> 
-            </div>
-            <table>
+  function passList (){
+    setShowAdmin('list') 
+    setFiltro(tareasDB)
+  }
+  function passUsers (){
+    setShowAdmin('users')
+    setFiltroU(usuariosDB);
+  }
 
-              {showAdmin === 'users' && (
-                <> 
-                  <button id='buttonC' onClick={() => setVista('')}>Nada</button>
-                  <button id='buttonT' onClick={() => setVista('todos')}>Todos</button>
-                  <button id='buttonE' onClick={() => setVista('state')}>Estados</button>
-                  <button id='buttonR' onClick={() => setVista('rol')}>Roles</button>
-                  {vista === 'todos' && (
-                    <>
-                      <h4> Total de Usuarios:  </h4> 
-                      <h4>{usuariosDB.length}  </h4> 
-                    </>
-                  )}
-                  {vista === 'state' && (
-                    <>
-                      <h4> Activos: {usersActiveCount}</h4>
-                      <h4> Inactivos: {usersInactiveCount}</h4>
-                    </>
-                  )}
-                  {vista === 'rol' && (
-                    <>
-                      <h4> Administradores: {administradoresCount} </h4>
-                      <h4> Clientes: {clientCount} </h4>
-                    </>
-                  )}
-                  <div id='contentUsers'>
-                    {usuariosDB.map((usuario, index) => (
-                      <div key={index} id='listUsers'>
-                        <p id='cont'>{(index + 1).toString().padStart(2, '0')}</p>
-                        <p id='stateUser'> {usuario.state}</p>
-                        <p id='nameUserAdmin'> {usuario.nameUser}</p> 
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
-              {showAdmin === 'list' && (
+  function getAllU(){
+    setVista('todos')
+  }
+
+  return(
+    <>
+      <div id='admin_page'>
+        <div id='soyYo' key={yo.idUser}>
+          Admin: {yo.nameUser}
+        </div>
+        <div id='butns'>
+          <button id='button1' onClick={passUsers}>usuarios</button> 
+          <button id='button2' onClick={passList}>tareas</button> 
+        </div>
+        <table>
+
+          {showAdmin === 'users' && (
+            <> 
+              <button id='buttonT' onClick={getAllU}>Todos</button>
+              <button id='buttonE' onClick={() => setVista('state')}>Estados</button>
+              <button id='buttonR' onClick={() => setVista('rol')}>Roles</button>
+              {vista === 'todos' && (
                 <>
-                  {msg === 'all' && (
-                    <>
-                    <div class="grid-container">
-                      <div id='f'>
-                        <div class="grid-item"> <p>Creadas</p> <span> {filtro.length}</span> </div>
-                        <div class="grid-item"> <p>Completadas</p> <span> {listComplete}</span> </div>
-                        <div class="grid-item"> <p>Pendientes</p> <span> {listincomplete}</span></div>
-                      </div>
-                    </div>
-                  </>
-                  )}
-                  {msg === 'one' && (
-                    <>
-                      <div class="grid-container">
-                        <div id='f'>
-                          <div class="grid-item"> <p>usuario</p> <span>{worksFiltro}</span> </div>
-                          <div class="grid-item"> <p>Creadas</p> <span> {filtro.length}</span> </div>
-                          <div class="grid-item"> <p>Completadas</p> <span> {listComplete}</span> </div>
-                          <div class="grid-item"> <p>Pendientes</p> <span> {listincomplete}</span></div>
-                        </div>
-                      </div>
-                    </>
-                  )}
-
-                  <div id='serach_filter'>
-                    <p id='miniFilters'>
-                      <button onClick={allList}>Todas las tareas</button>
-                      <button onClick={allListComplete}>Tareas completadas</button>
-                      <button onClick={allListPending}>Tareas pendientes</button>
-                    </p>
-                    <span>
-                      <label>Busqueda: </label>
-                      <input type='text' placeholder='Nombre del usuario' onChange={(e) => setWorksFiltro(e.target.value)}></input>
-                      <button onClick={doFilter}>Filtrar</button>
-                    </span>
+                <div id='content_look'>
+                  <h4 class='verLook'> Total de Usuarios:  {usuariosDB.length} <button class='look' onClick={allUsers}><FaEye /></button></h4>  
+                </div>
+                </>
+              )}
+              {vista === 'state' && (
+                <>
+                <div id='content_look'>
+                  <h4 class='verLook'> Activos: {usersActiveCount} <button class='look' onClick={allUsersActive}><FaEye /></button></h4> 
+                  <h4 class='verLook'> Inactivos: {usersInactiveCount} <button class='look' onClick={allUsersInactive}><FaEye /></button></h4>
+                </div>
+                </>
+              )}
+              {vista === 'rol' && (
+                <>
+                  <div id='content_look'>
+                    <h4 class='verLook'> Administradores: {administradoresCount} <button class='look' onClick={allUsersAdmin}><FaEye /></button></h4>
+                    <h4 class='verLook'> Clientes: {clientCount} <button class='look' onClick={allUsersClient}><FaEye /></button></h4>
                   </div>
-
-                  <div id='contentList_C'>
-                    {filtro.map((tarea, index) => {
-                      const usuario = usuariosDB.find(user => user.idUser === tarea.idUserFK); // Busca el usuario correspondiente a la tarea actual
-
-                      return (
-                        <>
-                          <div id='contentList' key={index}>
-                            <span id='count'>{(index + 1).toString().padStart(2, '0')} </span>
-                            <p> {usuario ? usuario.nameUser : ''}  </p>
-                            {tarea.state === 1 &&( <p> {tarea.state === 1 ? 'Completada' : ''} </p> )}
-                            {tarea.state === 0 &&( <p> {tarea.state === 0 ? 'Pendiente' : ''} </p> )}
-                            {tarea.state === null &&( <p> {tarea.state === null ? 'no Encontrado' : ''} </p> )}
-                            <p id='nameWorkList'> {tarea.nameList} </p>                            
-                          </div>
-                        </>
-                      );
-                    })}
+                </>
+              )}
+              <div id='contentUsers'>
+                {filtroU.map((usuario) => (
+                  <div key={usuario.idUser} id='listUsers'>
+                    <p id='cont'>{usuario.idUser.toString().padStart(2, '0')}</p>
+                    <p id='stateUser'> {usuario.state}</p>
+                    <p id='nameUserAdmin'> {usuario.nameUser}</p> 
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+          {showAdmin === 'list' && (
+            <>
+              {msg === 'all' && (
+                <>
+                <div class="grid-container">
+                  <div id='f'>
+                    <div class="grid-item"> <p>Creadas</p> <span> {filtro.length}</span> </div>
+                    <div class="grid-item"> <p>Completadas</p> <span> {listComplete}</span> </div>
+                    <div class="grid-item"> <p>Pendientes</p> <span> {listincomplete}</span></div>
+                  </div>
+                </div>
+              </>
+              )}
+              {msg === 'one' && (
+                <>
+                  <div class="grid-container">
+                    <div id='f'>
+                      <div class="grid-item"> <p>encontradas</p> <span> {filtro.length}</span> </div>
+                      <div class="grid-item"> <p>Completadas</p> <span> {listComplete}</span> </div>
+                      <div class="grid-item"> <p>Pendientes</p> <span> {listincomplete}</span></div>
+                    </div>
                   </div>
                 </>
               )}
 
-            </table>
-          </div>
-        </>
-    );
+              <div id='serach_filter'>
+                <p>
+                  <button onClick={allList}>Todas las tareas</button>
+                  <button onClick={allListComplete}>Tareas completadas</button>
+                  <button onClick={allListPending}>Tareas pendientes</button>
+                </p>
+                <span>
+                  <label>Busqueda: </label>
+                  <input type='text' placeholder='Nombre del usuario' onChange={(e) => setWorksFiltro(e.target.value)}></input>
+                  <button onClick={doFilter}>Filtrar</button>
+                </span>
+              </div>
+
+              <div id='contentList_C'>
+                {filtro.map((tarea) => {
+                  const usuario = usuariosDB.find(user => user.idUser === tarea.idUserFK); // Busca el usuario correspondiente a la tarea actual
+
+                  return (
+                    <>
+                      <div id='contentList' key={tarea.idUserFK}>
+                        <span id='count'>{tarea.idUserFK.toString().padStart(2, '0')} </span>
+                        <p> {usuario ? usuario.nameUser : ''}  </p>
+                        {tarea.state === 1 &&( <p> {tarea.state === 1 ? 'Completada' : ''} </p> )}
+                        {tarea.state === 0 &&( <p> {tarea.state === 0 ? 'Pendiente' : ''} </p> )}
+                        {tarea.state === null &&( <p> {tarea.state === null ? 'no Encontrado' : ''} </p> )}
+                        <p id='nameWorkList'> {tarea.nameList} </p>                            
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
+              
+            </>
+          )}
+
+        </table>
+      </div>
+    </>
+  );
 }
 export default Admin;

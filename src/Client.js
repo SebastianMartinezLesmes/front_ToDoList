@@ -155,7 +155,8 @@ function Client() {
                   <th>contador</th>
                   <th>nombre tarea</th>
                   <th>detalle</th>
-                  <th>¿Completado?</th>
+                  <th>estado</th>
+                  <th>¿Completar?</th>
                   <th>¿Borrar?</th>
                 </tr>
               </thead>
@@ -163,14 +164,24 @@ function Client() {
                 {filteredTareas.map((tareas, index) => (
                   <tr key={index}>
                     <th>{index + 1}</th>
-                    <th>{tareas.nameList}</th>
+                    <th>
+                      <div id='short_tit'>
+                        {tareas.nameList}
+                      </div>
+                    </th>
                     <th>
                       <div id="descrip">
                         {tareas.description}
                       </div>
                     </th>
+                    <th id='estate_part'>
+                      {tareas.state === 1 &&( <p> {tareas.state === 1 ? 'Completada' : ''} </p> )}
+                      {tareas.state === 0 &&( <p> {tareas.state === 0 ? 'Pendiente' : ''} </p> )}
+                    </th>
                     <th>
-                      <button className='update-button' onClick={() => update(tareas._id)}> <AiOutlineCheckCircle /> </button>
+                      {tareas.state !== 1 &&(
+                        <button className='update-button' onClick={() => update(tareas._id)}> <AiOutlineCheckCircle /> </button>
+                      )}
                     </th>
                     <th>
                       <button className='delete-button' onClick={() => borrar(tareas._id)}> <AiOutlineDelete /> </button>
@@ -188,12 +199,18 @@ function Client() {
                     <p className='card-description'>{tarea.description}</p>
                   </div>
                   <div className='card-actions'>
-                    <button className='update-button' onClick={() => update(tarea._id)}>
-                      <AiOutlineCheckCircle />
-                    </button>
+                    {tarea.state !== 1 &&(
+                      <button className='update-button' onClick={() => update(tarea._id)}>
+                        <AiOutlineCheckCircle />
+                      </button>
+                    )}
                     <button className='delete-button' onClick={() => borrar(tarea._id)}>
                       <AiOutlineDelete />
                     </button>
+                  </div>
+                  <div>
+                    {tarea.state === 1 &&( <p className='card-description'> {tarea.state === 1 ? 'Completada' : ''} </p> )}
+                    {tarea.state === 0 &&( <p className='card-description'> {tarea.state === 0 ? 'Pendiente' : ''} </p> )}
                   </div>
                 </div>
               ))}

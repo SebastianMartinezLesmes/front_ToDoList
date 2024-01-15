@@ -2,35 +2,20 @@
 #admin_page {
   background-color: transparent;
   padding: 20px;
-  #soyYo{
+
+  #soyYo {
     display: flex;
     justify-content: center;
   }
-  #butns{
+
+  #butns {
     display: flex;
     justify-content: center;
     color: #fff;
     margin: 20px;
-
-    button{
-      background-color: rgb(0, 132, 255);
-      font-size: 15px;
-      margin-right: 10px;
-      border-radius: 10px;
-      width: 100px;
-      height: 45px;
-    }
-
-    #button1{
-      background-color: rgb(0, 132, 255);
-      font-size: 15px;
-      margin-right: 10px;
-      border-radius: 10px;
-      width: 100px;
-      height: 45px;
-    }
-    #button2{
-      background-color: rgba(30, 255, 0, 0.658);
+    button, #button1, #button2 {
+      color: white;
+      background-color: #796a6a;
       font-size: 15px;
       margin-right: 10px;
       border-radius: 10px;
@@ -39,8 +24,12 @@
     }
   }
 
-  #buttonC, #buttonT, #buttonE, #buttonR{
-    background-color: rgb(0, 132, 255);
+  #buttonC,
+  #buttonT,
+  #buttonE,
+  #buttonR {
+    color: white;
+    background-color: #796a6a;
     font-size: 15px;
     margin-right: 10px;
     border-radius: 10px;
@@ -49,88 +38,85 @@
   }
 }
 
-#contentUsers{
+#contentUsers {
   justify-content: center;
   margin: 10px;
   display: flex;
   flex-wrap: wrap;
   background-color: transparent;
+  color: aliceblue;
 
-  #listUsers{
+  #listUsers {
     display: flex;
     align-items: center;
     width: 280px;
-    background-color: #3498db;
+    background-color: #ddd;
     border: solid 1px black;
+    color: #000;
     border-radius: 10px;
     padding: 8px;
     margin: 10px;
-  
-    #cont{
+    #cont {
       align-items: center;
       padding: 10px;
       margin-right: 10px;
-      background-color: transparent;
+      background-color: #ddd;
+      color: black;
       border: solid 1px black;
       border-radius: 50%;
     }
-
-    #nameUserAdmin{
+    #nameUserAdmin {
       max-height: 55px;
-      overflow-y: auto; 
+      overflow-y: auto;
       overflow-x: hidden;
       margin: 10px;
     }
-    #stateUser{
+    #stateUser {
       margin: 10px;
     }
   }
 }
 
-#contentList_C{
+#contentList_C {
   justify-content: center;
   margin: 10px;
   display: flex;
   flex-wrap: wrap;
   background-color: transparent;
-  
-  #contentList{
+
+  #contentList {
     margin: 1%;
     align-items: center;
     height: 150px;
     width: 45%;
     display: flex;
     border-radius: 15px;
-    background-color: rgba(30, 255, 0, 0.658);
+    background-color: #a7a7a7;
+    color: black;
     border: solid 1px black;
-  
-    #count{
+    #count {
       text-align: center;
       align-items: center;
       padding: 10px;
       margin: 10px;
-      background-color: transparent;
+      background-color: #a7a7a7;
       border: solid 1px black;
       border-radius: 50%;
     }
-  
-    p{
-      font-family: 'Times New Roman', Times, serif;
+    p {
       padding: 10px;
       width: 250px;
-      max-height: 45px;
-      overflow-y: auto; 
+      max-height: 60px;
+      overflow-y: auto;
       overflow-x: hidden;
     }
-    
     #nameWorkList {
       width: 300px;
       max-height: 70px;
       margin-right: 10px;
-      overflow-y: auto; /* o "auto" dependiendo de tu preferencia */
+      overflow-y: auto;
       overflow-x: hidden;
     }
-    
   }
 }
 
@@ -140,16 +126,18 @@
   flex-direction: row;
   justify-content: center;
 
-  #f{
+  #f {
     display: flex;
-    
-    div{
-      border: solid 1px #5c5959;
+    div {
+      border: solid 1px black;
+      background-color: #a7a7a7;
       border-radius: 10px;
       padding: 20px;
     }
   }
-  .grid-item{
+
+  .grid-item {
+    width: 180px;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -157,25 +145,46 @@
   }
 }
 
-#serach_filter{
+#serach_filter {
   display: flex;
   flex-direction: column;
-  span{
-    input{
-      width: 800px;
+  span {
+    input {
+      width: 50%;
       height: 20px;
       font-size: auto;
       border-radius: 8px;
     }
   }
-
-  #miniFilters{
-    display: flex;
-  }
-  button{
+  button {
     margin: 10px;
+    padding: 5px;
     border-radius: 8px;
     width: 100px;
     height: auto;
+    color: #fff;
+    background-color: #796a6a;
+    transition: background-color 1s; 
+  }
+  button:hover {
+    background-color: #000;
+    color: #fff;
+  }
+}
+
+#content_look{
+  display: flex;
+  justify-content: center;
+  width: 1400px;
+}
+.verLook{
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  .look{
+    background-color: transparent;
+    border: solid 1px transparent;
+    font-size: 30px;
+    padding: 10px;
   }
 }

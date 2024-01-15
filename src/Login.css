@@ -75,11 +75,20 @@
   }
 }
 
-#especial, #especial2{
+#especial,
+#especial2 {
   border-radius: 10px;
-  background-color: transparent;
+  background-color: #ddd; /* Color de fondo en escala de grises */
   margin: 10px;
   font-size: 20px;
   width: 100px;
   height: 40px;
+  transition: background-color 1s, color 2s;
+  color: #333; /* Color del texto en escala de grises */
+}
+
+#especial:hover,
+#especial2:hover {
+  background-color: #555; /* Cambiar a un tono de gris más oscuro al pasar el ratón */
+  color: white;
 }
