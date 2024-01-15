@@ -103,12 +103,23 @@ function Login() {
   const submitLogin = () => {
     // Validación de campos
     if (email === '' || psw === '') {
-      setMsnEmail(email === '');
-      setMsnPsw(psw === '');
+      if(email === ''){ setMsnEmail(true); } else { setMsnEmail(false); }
+      if( psw === ''){ setMsnPsw(true); } else { setMsnPsw(false); }
       setMsnYo(false);
-      return; // Evitar continuar si hay campos no válidos
+
+      setTimeout(() => {
+        setMsnEmail(false);
+        setMsnPsw(false);
+        setMsnYo(false);
+      }, 2000);
+
+      return; // Evitar continuar si hay campos no llenados
     }
   
+    setTimeout(() => { 
+      setMsg(false);
+    }, 4000);
+
     const data = {
       email: email,
       passwordUser: psw,
@@ -156,6 +167,9 @@ function Login() {
       } else {
         console.log('Usuario no encontrado');
         setMsnYo(true);
+        setTimeout(() => {
+          setMsnYo(false);
+        }, 3000);
       }
     } catch (error) {
       console.error(error);
@@ -167,7 +181,7 @@ function Login() {
     }
   };
   
-  const [yo, setYo] = useState([]); // Proporciona un valor inicial si es necesario
+  const [yo, setYo] = useState([]); 
   
 // aca un metodo que trae los usuarios y los buarda en setUsuariosDB
   const urlUsers = 'http://localhost:5000/getUser';

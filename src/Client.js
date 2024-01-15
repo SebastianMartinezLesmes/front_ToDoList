@@ -15,8 +15,22 @@ function Client() {
 //funcionalidad para crear tareas
   const [title,setTitle] = useState("");
   const [desc,setDesc] = useState("");
+  const [msgTitle,setMsgTitle] = useState(false);
+  const [msgDesc,setMsgDesc] = useState(false);
 
   const createWork = async () => {
+    if(title === '' || desc === ''){
+      //mensaje para titulo
+      if ( title === '' ){ setMsgTitle(true); } else { setMsgTitle(false); }
+      //mensaje para descripcion
+      if ( desc === '' ){ setMsgDesc(true); } else { setMsgDesc(false); }
+      
+      setTimeout(() => {
+        setMsgTitle(false);
+        setMsgDesc(false);
+      }, 3000);
+      return;
+    }
     const data = {
       nameList: title,
       nameUser: yo.nameUser,
@@ -141,8 +155,14 @@ function Client() {
         <div id='formClient'>
           <form>
             <h3>Formulario para crear las tareas</h3>
-            <div> Título: <input type="text" onChange={(e)=>setTitle(e.target.value)}/> </div>
-            <div> Descripción: <textarea id='desc' onChange={(e)=>setDesc(e.target.value)}></textarea> </div>
+            <div>
+              Título: <input type="text" onChange={(e)=>setTitle(e.target.value)}/> 
+              {msgTitle === true ? (<span> Título es requerido</span>):""}
+            </div>
+            <div> 
+              Descripción: <textarea id='desc' onChange={(e)=>setDesc(e.target.value)}></textarea> 
+              {msgDesc === true ? (<span> Título es requerido</span>):""}
+            </div>
             <button type='button' onClick={createWork} >Poner tarea</button>
           </form>
         </div>
