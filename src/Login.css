@@ -1,22 +1,16 @@
 #super_content{
-  margin-top: 20%;
+  padding-top: 3%;
 }
 #mini_content{
-  margin-top: -20%;
+  margin-top: -2%;
 }
-/* Aca estan los estilos del fomulario de login */
-#head{
 
-  display: flex;
-  text-align: center;
-  h2{
-    margin-right: 20px;
-  }
-}
 #titPrin,#titSec{
   display: flex;
   justify-content: center;
 }
+
+/* Aca estan los estilos del fomulario de login */
 #login_form{
   display: flex;
   justify-content: center;
@@ -26,32 +20,66 @@
     width: auto;
     height: auto;
     border-radius: 10px;
-    background-color: rgb(192, 185, 185);
-    div{
-      tr{
+    border: solid 4px #ffffff;
+    background-color: transparent;
+
+    #content_left{
+      background-color: transparent;
+      width: 600px;
+
+      div{
+        display: flex;
+        flex-direction: column;
+       
+        p{
+          font-weight: bold;
+          font-size: 25px;
+          flex: 1;
+        }
+        #alert_mesage{
+          color: red;
+        }
         #correo, #password{
-          margin-left: 10px;
-          margin-bottom: 20px;
+          border-radius: 5px;
+          border: none;
+          height: 50px;
+          font-size: 25px;
+          margin-bottom: 25px;
         }
       }
+      
+      button {
+        height: 60px;
+        width: 100%;
+        color: #fff;
+        background-color: rgba(0, 0, 255, 0.726); 
+
+        font-size: 25px;
+        margin-bottom: 30px;
+        margin-top: 90px;
+        border-radius: 5px; 
+        transition: background-color 2s; 
+      }
+      
+      button:hover {
+        background-color: rgba(220, 75, 62, 0.781); /* También puedes usar 'red', pero esto proporciona más control */
+
+      }
+      
+      a{
+        font-size: 25px;
+        display: flex;
+        justify-content: center;
+      }
     }
-    #msnNoUser{
-      display: flex;
-      justify-content: center;
-    }
-    button{
-      height: 30px;
-      width: 100%;
-      color: white;
-      background-color: red;
-      margin-bottom: 10px
-    }
-    a{
-      display: flex;
-      justify-content: center;
+    #content_right{
+      img{
+        width: 600px;
+      }
     }
   }
 }
+
 
 /* Aca los estilos de Crear Usuario */
 #crearUsuario_form{
@@ -64,42 +92,86 @@
     height: auto;
     border-radius: 10px;
     background-color: rgb(192, 185, 185);
-    div{
-      tr{
-        #Pcorreo, #Ppassword, #Pnombre{
+
+    #createU_left{
+      height: 100%;
+      width: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content:space-around;
+      span{
+        display: flex;
+        p{
+          font-size: 20px;
+          margin-right: 10px;
           margin-left: 10px;
-          margin-bottom: 20px;
+        }
+        input{
+          border-radius: 5px;
+          font-size: 20px;
+          border: none;
+          padding: 10px;
+          margin-top: 10px;
+          height: 30px;
+          flex: auto;
         }
       }
+      button{
+        height: auto+10px;
+        width: 80%;
+        color: white;
+        background-color: red;
+
+        margin-top: 40px;
+        margin-left: 10%;
+      }
+      a{
+        display: flex;
+        justify-content: center;
+      }
     }
-    button{
-      height: 30px;
-      width: 100%;
-      color: white;
-      background-color: red;
-      margin-bottom: 10px
-    }
-    a{
+
+    #createU_right{
+      padding: 10px;
+      border: solid 2px black;
+      border-radius: 10px;
+      margin-left: 20px;
+      width: 500px;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+        justify-content: center;
+      p{
+        font-size: 21px;
+        text-align: center;
+      }
+      span{
+        font-size: 18px;
+        text-align: center;
+      }
+      img{
+        margin-left: 10%;
+        width: 70%;
+        height: 400px;
+      }
     }
   }
 }
 
+/* estilos para l9os votones de retorno al login */
 #especial,
 #especial2 {
   border-radius: 10px;
-  background-color: #ddd; /* Color de fondo en escala de grises */
+  background-color: #ddd; 
   margin: 10px;
   font-size: 20px;
   width: 100px;
   height: 40px;
   transition: background-color 1s, color 2s;
-  color: black; /* Color del texto en escala de grises */
+  color: black; 
 }
 
 #especial:hover,
 #especial2:hover {
-  background-color: #555; /* Cambiar a un tono de gris más oscuro al pasar el ratón */
+  background-color: #555; 
   color: white;
 }

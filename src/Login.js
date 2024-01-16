@@ -205,70 +205,113 @@ function Login() {
 
   return (
     <>
+{/* formulario para ingresar a la paguina*/}
       <div id='super_content'>
-      
         {window === 'login' && (
           <>
-            <h2 id='titPrin' onClick={() => setWindow('register')}>Login</h2>
+            <h2 id='titPrin' onClick={() => setWindow('register')}> <p>To Do List</p></h2>
             <div id='login_form'>
               <form>
-                <div>
-                    <tr>
-                      <th> Email </th>
-                      <th> <input type="email" id='correo' onChange={(e)=>setEmail(e.target.value)}/> </th>
-                      {msnEmail === true ? (<tr> campo Email es requerido</tr>):""}
-                    </tr>
-              
-                    <tr>
-                      <th> Password </th>
-                      <th> <input type="password" id='password' onChange={(e)=>setPsw(e.target.value)}/> </th>
-                      {msnPsw === true ? (<tr> campo Password es requerido</tr>):""}
-                    </tr>
+                <div id='content_left'>
+                  <div>
+                    <p id='titPrin' onClick={() => setWindow('register')}> <u> Login </u> </p>
+                  </div>
+                  <div>
+                    {msnEmail === false ?<p> Email </p> : null}
+                    {msnEmail ? <p id='alert_mesage'> <i> Email es requerido </i> </p>:""}
+                    <input type="email" id='correo' onChange={(e)=>setEmail(e.target.value)}/>
+                  </div>
+            
+                  <div>
+                    {msnPsw === false ? <p>Password</p> : null}
+                    {msnPsw ? <p id='alert_mesage'> <i> Password es requerido </i> </p> : null}
+                    <input type="password" id="password" onChange={(e) => setPsw(e.target.value)} /> 
+                  </div>
 
-                    {msnYo === true ? (<div id='msnNoUser'> <tr> Usuario no encontrado, intente nuevamente</tr> </div>):""}
-                    
-                    <button type='button' onClick={submitLogin}>Iniciar sesión</button><br />
+                  {msnYo ? (<div> <p id='alert_mesage'> Usuario no encontrado, intente nuevamente</p> </div>): null}
+                
+                  {msnYo === false ? <> 
+                    <button type='button' onClick={submitLogin}>Iniciar sesión</button><br /> 
                     <a href="#" onClick={() => setWindow('register')}>Crear usuario</a>
+                  </> :null}
+                  
                 </div>
+                <div id='content_right'>
+                  {msnEmail === false && msnPsw === false && msnYo === false ? <img src='https://th.bing.com/th/id/R.5b478f3a87757b1a92eaa1092903d391?rik=wvdKbClhQidd5w&riu=http%3a%2f%2fpa1.narvii.com%2f6379%2fe9a7b27e10968c59128359b829e1469bd37f0c24_00.gif&ehk=XNGKl5w9%2fUwbv%2fV7pe0qGzN%2bK5lnKBuaMNkRDIivGRU%3d&risl=&pid=ImgRaw&r=0'></img> : null}
+                  {msnPsw || msnEmail || msnYo ? <img src='https://66.media.tumblr.com/f99de3cf616737af32191023f45ae764/tumblr_miid0sJc7v1rfjowdo1_500.gif'></img> : null}
+                </div>
+              </form>
+            </div>
+
+          </>
+        )}
+
+{/* formulario para crear usuarios*/}
+        {window === 'register' &&  (
+          <>
+            <h2 id='titSec' onClick={() => setWindow('login')}>Registrarse</h2>
+            <div id='crearUsuario_form'>
+              <form>
+
+                <div id='createU_left'> 
+                  <span>
+                    
+                    <p className='error'> Nombre: </p>
+                    
+                    <input
+                      type="text"
+                      placeholder="Ingresa tu Nombre"
+                      onChange={(e)=>setNameC(e.target.value)}
+                      value={nameC}
+                    />
+                    {msnNameC ? (<p className='error'> Requerido </p>) : null}
+
+                  </span>
+                  
+                  <span>
+                    
+                    <p className='error'> Email: </p>
+                    
+                    <input
+                      type="email"
+                      placeholder="Ingresa tu Correo"
+                      onChange={(e)=>setEmailC(e.target.value)}
+                      value={emailC}
+                      />
+                    {msnEmailC ? (<p className='error'> Requerido </p>) : null}
+                  </span>
+                  
+                  <span>
+                    
+                    
+                    <p className='error'> Contraseña: </p>
+                    
+                    <input
+                      type="password"
+                      placeholder="Crea tu Contraseña"
+                      onChange={(e)=>setPswC(e.target.value)}
+                      value={pswC}
+                    />
+                    {MsnPswC ? (<p className='error'> Requerido </p>) : null}
+                  </span>
+                     
+                  <button type='button' onClick={createUser}>Crear Usuario</button>
+                  <a href="#" onClick={() => setWindow('login')}>login</a>
+                  {msg &&( <> <span> Correo ya registrado </span> </> )}
+                </div>
+
+                <div id='createU_right'>
+                  <p> Organiza tu día, simplifica tu vida </p>
+                  <span>  ¡Bienvenido a tu lista de tareas, donde cada tarea es un paso más hacia tus objetivos! </span>
+                  <img src='/gato_no_fondo.png'></img>
+                </div>
+
               </form>
             </div>
           </>
         )}
-        {window === 'register' &&  (
-          <div>
-            <h2 id='titSec' onClick={() => setWindow('login')}>Registrarse</h2>
-            <div id='crearUsuario_form'>
-              <form>
-                <div>
-                  <tr>
-                      <th> Name </th>
-                      <th> <input type="text" id='Pnombre' value={nameC} onChange={(e)=>setNameC(e.target.value)}/> </th>
-                      {msnNameC === true ? (<tr className='error'> Campo requerido</tr>):""}
-                  </tr>   
-                  <tr>
-                      <th> Email </th>
-                      <th> <input type="email" id='Pcorreo' value={emailC} onChange={(e)=>setEmailC(e.target.value)}/> </th>
-                      {msnEmailC === true ? (<tr className='error'> Campo requerido</tr>):""}
-                  </tr>
-                  <tr>
-                      <th> Password </th>
-                      <th> <input type="password" id='Ppassword' value={pswC} onChange={(e)=>setPswC(e.target.value)}/> </th>
-                      {MsnPswC === true ? (<tr className='error'> Campo requerido</tr>):""}
-                  </tr>
-                  <button type='button' onClick={createUser}>Crear Usuario</button>
-                  <a href="#" onClick={() => setWindow('login')}>login</a>
-                  {msg &&(
-                    <>
-                      <span> Correo ya registrado </span>
-                    </>
-                  )}
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-      
       </div>
+
       <div id='mini_content'>
         {window === '' &&(
           <>
