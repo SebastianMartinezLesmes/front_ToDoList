@@ -209,12 +209,12 @@ function Login() {
       <div id='super_content'>
         {window === 'login' && (
           <>
-            <h2 id='titPrin' onClick={() => setWindow('register')}> <p>To Do List</p></h2>
+            <p id='titPrin' onClick={() => setWindow('register')}> <h1>To Do List</h1> </p>
             <div id='login_form'>
               <form>
                 <div id='content_left'>
                   <div>
-                    <p id='titPrin' onClick={() => setWindow('register')}> <u> Login </u> </p>
+                    <p id='titPrin' onClick={() => setWindow('register')}> <u><h3> Login</h3></u> </p>
                   </div>
                   <div>
                     {msnEmail === false ?<p> Email </p> : null}
@@ -249,14 +249,17 @@ function Login() {
 {/* formulario para crear usuarios*/}
         {window === 'register' &&  (
           <>
-            <h2 id='titSec' onClick={() => setWindow('login')}>Registrarse</h2>
+            <p id='titSec' onClick={() => setWindow('login')}> <h1> To Do List </h1> </p>
             <div id='crearUsuario_form'>
               <form>
 
-                <div id='createU_left'> 
+                <div id='createU_left'>
+
+                  <h2 id='titSec' onClick={() => setWindow('login')}>Registrarse</h2>
+
                   <span>
-                    
-                    <p className='error'> Nombre: </p>
+                    {msnNameC ? (<p className='error' id='mesage_alert'> Nombre requerido </p>) : null}
+                    {msnNameC === false ? (<p className='error'> Nombre: </p>) : null}
                     
                     <input
                       type="text"
@@ -264,13 +267,11 @@ function Login() {
                       onChange={(e)=>setNameC(e.target.value)}
                       value={nameC}
                     />
-                    {msnNameC ? (<p className='error'> Requerido </p>) : null}
-
                   </span>
                   
                   <span>
-                    
-                    <p className='error'> Email: </p>
+                    {msnEmailC ? (<p className='error' id='mesage_alert'> Email requerido </p>) : null}
+                    {msnEmailC === false ? (<p className='error'> Email: </p>) : null}
                     
                     <input
                       type="email"
@@ -278,21 +279,18 @@ function Login() {
                       onChange={(e)=>setEmailC(e.target.value)}
                       value={emailC}
                       />
-                    {msnEmailC ? (<p className='error'> Requerido </p>) : null}
                   </span>
                   
                   <span>
-                    
-                    
-                    <p className='error'> Contraseña: </p>
-                    
+                    {MsnPswC ? (<p className='error' id='mesage_alert'> Contraseña Requerida </p>) : null}
+                    {MsnPswC === false ? (<p className='error'> Contraseña: </p>) : null}
+                                        
                     <input
                       type="password"
                       placeholder="Crea tu Contraseña"
                       onChange={(e)=>setPswC(e.target.value)}
                       value={pswC}
                     />
-                    {MsnPswC ? (<p className='error'> Requerido </p>) : null}
                   </span>
                      
                   <button type='button' onClick={createUser}>Crear Usuario</button>

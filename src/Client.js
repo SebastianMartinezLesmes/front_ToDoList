@@ -74,6 +74,9 @@ function Client() {
 
   function changeConfirmDrop (){
     setDrop(true)
+    setTimeout(() => {
+      setDrop(false);
+    }, 3000);
   }
 
   async function borrar(id) {
@@ -157,17 +160,21 @@ function Client() {
     <>
       <div id='client_page'>
 
-        <h3 key={yo.idUser}>tareas de {yo.nameUser}</h3> <button id='changeMode' onClick={toggleVista}>cambiar vista</button>
+        <div id='header'>
+          <p key={yo.idUser}>tareas de {yo.nameUser}</p> 
+          <button id='changeMode' onClick={toggleVista}>cambiar vista</button>
+        </div>
+
         <div id='formClient'>
           <form>
             <h3>Formulario para crear las tareas</h3>
             <div>
-              Título: <input type="text" onChange={(e)=>setTitle(e.target.value)}/> 
-              {msgTitle === true ? (<span> Título es requerido</span>):""}
+              {msgTitle === true ? (<span> Título es requerido</span>):<p> Título: </p>}
+              <input type="text" onChange={(e)=>setTitle(e.target.value)}/> 
             </div>
             <div> 
-              Descripción: <textarea id='desc' onChange={(e)=>setDesc(e.target.value)}></textarea> 
-              {msgDesc === true ? (<span> Título es requerido</span>):""}
+              {msgDesc === true ? (<span> Descripción es requerida</span>): <p> Descripción:</p>}
+              <textarea id='desc' onChange={(e)=>setDesc(e.target.value)}></textarea> 
             </div>
             <button type='button' onClick={createWork} >Poner tarea</button>
           </form>
@@ -242,22 +249,14 @@ function Client() {
                       </button>
                     )}
 
-                    {drop &&(
+                    {drop  === false &&(
                       <>
-                        {tarea.state === 1 &&(
-                          <button className='delete-button' onClick={() => borrar(tarea._id)}>
-                            <AiOutlineDelete />
-                          </button>
-                        )}
+                        <button className='delete-button' onClick={() => changeConfirmDrop()}>¿Borrar?</button>
                       </>
                     )}
-                    {drop === false &&(
+                    {drop &&(
                       <>
-                        {tarea.state === 1 &&(
-                          <button className='delete-button' onClick={() => changeConfirmDrop()}>
-                            ¿Borrar?
-                          </button>
-                        )}
+                        <button className='delete-button' onClick={() => borrar(tarea._id)}> <AiOutlineDelete /> </button>
                       </>
                     )}
 

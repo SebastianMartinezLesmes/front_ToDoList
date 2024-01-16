@@ -1,157 +1,112 @@
 #client_page {
-    background-color: transparent; 
-    padding: 20px;
-  
-    div {
-      text-align: center;
-      font-size: medium;
-    }
-  
-    h3 {
+  background-color: transparent; 
+  padding: 20px;
+
+  #header{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    p{
       color: #333;
+      font-size: 30px;
+      margin: 0; /* Asegura que no haya margen en el párrafo */
     }
-  
-    #formClient {
-      display: flex;
-      justify-content: center;
-      background-color: transparent;  
-  
-      form {
-        background: linear-gradient(to bottom, #f0f0f0, #d9d9d9, #b3b3b3);
-        border-radius: 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-  
-        h3 {
-          color: #444;
-          margin-bottom: 20px;
-        }
-  
-        div {
-          margin-bottom: 20px;
-  
-          #desc {
-            margin-top: 10px;
-          }
-        }
-  
-        button {
-          background-color: #666;
-          border: solid 1px #666;
-          color: white;
-          width: 60%;
-          border-radius: 5px;
-          height: 30px;
-          font-size: 15px;
-        }
-      }
+
+    #changeMode {
+      border: none;
+      border-radius: 10px;
+      background-color: rgba(47, 0, 255, 0.26);
+      font-size: 20px;
+      width: 200px;
+      height: 40px;
+      margin: 10px;
+      transition: background-color 1s;
     }
-  
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      th {
-        text-align: center;
-        background: linear-gradient(to bottom, #d9d9d9, #b3b3b3, #999, #808080, #808080);  
-        color: #333;
-        padding: 10px;
-        width: 200px;
-        text-align: left;
-        border: 1px solid #ddd;
-  
-        .update-button,
-        .delete-button {
-          background-color: transparent;
-          padding: 8px;
-          border: none;
-          cursor: pointer;
-          border-radius: 4px;
-        }
-  
-        .update-button{
-         background-color: #2ecc71;
-        }
-        .delete-button{
-         background-color: #FF4040;
-        }
-    
-        .update-button:hover {
-            background-color: rgb(21, 247, 0);
-            color: #333;
-        }
-    
-        .delete-button:hover {
-            background-color: red;
-        }
-      }
-  
-      th, td {
-        border: 1px solid #ddd;
-      }
+    #changeMode:hover{
+      background-color: transparent;
+      border: solid 2px rgba(0, 0, 0, 0.541);
     }
   }
-  
-  #content_cards {
+
+  h3 {
+    color: #333;
+  }
+
+  #formClient {
+    display: flex;
     justify-content: center;
-    margin: 10px;
-    display: flex;
-    flex-wrap: wrap;
-  }
+    background-color: transparent;
   
-  .card {
-    background: linear-gradient(to bottom, #d9d9d9, #b3b3b3, #999);
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    width: 230px;
-    height: 230px;
-    margin: 10px;
-    padding: 15px;
-    border: 1px solid #ddd;
-  
-    h2 {
-      color: #333;
-    }
-  
-    .card-title {
-      background-color: transparent;
-      font-style: italic;
-      max-height: 30px;
-      overflow: auto;
-    }
-  
-    .card-description {
-      color: #333;
-      font-weight: bold;
-      width: 100%;
-      height: 70px;
-      max-height: 70px;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-  
-    .card-actions {
-      background-color: transparent;
-      margin-top: 10px;
+    form {
+      background: linear-gradient(to bottom, rgba(4, 0, 255, 0.2), transparent);
+      border: 1px solid rgba(4, 0, 255, 0.35);
+      border-radius: 15px;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      font-weight: bold;
+      padding: 20px;
+      margin-bottom: 20px;
+      font-size: 20px;
   
-      #checkbox {
-        margin-right: 10px;
+      div {
+        margin-bottom: 20px;
+        font-size: 20px;
+        display: flex;
+        span{
+          flex: 1;
+          color: red;
+        }
+        input, textarea, p {
+          margin: 10px;
+          flex: 1;
+        }
+  
+        #desc {
+          margin-top: 10px;
+        }
       }
   
+      button {
+        border: none;
+        border-radius: 5px;
+        background-color: rgba(47, 0, 255, 0.3);
+        width: 80%;
+        height: 50px;
+        margin: 10px;
+        font-size: 20px;
+        transition: background-color 0.5s;
+      }
+  
+      button:hover {
+        background-color: rgba(47, 0, 255, 0.6);
+      }
+    }
+  }
+  
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    margin-top: 20px;
+    th {
+      text-align: center;
+      background:  rgba(4, 0, 255, 0.199);  
+      color: #333;
+      padding: 10px;
+      width: 200px;
+      text-align: left;
+      border-radius: 5px;
+
       .update-button,
       .delete-button {
+        background-color: transparent;
         padding: 8px;
         border: none;
         cursor: pointer;
         border-radius: 4px;
       }
+
       .update-button{
         background-color: #2ecc71;
       }
@@ -160,32 +115,103 @@
       }
   
       .update-button:hover {
-        background-color: rgb(21, 247, 0);
-        color: #333;
+          background-color: rgb(21, 247, 0);
+          color: #333;
       }
   
       .delete-button:hover {
-        background-color: red;
+          background-color: red;
       }
     }
+
+    th, td {
+      border: 1px solid #ddd;
+
+    }
   }
-  
-  #descrip, #short_tit {
-    width: 100%;
-    border-collapse: collapse;
-    height: 50px;
-    max-height: 50px;
+}
+
+/* aca los estilos de las cartas*/
+#content_cards {
+  justify-content: center;
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: linear-gradient(to bottom, rgba(4, 0, 255, 0.199), rgba(4, 0, 255, 0.199), transparent);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 230px;
+  height: 230px;
+  margin: 10px;
+  padding: 15px;
+  border: 1px solid rgba(4, 0, 255, 0.349);
+
+  h2 {
+    color: #333;
+  }
+
+  .card-title {
+    background-color: transparent;
+    font-style: italic;
+    max-height: 30px;
     overflow: auto;
   }
-  
-  #changeMode {
-    width: 200px;
-    height: 40px;
-    font-size: 20px;
-    border-radius: 15px;
-    background: linear-gradient(to bottom, #d9d9d9, #b3b3b3, #999);
+
+  .card-description {
     color: #333;
-    border: 1px solid #ddd;
-    margin-top: 20px;
+    font-weight: bold;
+    width: 100%;
+    height: 70px;
+    max-height: 70px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
-  
+
+  .card-actions {
+    background-color: transparent;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+
+    #checkbox {
+      margin-right: 10px;
+    }
+
+    .update-button,
+    .delete-button {
+      padding: 8px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .update-button{
+      background-color: #2ecc71;
+    }
+    .delete-button{
+      background-color: #FF4040;
+    }
+
+    .update-button:hover {
+      background-color: rgb(21, 247, 0);
+      color: #333;
+    }
+
+    .delete-button:hover {
+      background-color: red;
+    }
+  }
+}
+
+#descrip, #short_tit {
+  width: 100%;
+  border-collapse: collapse;
+  height: 50px;
+  max-height: 50px;
+  overflow: auto;
+}

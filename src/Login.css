@@ -20,7 +20,7 @@
     width: auto;
     height: auto;
     border-radius: 10px;
-    border: solid 4px #ffffff;
+    border: solid 5px #ffffff;
     background-color: transparent;
 
     #content_left{
@@ -53,7 +53,7 @@
         width: 100%;
         color: #fff;
         background-color: rgba(0, 0, 255, 0.726); 
-
+        border: none;
         font-size: 25px;
         margin-bottom: 30px;
         margin-top: 90px;
@@ -62,8 +62,7 @@
       }
       
       button:hover {
-        background-color: rgba(220, 75, 62, 0.781); /* También puedes usar 'red', pero esto proporciona más control */
-
+        background-color: rgba(220, 75, 62, 0.781);
       }
       
       a{
@@ -91,7 +90,8 @@
     width: auto;
     height: auto;
     border-radius: 10px;
-    background-color: rgb(192, 185, 185);
+    border: solid 2px  white;
+    background: linear-gradient(to bottom, rgba(4, 0, 255, 0.096), transparent, transparent, transparent);
 
     #createU_left{
       height: 100%;
@@ -99,12 +99,17 @@
       display: flex;
       flex-direction: column;
       justify-content:space-around;
+
       span{
         display: flex;
         p{
+          flex: 1;
           font-size: 20px;
           margin-right: 10px;
           margin-left: 10px;
+        }
+        #mesage_alert{
+          color: red;
         }
         input{
           border-radius: 5px;
@@ -117,15 +122,22 @@
         }
       }
       button{
-        height: auto+10px;
+        font-size: 20px;
+        border: none;
+        border-radius: 5px;
+        height: 50px;
         width: 80%;
         color: white;
-        background-color: red;
-
+        background-color: rgba(0, 0, 255, 0.726);
+        transition: background-color 1s;
         margin-top: 40px;
         margin-left: 10%;
       }
+      button:hover{
+        background-color: rgba(238, 57, 40, 0.781); 
+      }
       a{
+        font-size: 25px;
         display: flex;
         justify-content: center;
       }
@@ -133,8 +145,6 @@
 
     #createU_right{
       padding: 10px;
-      border: solid 2px black;
-      border-radius: 10px;
       margin-left: 20px;
       width: 500px;
       display: flex;
@@ -160,18 +170,19 @@
 /* estilos para l9os votones de retorno al login */
 #especial,
 #especial2 {
+  border: none;
   border-radius: 10px;
-  background-color: #ddd; 
-  margin: 10px;
+  background-color: rgba(47, 0, 255, 0.26);
+  color: black; 
   font-size: 20px;
   width: 100px;
   height: 40px;
-  transition: background-color 1s, color 2s;
-  color: black; 
+  margin: 10px;
+  transition: background-color 1s;
 }
 
 #especial:hover,
 #especial2:hover {
-  background-color: #555; 
-  color: white;
+  background-color: transparent;
+  border: solid 2px rgba(0, 0, 0, 0.541);
 }
