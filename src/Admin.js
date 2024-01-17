@@ -85,7 +85,7 @@ async function allListPending() {
 }
 
 
-// funcion para filtrar todos los usuarios 
+// funcion para traer todos los usuarios 
 async function allUsers() {
   setFiltroU(usuariosDB);
   setMsg('all')
@@ -94,6 +94,12 @@ async function allUsers() {
 async function allUsersActive() {
   setFiltroU(usuariosDB);
   setFiltroU(usuariosDB.filter(users => users.state === 'activo'));
+  setMsg('all')
+}
+// funcion para filtrar todos los usuarios inactivos
+async function allUsersInactive() {
+  setFiltroU(usuariosDB);
+  setFiltroU(usuariosDB.filter(users => users.state === 'inactivo'));
   setMsg('all')
 }
 // funcion para filtrar todos los usuarios administradores
@@ -108,28 +114,43 @@ async function allUsersClient() {
   setFiltroU(usuariosDB.filter(users => users.role === 'client'));
   setMsg('all')
 }
-// funcion para filtrar todos los usuarios inactivos
-async function allUsersInactive() {
-  setFiltroU(usuariosDB);
-  setFiltroU(usuariosDB.filter(users => users.state === 'inactivo'));
-  setMsg('all')
-}
 
+
+// funcion para filtrar todos los usuarios por nombre ------------------------------------------------------------------------------------
+const [nameUsuario,setNameUsuario] = useState('')
+
+async function allUsersForname() {
+  if(nameUsuario !== ''){
+    setFiltroU(usuariosDB.filter(users => users.nameUser.toLowerCase() === nameUsuario.toLowerCase()));
+  }
+  else{
+    setFiltroU(usuariosDB);
+    setMsg('all')
+  }
+}
+// ----------------------------------------------------------------------------------------------------------------
+const [notUser,setNotuser] = useState(false)
 async function doFilter() {
-  if (worksFiltro === '' || worksFiltro === ' ') {
+  if (worksFiltro === '') {
     setFiltro(tareasDB);
     setMsg('all')
   } else {
-    const filtered = filtro.filter(tarea =>
-      (usuariosDB.find(user => user.idUser === tarea.idUserFK)?.nameUser.toLowerCase().includes(worksFiltro.toLowerCase()))
-        );
-        
-        if (filtered.length !== 0) {
-          setMsg('one')
-          setFiltro(filtered);
-        } else {
-          const notUser = [{ idUserFK: null, nameList: 'Tarea no encontrada', state: null }];
-        setFiltro(notUser);
+      const filtered = filtro.filter(tarea =>
+        (usuariosDB.find(user => user.idUser === tarea.idUserFK)?.nameUser.toLowerCase().includes(worksFiltro.toLowerCase()))
+      );
+          
+      if (filtered.length !== 0) {
+        setMsg('one')
+        setFiltro(filtered);
+      } else {
+        setFiltro([])
+        setNotuser(true);
+        setTimeout(() => {
+          setNotuser(false);
+        }, 6000);
+        setTimeout(()=>{
+          setFiltro(tareasDB);
+        }, 6010)
       }
     }
   }
@@ -211,33 +232,41 @@ async function doFilter() {
           <button id='button2' onClick={passList}>tareas</button> 
         </div>
 
-          {showAdmin === 'users' && (
-            <> 
-              <div id='Content_users'>
-                <div id='left'>
-                  
-                  <button id='buttonT' onClick={getAllU}>Todos</button>
-                  {vista === 'todos' && (
-                    <>
-                      <p class='verLook'> Total Usuarios:  {usuariosDB.length} <button class='look' onClick={allUsers}></button></p>  
-                    </>
-                  )}
-
-                  <button id='buttonE' onClick={getState}>Estados</button>
-                  {vista === 'state' && (
-                    <>
-                      <p class='verLook'> Activos: {usersActiveCount} <button class='look' onClick={allUsersActive}><FaEye /></button></p> 
-                      <p class='verLook'> Inactivos: {usersInactiveCount} <button class='look' onClick={allUsersInactive}><FaEye /></button></p>
-                    </>
-                  )}
+        {showAdmin === 'users' && (
+          <> 
+            <div id='Content_users'>
+              <div id='left'>
                 
-                  <button id='buttonR' onClick={getRole}>Roles</button>
-                  {vista === 'rol' && (
-                    <>
-                      <p class='verLook'> Admin: {administradoresCount} <button class='look' onClick={allUsersAdmin}><FaEye /></button></p>
-                      <p class='verLook'> Clientes: {clientCount} <button class='look' onClick={allUsersClient}><FaEye /></button></p>
-                    </>
-                  )}
+                <button id='buttonT' onClick={getAllU}>Todos</button>
+                {vista === 'todos' && (
+                  <>
+                    <p class='verLook'> Total Usuarios:  {usuariosDB.length} <button class='look' onClick={allUsers}></button></p>  
+                  </>
+                )}
+
+                <button id='buttonE' onClick={getState}>Estados</button>
+                {vista === 'state' && (
+                  <>
+                    <p class='verLook'> Activos: {usersActiveCount} <button class='look' onClick={allUsersActive}><FaEye /></button></p> 
+                    <p class='verLook'> Inactivos: {usersInactiveCount} <button class='look' onClick={allUsersInactive}><FaEye /></button></p>
+                  </>
+                )}
+              
+                <button id='buttonR' onClick={getRole}>Roles</button>
+                {vista === 'rol' && (
+                  <>
+                    <p class='verLook'> Admin: {administradoresCount} <button class='look' onClick={allUsersAdmin}><FaEye /></button></p>
+                    <p class='verLook'> Clientes: {clientCount} <button class='look' onClick={allUsersClient}><FaEye /></button></p>
+                  </>
+                )}
+              </div>
+
+              <div id='right_content'>
+
+                <div id='find_right'>
+                  <label>buscar usuario</label>
+                  <input type='text' onChange={(e)=> setNameUsuario(e.target.value)}></input>
+                  <button onClick={allUsersForname}>filtrar</button>
                 </div>
 
                 <div id='right'>
@@ -250,72 +279,80 @@ async function doFilter() {
                   ))}
                 </div>
               </div>
-              
+            </div>
+            
+          </>
+        )}
+        {showAdmin === 'list' && (
+          <>
+            {msg === 'all' && (
+              <>
+              <div class="grid-container">
+                <div id='f'>
+                  <div class="grid-item"> <p>Creadas</p> <span> {filtro.length}</span> </div>
+                  <div class="grid-item"> <p>Completadas</p> <span> {listComplete}</span> </div>
+                  <div class="grid-item"> <p>Pendientes</p> <span> {listincomplete}</span></div>
+                </div>
+              </div>
             </>
-          )}
-          {showAdmin === 'list' && (
-            <>
-              {msg === 'all' && (
-                <>
+            )}
+            {msg === 'one' && (
+              <>
                 <div class="grid-container">
                   <div id='f'>
-                    <div class="grid-item"> <p>Creadas</p> <span> {filtro.length}</span> </div>
+                    <div class="grid-item"> <p>encontradas</p> <span> {filtro.length}</span> </div>
                     <div class="grid-item"> <p>Completadas</p> <span> {listComplete}</span> </div>
                     <div class="grid-item"> <p>Pendientes</p> <span> {listincomplete}</span></div>
                   </div>
                 </div>
               </>
-              )}
-              {msg === 'one' && (
-                <>
-                  <div class="grid-container">
-                    <div id='f'>
-                      <div class="grid-item"> <p>encontradas</p> <span> {filtro.length}</span> </div>
-                      <div class="grid-item"> <p>Completadas</p> <span> {listComplete}</span> </div>
-                      <div class="grid-item"> <p>Pendientes</p> <span> {listincomplete}</span></div>
-                    </div>
-                  </div>
-                </>
-              )}
+            )}
 
-              <span id='glogal_contentlist'>
-                <div id='serach_filter'>
-                  <button onClick={allList}>Todas las tareas</button>
-                  <button onClick={allListComplete}>Tareas completadas</button>
-                  <button onClick={allListPending}>Tareas pendientes</button>
+            <span id='glogal_contentlist'>
+              <div id='serach_filter'>
+                <button onClick={allList}>Todas las tareas</button>
+                <button onClick={allListComplete}>Tareas completadas</button>
+                <button onClick={allListPending}>Tareas pendientes</button>
+              </div>
+
+              <div id='right_list'>
+
+                <div id='header_filter'>
+                  <label>Busqueda: </label>
+                  <input type='text' placeholder='Nombre del usuario' onChange={(e) => setWorksFiltro(e.target.value)}></input>
+                  <button onClick={doFilter}>Filtrar</button>
+                  {notUser &&(
+                    <>
+                      <div id='content_error'>
+                        <span id='error'> No se encontro ningun usuario que coincida con los parametros de la busqueda, intenta usando otro filtro</span>
+                      </div>
+                    </>
+                  )}
                 </div>
 
-                <div id='right_list'>
+                <div id='contentList_C'>
+                  {filtro.map((tarea) => {
+                    const usuario = usuariosDB.find(user => user.idUser === tarea.idUserFK); // Busca el usuario correspondiente a la tarea actual
 
-                  <div id='header_filter'>
-                    <label>Busqueda: </label>
-                    <input type='text' placeholder='Nombre del usuario' onChange={(e) => setWorksFiltro(e.target.value)}></input>
-                    <button onClick={doFilter}>Filtrar</button>
-                  </div>
-
-                  <div id='contentList_C'>
-                    {filtro.map((tarea) => {
-                      const usuario = usuariosDB.find(user => user.idUser === tarea.idUserFK); // Busca el usuario correspondiente a la tarea actual
-
-                      return (
-                        <>
-                          <div id='contentList' key={tarea.idUserFK}>
-                            <span id='count'>{tarea.idUserFK.toString().padStart(2, '0')} </span>
-                            <p> {usuario ? usuario.nameUser : ''}  </p>
-                            {tarea.state === 1 &&( <p> {tarea.state === 1 ? 'Completada' : ''} </p> )}
-                            {tarea.state === 0 &&( <p> {tarea.state === 0 ? 'Pendiente' : ''} </p> )}
-                            {tarea.state === null &&( <p> {tarea.state === null ? 'no Encontrado' : ''} </p> )}
-                            <p id='nameWorkList'> {tarea.nameList} </p>                            
-                          </div>
-                        </>
-                      );
-                    })}
-                  </div>
-
+                    return (
+                      <>
+                        <div id='contentList' key={tarea.idUserFK}>
+                          <span id='count'>{tarea.idUserFK.toString().padStart(2, '0')} </span>
+                          <p> {usuario ? usuario.nameUser : ''}  </p>
+                          {tarea.state === 1 &&( <p> {tarea.state === 1 ? 'Completada' : ''} </p> )}
+                          {tarea.state === 0 &&( <p> {tarea.state === 0 ? 'Pendiente' : ''} </p> )}
+                          {tarea.state === null &&( <p> {tarea.state === null ? 'no Encontrado' : ''} </p> )}
+                          <p id='nameWorkList'> {tarea.nameList} </p>                            
+                        </div>
+                      </>
+                    );
+                  })}
                 </div>
-              </span>
-            </>
-          )}
+
+              </div>
+            </span>
+          </>
+        )}
 
       </div>
     </>

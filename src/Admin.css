@@ -75,42 +75,84 @@
         }
       }
     }
-  
-    #right {
-      align-items: center;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      width: 100%;
-      max-height: 535px;
-      overflow: auto;
     
-      #listUsers {
-        display: flex;
-        align-items: center;
-        width: 280px;
+    #right_content{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: transparent;
+      border: solid 1px white;
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+      
+      #find_right{
         background-color: rgba(4, 0, 255, 0.199);
-        border: solid 3px transparent;
-        color: #222222;
-        border-radius: 10px;
-        padding: 5px;
-        margin: 8px;
-        #cont {
-          padding: 10px;
-          margin-right: 10px;
+        border-radius: 15px;
+        margin-bottom: 10px;
+        width: 100%;
+        height: 80px;
+
+        label{
+          margin: 5px;
+          width: 10%;
+          height: 94%;
+          color: white;
+        }
+        button{
+          color: white;
           background-color: transparent;
+          border: none;
+          cursor: pointer;
+          padding-left: 60px;
+          padding-right: 60px;
+          margin-left: 5px;
+          height: 94%;
+          font-size: 20px;
+        }
+        input{
+          height: 94%;
+          width: 70%;
+        }
+      }
+
+      #right {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        max-height: 535px;
+        overflow: auto;
+  
+      
+        #listUsers {
+          display: flex;
+          align-items: center;
+          width: 280px;
+          background-color: rgba(4, 0, 255, 0.199);
+          border: solid 3px transparent;
           color: #222222;
-          border: solid 3px rgba(4, 0, 255, 0.199);
-          border-radius: 50%;
-        }
-        #nameUserAdmin {
-          max-height: 55px;
-          overflow-y: auto;
-          overflow-x: hidden;
-          margin: 10px;
-        }
-        #stateUser {
+          border-radius: 10px;
+          padding: 5px;
           margin: 8px;
+          #cont {
+            padding: 10px;
+            margin-right: 10px;
+            background-color: transparent;
+            color: #222222;
+            border: solid 3px rgba(4, 0, 255, 0.199);
+            border-radius: 50%;
+          }
+          #nameUserAdmin {
+            max-height: 55px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin: 10px;
+          }
+          #stateUser {
+            margin: 8px;
+          }
         }
       }
     }
@@ -179,11 +221,10 @@
     
     #header_filter{
       margin-top: 15px;
-      margin-left: 5%;
       border-radius: 15px;
       background-color: rgba(4, 0, 255, 0.199);
       border: solid 2px #fff;
-      width: 89%;
+      width: 98%;
       height: 60px;
       label{
         margin-left: 5px;
@@ -192,7 +233,7 @@
       input{
         font-size: 20px;
         height: 90%;
-        width: 80%;
+        width: 73%;
       }
       button{
         cursor: pointer;
@@ -202,8 +243,9 @@
         font-size: 20px;
         border: none;
         width: 150px;
+        height: 100%;
         margin-left: 5px;
-        padding: 18px;
+        padding: 10px;
       }
     }
 
@@ -251,5 +293,16 @@
         }
       }
     }
+  }
+}
+
+#content_error{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  #error{
+    align-items: center;
+    text-align: center;
+    color: red;
   }
 }
