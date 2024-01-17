@@ -1,11 +1,11 @@
 /* Aca los estilos de la interfas del administrador */
 #admin_page {
   background-color: transparent;
-  padding: 20px;
 
   #soyYo {
     display: flex;
     justify-content: center;
+    font-size: 30px;
   }
 
   #butns {
@@ -13,111 +13,109 @@
     justify-content: center;
     color: #fff;
     margin: 20px;
+    
     button, #button1, #button2 {
       color: white;
-      background-color: #796a6a;
-      font-size: 15px;
-      margin-right: 10px;
+      background-color: rgba(4, 0, 255, 0.199);
+      font-size: 20px;
+      margin-bottom: 10px;
       border-radius: 10px;
-      width: 100px;
-      height: 45px;
+      border: none;
+      width: 150px;
+      padding: 8px;
+      margin: 10px;
+    }
+    #button2{
+      border: solid 2px white;
     }
   }
 
-  #buttonC,
-  #buttonT,
-  #buttonE,
-  #buttonR {
-    color: white;
-    background-color: #796a6a;
-    font-size: 15px;
-    margin-right: 10px;
-    border-radius: 10px;
-    width: 100px;
-    height: 45px;
-  }
-}
-
-#contentUsers {
-  justify-content: center;
-  margin: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  background-color: transparent;
-  color: aliceblue;
-
-  #listUsers {
+  #Content_users{ /* contenido de los usuarios*/
     display: flex;
     align-items: center;
-    width: 280px;
-    background-color: #ddd;
-    border: solid 1px black;
-    color: #000;
-    border-radius: 10px;
-    padding: 8px;
-    margin: 10px;
-    #cont {
+
+    #left{
       align-items: center;
-      padding: 10px;
-      margin-right: 10px;
-      background-color: #ddd;
-      color: black;
-      border: solid 1px black;
-      border-radius: 50%;
-    }
-    #nameUserAdmin {
-      max-height: 55px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      margin: 10px;
-    }
-    #stateUser {
-      margin: 10px;
-    }
-  }
-}
-
-#contentList_C {
-  justify-content: center;
-  margin: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  background-color: transparent;
-
-  #contentList {
-    margin: 1%;
-    align-items: center;
-    height: 150px;
-    width: 45%;
-    display: flex;
-    border-radius: 15px;
-    background-color: #a7a7a7;
-    color: black;
-    border: solid 1px black;
-    #count {
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+  
+      #buttonC,
+      #buttonT,
+      #buttonE,
+      #buttonR {
+        color: white;
+        background-color: rgba(4, 0, 255, 0.199);
+        font-size: 30px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        border: none;
+        width: 200px;
+        padding: 8px;
+        margin: 10px;
+      }
+
+      #content_look{
+        display: flex;
+        flex-direction: column;
+      }
+
+      .verLook{
+        display: flex;
+        align-items: center;
+        font-size: 30px;
+        color: #222222;
+
+        .look{
+          background-color: transparent;
+          border: solid 1px transparent;
+          font-size: 40px;
+          color: #222222;
+        }
+      }
+    }
+  
+    #right {
       align-items: center;
-      padding: 10px;
-      margin: 10px;
-      background-color: #a7a7a7;
-      border: solid 1px black;
-      border-radius: 50%;
-    }
-    p {
-      padding: 10px;
-      width: 250px;
-      max-height: 60px;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-    #nameWorkList {
-      width: 300px;
-      max-height: 70px;
-      margin-right: 10px;
-      overflow-y: auto;
-      overflow-x: hidden;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-height: 535px;
+      overflow: auto;
+    
+      #listUsers {
+        display: flex;
+        align-items: center;
+        width: 280px;
+        background-color: rgba(4, 0, 255, 0.199);
+        border: solid 3px transparent;
+        color: #222222;
+        border-radius: 10px;
+        padding: 5px;
+        margin: 8px;
+        #cont {
+          padding: 10px;
+          margin-right: 10px;
+          background-color: transparent;
+          color: #222222;
+          border: solid 3px rgba(4, 0, 255, 0.199);
+          border-radius: 50%;
+        }
+        #nameUserAdmin {
+          max-height: 55px;
+          overflow-y: auto;
+          overflow-x: hidden;
+          margin: 10px;
+        }
+        #stateUser {
+          margin: 8px;
+        }
+      }
     }
   }
+/*aa van los estilos de las tareas*/ 
 }
 
 .grid-container {
@@ -129,10 +127,11 @@
   #f {
     display: flex;
     div {
-      border: solid 1px black;
-      background-color: #a7a7a7;
+      border: solid 3px white;
+      color: white;
+      background-color: rgba(4, 0, 255, 0.199);
       border-radius: 10px;
-      padding: 20px;
+      padding: 10px;
     }
   }
 
@@ -145,46 +144,112 @@
   }
 }
 
-#serach_filter {
+#glogal_contentlist{
   display: flex;
-  flex-direction: column;
-  span {
-    input {
-      width: 50%;
-      height: 20px;
-      font-size: auto;
+  flex-direction: row;
+  background-color: rgba(4, 0, 255, 0.199);
+  border: solid 2px white;
+  border-radius: 20px;
+
+  #serach_filter {
+    display: flex;
+    flex-direction: column;
+    
+    button {
+      margin: 40px;
+      padding: 15px;
       border-radius: 8px;
+      border: solid 2px white;
+      width: 140px;
+      height: auto;
+      color: #fff;
+      font-size: 20px;
+      background-color: rgba(4, 0, 255, 0.199);
+      transition: background-color 1s; 
+    }
+    button:hover {
+      background-color: #000;
+      color: #fff;
     }
   }
-  button {
-    margin: 10px;
-    padding: 5px;
-    border-radius: 8px;
-    width: 100px;
-    height: auto;
-    color: #fff;
-    background-color: #796a6a;
-    transition: background-color 1s; 
-  }
-  button:hover {
-    background-color: #000;
-    color: #fff;
-  }
-}
 
-#content_look{
-  display: flex;
-  justify-content: center;
-  width: 1400px;
-}
-.verLook{
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  .look{
-    background-color: transparent;
-    border: solid 1px transparent;
-    font-size: 30px;
-    padding: 10px;
+  #right_list{
+    width: 100%;
+    border-radius: 25px;
+    
+    #header_filter{
+      margin-top: 15px;
+      margin-left: 5%;
+      border-radius: 15px;
+      background-color: rgba(4, 0, 255, 0.199);
+      border: solid 2px #fff;
+      width: 89%;
+      height: 60px;
+      label{
+        margin-left: 5px;
+        color: white;
+      }
+      input{
+        font-size: 20px;
+        height: 90%;
+        width: 80%;
+      }
+      button{
+        cursor: pointer;
+        background-color: transparent;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        border: none;
+        width: 150px;
+        margin-left: 5px;
+        padding: 18px;
+      }
+    }
+
+    #contentList_C { /* contenido de las tareas*/
+      justify-content: center;
+      margin: 10px;
+      display: flex;
+      flex-wrap: wrap;
+    
+      max-height: 450px;
+      overflow: auto;
+    
+      #contentList {
+        margin: 10px;
+        align-items: center;
+        height: 130px;
+        width: 45%;
+        display: flex;
+        border-radius: 15px;
+        background-color: rgba(4, 0, 255, 0.199);
+        color: white;
+        border: none;
+        #count {
+          text-align: center;
+          align-items: center;
+          padding: 10px;
+          margin: 10px;
+          background-color: rgba(4, 0, 255, 0.199);
+          border: none;
+          border-radius: 50%;
+        }
+        p {
+          padding: 10px;
+          width: 250px;
+          max-height: 60px;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+        #nameWorkList {
+          width: 300px;
+          max-height: 70px;
+          margin-right: 10px;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+      }
+    }
   }
 }

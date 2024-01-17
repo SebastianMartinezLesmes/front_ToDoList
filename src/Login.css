@@ -149,7 +149,8 @@
       width: 500px;
       display: flex;
       flex-direction: column;
-        justify-content: center;
+      justify-content: center;
+      
       p{
         font-size: 21px;
         text-align: center;
@@ -170,10 +171,11 @@
 /* estilos para l9os votones de retorno al login */
 #especial,
 #especial2 {
+  font-weight: bold;
   border: none;
   border-radius: 10px;
   background-color: rgba(47, 0, 255, 0.26);
-  color: black; 
+  color: white; 
   font-size: 20px;
   width: 100px;
   height: 40px;
@@ -184,5 +186,6 @@
 #especial:hover,
 #especial2:hover {
   background-color: transparent;
-  border: solid 2px rgba(0, 0, 0, 0.541);
+  border: solid 2px white;
 }
+
