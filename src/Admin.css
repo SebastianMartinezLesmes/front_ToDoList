@@ -81,7 +81,6 @@
       flex-direction: column;
       justify-content: center;
       background-color: transparent;
-      border: solid 1px white;
       width: 100%;
       height: auto;
       border-radius: 15px;
@@ -90,8 +89,10 @@
         background-color: rgba(4, 0, 255, 0.199);
         border-radius: 15px;
         margin-bottom: 10px;
-        width: 100%;
+        margin-left: 100px;
+        width: 85%;
         height: 80px;
+
 
         label{
           margin: 5px;
@@ -111,8 +112,9 @@
           font-size: 20px;
         }
         input{
+          font-size: 20px;
           height: 94%;
-          width: 70%;
+          width: 81%;
         }
       }
 
@@ -233,7 +235,7 @@
       input{
         font-size: 20px;
         height: 90%;
-        width: 73%;
+        width: 81%;
       }
       button{
         cursor: pointer;

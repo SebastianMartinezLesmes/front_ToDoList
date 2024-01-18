@@ -31,6 +31,7 @@ function Admin(){
       const data = await response.json();
       // Actualizamos el estado con los datos obtenidos
       setUsuariosDB(data);
+      setFiltroU(data);
       console.log(usuariosDB)
     } catch (error) {
       console.error('Error:', error);
@@ -116,7 +117,7 @@ async function allUsersClient() {
 }
 
 
-// funcion para filtrar todos los usuarios por nombre ------------------------------------------------------------------------------------
+// funcion para filtrar todos los usuarios por nombre 
 const [nameUsuario,setNameUsuario] = useState('')
 
 async function allUsersForname() {
@@ -128,8 +129,9 @@ async function allUsersForname() {
     setMsg('all')
   }
 }
-// ----------------------------------------------------------------------------------------------------------------
+
 const [notUser,setNotuser] = useState(false)
+
 async function doFilter() {
   if (worksFiltro === '') {
     setFiltro(tareasDB);
@@ -264,8 +266,8 @@ async function doFilter() {
               <div id='right_content'>
 
                 <div id='find_right'>
-                  <label>buscar usuario</label>
-                  <input type='text' onChange={(e)=> setNameUsuario(e.target.value)}></input>
+                  <label>buscar</label>
+                  <input placeholder='Buscar por nombre' type='text' onChange={(e)=> setNameUsuario(e.target.value)}></input>
                   <button onClick={allUsersForname}>filtrar</button>
                 </div>
 
