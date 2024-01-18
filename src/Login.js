@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from 'react';
+import { AiOutlineDelete, AiOutlineCheckCircle, AiOutlineLogout } from 'react-icons/ai';
+
 import './Login.css';
 import Admin from './Admin';
 import Client from './Client';
@@ -21,6 +23,11 @@ function Login() {
   let [msnEmailC,setMsnEmailC] = useState(false);
   let [MsnPswC,setMsnPswC] = useState(false);
 
+  const [nCaracters,setNCaracters] = useState(false);
+  const [nSimbols,setNSinbols] = useState(false);
+  const [nUpLeters,setNUpLeters] = useState(false);
+
+// funcion para crear usuarios
   const createUser = async () => {
     const data = {
       idUser: usuariosDB.length + 1,
@@ -45,15 +52,53 @@ function Login() {
 
     } else {
 
+      let number = 0;
+      if( pswC.length < 7){ 
+        console.log('# caracteres password: '+pswC.length+' es menor a 8') 
+        setNCaracters(true)
+        number = number+1
+      }
+      
+      if (!/[^\w\d]/.test(pswC)) {
+        console.log("La contraseña NO contiene caracteres especiales.");
+        setNSinbols(true)
+        number = number+1
+      }
+      
+      if (!/[A-Z]/.test(pswC)) {
+        console.log('La cadena NO contiene al menos una letra mayúscula.');
+        setNUpLeters(true)
+        number = number+1
+      } 
+
+      setTimeout(() => { 
+        setNCaracters(false);
+        setNSinbols(false);
+        setNUpLeters(false);
+        return
+      }, 9000); //9seg
+
+      if(number !== 0){
+        return
+      }
+
       const usuarioEncontrado_other = usuariosDB.find(
         (u) => u.email === emailC
       );
     
+      // si encuentra el usuario
       if (usuarioEncontrado_other){
         setMsg(true);
         console.log('Correo encontrado, fallo al registrar el usuario: '+usuarioEncontrado_other)
+
+        // Establecer los estados a false después de # segundos
+        setTimeout(() => { 
+          setMsg(false);
+        }, 3000); //3seg
+
       }
       else {
+        
         console.log(`Correo NO encontrado, iniciando registro del usuario ${usuarioEncontrado_other}... `)
         setTimeout(() => { 
           setMsg(false);
@@ -205,7 +250,7 @@ function Login() {
 
   return (
     <>
-{/* formulario para ingresar a la paguina*/}
+{/* formulario Login de la paguina*/}
       <div id='super_content'>
         {window === 'login' && (
           <>
@@ -278,8 +323,9 @@ function Login() {
                       placeholder="Ingresa tu Correo"
                       onChange={(e)=>setEmailC(e.target.value)}
                       value={emailC}
-                      />
+                    />
                   </span>
+                  {msg &&( <> <span id='alert'> <p id='alert_error'> Correo ya registrado </p> </span> </> )}
                   
                   <span>
                     {MsnPswC ? (<p className='error' id='mesage_alert'> Contraseña Requerida </p>) : null}
@@ -293,9 +339,12 @@ function Login() {
                     />
                   </span>
                      
+                  {nCaracters &&( <> <span id='alert'> <p id='alert_error'> La contraseña debe tener minimo 8 caracteres </p> </span> </> )}
+                  {nSimbols &&( <> <span id='alert'> <p id='alert_error'> La contraseña debe al menos 1 simbolo </p> </span> </> )}
+                  {nUpLeters &&( <> <span id='alert'> <p id='alert_error'> La contraseña debe al menos 1 letra en mayuscula </p> </span> </> )}
+
                   <button type='button' onClick={createUser}>Crear Usuario</button>
                   <a href="#" onClick={() => setWindow('login')}>login</a>
-                  {msg &&( <> <span> Correo ya registrado </span> </> )}
                 </div>
 
                 <div id='createU_right'>
@@ -315,13 +364,20 @@ function Login() {
           <>
             {yo.role === 'client' && (
               <>
-                <button id='especial' onClick={() => setWindow('login')}>login</button>
+                <button id='especial' onClick={() => setWindow('login')}>
+                  <p> logOut </p>
+                  <AiOutlineLogout/>
+                </button>
+                 
                 <Client/>
               </>
             )}  
             { yo.role === 'administrador' && (
               <>
-                <button id='especial2' onClick={() => setWindow('login')}>login</button>
+                <button id='especial2' onClick={() => setWindow('login')}>
+                  <p> logOut </p>
+                  <AiOutlineLogout/>
+                </button>
                 <h2> <Admin/> </h2>
               </>
             )}
