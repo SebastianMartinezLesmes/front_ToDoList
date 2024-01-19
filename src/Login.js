@@ -8,7 +8,6 @@ import Client from './Client';
 import { useHistory } from 'react-router-dom';
 
 function Login() {
-
   useEffect(() => {
     // Llamamos a la función getUser al montar el componente
     getUser();
@@ -291,7 +290,7 @@ function Login() {
           </>
         )}
 
-{/* formulario para crear usuarios*/}
+{ /* formulario para crear usuarios*/}
         {window === 'register' &&  (
           <>
             <p id='titSec' onClick={() => setWindow('login')}> <h1> To Do List </h1> </p>
@@ -387,6 +386,7 @@ function Login() {
     </>
   );
 
+  
 }
 
 export default Login;

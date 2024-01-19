@@ -3,6 +3,12 @@ import { FaEye } from 'react-icons/fa'; //<FaEye />
 
 import './Admin.css';
 
+import GraficPolar from './estadistics/Polar'//Diagrama polar
+import Dona from './estadistics/Dona';//Diagrama dona
+import Barra from './estadistics/Barra';//Diagrama barra
+import Points from './estadistics/Puntos';//Diagrama puntos
+import Spider from './estadistics/Spider';//Diagrama radar(Spider)
+
 function Admin(){
 
   useEffect(() => {
@@ -12,11 +18,6 @@ function Admin(){
     getLocalStorage();
     doFilter();
   }, []);
-  
-//funcionalidad para crear usuarios
-    const [emailC, setEmailC] = useState("");
-    const [nameC, setNameC] = useState("");
-    const [pswC, setPswC] = useState("");
 
 // aca un metodo que trae los usuarios y los buarda en setUsuariosDB
   const urlUsers = 'http://localhost:5000/getUser';
@@ -350,12 +351,21 @@ async function doFilter() {
                     );
                   })}
                 </div>
-
               </div>
             </span>
+            
+            <div id='grafics_list'>
+              <div id='options_grafics'>
+                <p>options</p>
+
+              </div>
+              <div id='grafic_list'>
+                <p>graficas</p>
+                <Barra tareas={tareasDB}/>
+              </div>
+            </div>
           </>
         )}
-
       </div>
     </>
   );

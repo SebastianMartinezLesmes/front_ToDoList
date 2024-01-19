@@ -297,6 +297,31 @@
     }
   }
 }
+#grafics_list{
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  background-color: red;
+
+  #options_grafics{
+    background-color: purple;
+    width: 20%;
+    p{
+      display: flex;
+      justify-content: center;
+    }
+  }
+  #grafic_list{
+    background-color: aqua;
+    width: 80%;
+    overflow: auto;
+    p{
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
 
 #content_error{
   display: flex;
