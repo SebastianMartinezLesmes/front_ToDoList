@@ -3,7 +3,7 @@ import { FaEye } from 'react-icons/fa'; //<FaEye />
 
 import './Admin.css';
 
-import GraficPolar from './estadistics/Polar'//Diagrama polar
+import Polar from './estadistics/Polar'//Diagrama polar
 import Dona from './estadistics/Dona';//Diagrama dona
 import Barra from './estadistics/Barra';//Diagrama barra
 import Points from './estadistics/Puntos';//Diagrama puntos
@@ -195,7 +195,6 @@ async function doFilter() {
     setShowAdmin('users')
     setFiltroU(usuariosDB);
   }
-
   function getAllU(){
     allUsers();
     if (vista === 'todos'){
@@ -205,7 +204,6 @@ async function doFilter() {
       setVista('todos');
     }
   }
-
   function getState(){
     if (vista === 'state'){
       setVista('');
@@ -214,13 +212,39 @@ async function doFilter() {
       setVista('state');
     }
   }
-
   function getRole(){
     if (vista === 'rol'){
       setVista('');
     }
     else{
       setVista('rol');
+    }
+  }
+
+  const [grafic,setGrafic] = useState('barras');
+  function graficBar (){
+    if (grafic !== 'barras'){
+      setGrafic('barras')
+    }
+  }
+
+  function graficPoints (){
+      if (grafic !== 'points'){
+      setGrafic('points')
+      console.log(grafic)
+    }
+  }
+  
+  function graficDonut (){
+    if (grafic !== 'donut'){
+    setGrafic('donut')
+    console.log(grafic)
+    }
+  }
+  function graficPolar (){
+    if (grafic !== 'polar'){
+    setGrafic('polar')
+    console.log(grafic)
     }
   }
 
@@ -356,12 +380,22 @@ async function doFilter() {
             
             <div id='grafics_list'>
               <div id='options_grafics'>
-                <p>options</p>
-
+                <p>graficas</p>
+                <button onClick={graficBar}>Barras</button>
+                <button onClick={graficPoints}>Puntos</button>
+                <button onClick={graficDonut}>Dona</button>
+                <button onClick={graficPolar}>Zona polar</button>
               </div>
               <div id='grafic_list'>
-                <p>graficas</p>
-                <Barra tareas={tareasDB}/>
+
+                <div id='gra'> 
+                  {grafic === 'points' &&( <Points tareas={tareasDB}/> )} 
+                  {grafic === 'barras' &&( <Barra tareas={tareasDB}/> )}
+                  {grafic === 'donut' &&( <Dona tareas={tareasDB}/> )}
+                  {grafic === 'polar' &&( <Polar tareas={tareasDB}/> )}
+                  {grafic === '' &&( <p>Escoje una grafica </p> )}
+                </div>
+                
               </div>
             </div>
           </>

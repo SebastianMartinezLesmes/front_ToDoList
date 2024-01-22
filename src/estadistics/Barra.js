@@ -10,11 +10,9 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-
 function Barra({tareas}) {
-  console.log(tareas)
     
-ChartJS.register(
+  ChartJS.register(
     CategoryScale,
     LinearScale,
     BarElement,
@@ -43,6 +41,7 @@ ChartJS.register(
   }
 
   const labels = Array.from(uniqueUserIds);
+  labels.sort((a, b) => a - b); // ordenar de menor a mayor
   
   const data = {
     datasets: [

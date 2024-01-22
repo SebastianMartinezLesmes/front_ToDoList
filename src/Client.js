@@ -59,6 +59,11 @@ function Client() {
       if (response.ok) {
         // Actualizar el estado (setTareasDB) para que React sepa que ha cambiado
         setTareasDB((prevTareas) => [...prevTareas, data]);
+        setHecha(true)
+
+        setTimeout(() => {
+          setHecha(false);
+        }, 3000);
         // Actualizar el estado (setTareasDB_2) para que React sepa que ha cambiado
         setTareasDB_2((prevTareas) => [...prevTareas, data2]);
       } else {
@@ -68,6 +73,7 @@ function Client() {
       console.error('Error de red:', error);
     }
   };
+  const [hecha,setHecha] = useState(false)
 
 // logica para confirmar la eliminacion de la tarea
   const [drop, setDrop] = useState(false)
@@ -76,6 +82,7 @@ function Client() {
     setDrop(true)
     setTimeout(() => {
       setDrop(false);
+      setHecha(false);
     }, 3000);
   }
 
@@ -177,6 +184,7 @@ function Client() {
               <textarea id='desc' onChange={(e)=>setDesc(e.target.value)}></textarea> 
             </div>
             <button type='button' onClick={createWork} >Poner tarea</button>
+            {hecha &&( <div id='goodmessage'> Tarea creada exitosamente</div>)}
           </form>
         </div>
 
