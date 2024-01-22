@@ -17,6 +17,7 @@ function Client() {
   const [desc,setDesc] = useState("");
   const [msgTitle,setMsgTitle] = useState(false);
   const [msgDesc,setMsgDesc] = useState(false);
+  const [hecha,setHecha] = useState(false)
 
   const createWork = async () => {
     if(title === '' || desc === ''){
@@ -61,19 +62,23 @@ function Client() {
         setTareasDB((prevTareas) => [...prevTareas, data]);
         setHecha(true)
 
+        setTitle ('')
+        setDesc ('')
+
         setTimeout(() => {
           setHecha(false);
         }, 3000);
         // Actualizar el estado (setTareasDB_2) para que React sepa que ha cambiado
         setTareasDB_2((prevTareas) => [...prevTareas, data2]);
+        getList();
       } else {
         console.error('Error al enviar la solicitud');
       }
+
     } catch (error) {
       console.error('Error de red:', error);
     }
   };
-  const [hecha,setHecha] = useState(false)
 
 // logica para confirmar la eliminacion de la tarea
   const [drop, setDrop] = useState(false)
@@ -177,11 +182,11 @@ function Client() {
             <h3>Formulario para crear las tareas</h3>
             <div>
               {msgTitle === true ? (<span> Título es requerido</span>):<p> Título: </p>}
-              <input type="text" onChange={(e)=>setTitle(e.target.value)}/> 
+              <input type="text" value={title} onChange={(e)=>setTitle(e.target.value)}/> 
             </div>
             <div> 
               {msgDesc === true ? (<span> Descripción es requerida</span>): <p> Descripción:</p>}
-              <textarea id='desc' onChange={(e)=>setDesc(e.target.value)}></textarea> 
+              <textarea id='desc' value={desc} onChange={(e)=>setDesc(e.target.value)}></textarea> 
             </div>
             <button type='button' onClick={createWork} >Poner tarea</button>
             {hecha &&( <div id='goodmessage'> Tarea creada exitosamente</div>)}
@@ -203,7 +208,7 @@ function Client() {
               </thead>
               <tbody>
                 {filteredTareas.map((tareas, index) => (
-                  <tr key={index}>
+                  <tr key={tareas.idList }>
                     <th>{index + 1}</th>
                     <th>
                       <div id='short_tit'>

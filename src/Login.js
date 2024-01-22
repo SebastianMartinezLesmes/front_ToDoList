@@ -133,6 +133,9 @@ function Login() {
         setWindow('login');
       }
     }
+    setNameC('')
+    setEmailC('')
+    setPswC('')
   };
       
   const [email, setEmail] = useState("");
@@ -211,9 +214,12 @@ function Login() {
       } else {
         console.log('Usuario no encontrado');
         setMsnYo(true);
+        setEmail('')
+        setPsw('')
         setTimeout(() => {
           setMsnYo(false);
         }, 3000);
+        
       }
     } catch (error) {
       console.error(error);
@@ -263,13 +269,13 @@ function Login() {
                   <div>
                     {msnEmail === false ?<p> Email </p> : null}
                     {msnEmail ? <p id='alert_mesage'> <i> Email es requerido </i> </p>:""}
-                    <input type="email" id='correo' onChange={(e)=>setEmail(e.target.value)}/>
+                    <input type="email" value={email} id='correo' onChange={(e)=>setEmail(e.target.value)}/>
                   </div>
             
                   <div>
                     {msnPsw === false ? <p>Password</p> : null}
                     {msnPsw ? <p id='alert_mesage'> <i> Password es requerido </i> </p> : null}
-                    <input type="password" id="password" onChange={(e) => setPsw(e.target.value)} /> 
+                    <input type="password" value={psw} id="password" onChange={(e) => setPsw(e.target.value)} /> 
                   </div>
 
                   {msnYo ? (<div> <p id='alert_mesage'> Usuario no encontrado, intente nuevamente</p> </div>): null}
@@ -365,7 +371,6 @@ function Login() {
               <>
                 <button id='especial' onClick={() => setWindow('login')}>
                   <p> logOut </p>
-                  <AiOutlineLogout/>
                 </button>
                  
                 <Client/>
@@ -375,7 +380,6 @@ function Login() {
               <>
                 <button id='especial2' onClick={() => setWindow('login')}>
                   <p> logOut </p>
-                  <AiOutlineLogout/>
                 </button>
                 <h2> <Admin/> </h2>
               </>
