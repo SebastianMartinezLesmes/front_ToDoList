@@ -1,6 +1,5 @@
 import './App.css';
 import react, {useState} from 'react';
-
 import { AiOutlineDelete } from 'react-icons/ai';
 
 function App() {

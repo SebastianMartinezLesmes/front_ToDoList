@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import { FaEye } from 'react-icons/fa'; //<FaEye />
-
 import './Admin.css';
 
 import Polar from './estadistics/Polar'//Diagrama polar
@@ -11,37 +10,53 @@ import Spider from './estadistics/Spider';//Diagrama radar(Spider)
 
 function Admin(){
 
+  const [usuariosDB,setUsuariosDB] = useState([]) // usuarios
+  const [tareasDB,setTareasDB] = useState([]); // tareas
+
+  const [filtro,setFiltro] = useState([]) // filtro de tareas
+  const [filtroU,setFiltroU] = useState([]) // filtro de usuarios
+  const [worksFiltro,setWorksFiltro] = useState('') // palabras para filtrar tareas
+  const [nameUsuario,setNameUsuario] = useState('') // palabras para filtrar usuarios
+  const [yo,setYo] = useState([]); //array de prueba con mis datos
+
+  const [notUser,setNotUser] = useState(false) // si no encuentra usuario muestra un nmensaje
+
+  const administradoresCount = usuariosDB.filter(usuario => usuario.role === 'administrador').length; // contador de cuantos usuarios tienen el rol administrador
+  const clientCount = usuariosDB.filter(usuario => usuario.role === 'client').length; // contador de cuantos usuarios tienen el rol cliente
+  const usersActiveCount = usuariosDB.filter(usuario => usuario.state === 'activo').length; // contador de cuantos usuarios tienen el estado activo
+  const usersInactiveCount = usuariosDB.filter(usuario => usuario.state === 'inactivo').length; // contador de cuantos usuarios tienen el estado inactivo
+  
+  const listComplete = filtro.filter(tareas => tareas.state === 1).length; // contador de cuantas tareas estan completas
+  const listincomplete = filtro.filter(tareas => tareas.state === 0).length; // contador de cuantas tareas estan incompletas
+
+  const [showAdmin, setShowAdmin] = useState('users'); // abre en el administrador la ventana de los usuarios
+  const [vista,setVista] = useState(''); // aca un filtro para los usuarios
+
+  // Llamamos a useEffect al montar el componente
   useEffect(() => {
-    // Llamamos a la función getUser y getList al montar el componente
     getUser();
     getList();
     getLocalStorage();
     doFilter();
   }, []);
 
-// aca un metodo que trae los usuarios y los buarda en setUsuariosDB
+  // aca un metodo que trae los usuarios y los buarda en setUsuariosDB
   const urlUsers = 'http://localhost:5000/getUser';
-  
   async function getUser() {
     try {
       const response = await fetch(urlUsers);
       if (!response) {
         throw new Error('Error al obtener los datos');
       }
-      console.log(response)
       const data = await response.json();
-      // Actualizamos el estado con los datos obtenidos
       setUsuariosDB(data);
       setFiltroU(data);
-      console.log(usuariosDB)
     } catch (error) {
       console.error('Error:', error);
     }
   }
-//array de prueba Usuarios
-  const [usuariosDB,setUsuariosDB] = useState([])
 
-// aca un metodo que trae los usuarios y los guarda en setTareasDB
+  // aca un metodo que trae las tareas y los guarda en setTareasDB
   const UrlList = 'http://localhost:5000/getList';
   async function getList() {
     try {
@@ -49,107 +64,96 @@ function Admin(){
       if (!response) {
         throw new Error('Error al obtener los datos');
       }
-      console.log(response)
       const data = await response.json();
-      // Actualizamos el estado con los datos obtenidos
       setTareasDB(data);
-      console.log(tareasDB)
     } catch (error) {
       console.error('Error:', error);
     }
   }
-//array de prueba Tareas
-  const [tareasDB,setTareasDB] = useState([]);
 
-  const [filtro,setFiltro] = useState([])
-  const [filtroU,setFiltroU] = useState([])
-  const [worksFiltro,setWorksFiltro] = useState('')
-
-// funcion para filtrar todas las tareas
-const [msg,setMsg] = useState('all')
-async function allList() {
-  setFiltro(tareasDB);
-  setMsg('all')
-}
-
-// funcion para filtrar todas las tareas completadas
-async function allListComplete() {
-  setFiltro(tareasDB);
-  setFiltro(tareasDB.filter(tareas => tareas.state === 1));
-  setMsg('all')
-}
-
-// funcion para filtrar todas las tareas pendientes
-async function allListPending() {
-  setFiltro(tareasDB);
-  setFiltro(tareasDB.filter(tareas => tareas.state === 0));
-  setMsg('all')
-}
-
-
-// funcion para traer todos los usuarios 
-async function allUsers() {
-  setFiltroU(usuariosDB);
-  setMsg('all')
-}
-// funcion para filtrar todos los usuarios activos
-async function allUsersActive() {
-  setFiltroU(usuariosDB);
-  setFiltroU(usuariosDB.filter(users => users.state === 'activo'));
-  setMsg('all')
-}
-// funcion para filtrar todos los usuarios inactivos
-async function allUsersInactive() {
-  setFiltroU(usuariosDB);
-  setFiltroU(usuariosDB.filter(users => users.state === 'inactivo'));
-  setMsg('all')
-}
-// funcion para filtrar todos los usuarios administradores
-async function allUsersAdmin() {
-  setFiltroU(usuariosDB);
-  setFiltroU(usuariosDB.filter(users => users.role === "administrador"));
-  setMsg('all')
-}
-// funcion para filtrar todos los usuarios clientes
-async function allUsersClient() {
-  setFiltroU(usuariosDB);
-  setFiltroU(usuariosDB.filter(users => users.role === 'client'));
-  setMsg('all')
-}
-
-
-// funcion para filtrar todos los usuarios por nombre 
-const [nameUsuario,setNameUsuario] = useState('')
-
-async function allUsersForname() {
-  if(nameUsuario !== ''){
-    setFiltroU(usuariosDB.filter(users => users.nameUser.toLowerCase() === nameUsuario.toLowerCase()));
+  // funcion para filtrar todas las tareas
+  const [msg,setMsg] = useState('all')
+  async function allList() {
+    setFiltro(tareasDB);
+    setMsg('all')
   }
-  else{
+
+  // funcion para filtrar todas las tareas completadas
+  async function allListComplete() {
+    setFiltro(tareasDB);
+    setFiltro(tareasDB.filter(tareas => tareas.state === 1));
+    setMsg('all')
+  }
+
+  // funcion para filtrar todas las tareas pendientes
+  async function allListPending() {
+    setFiltro(tareasDB);
+    setFiltro(tareasDB.filter(tareas => tareas.state === 0));
+    setMsg('all')
+  }
+
+  // funcion para traer todos los usuarios 
+  async function allUsers() {
     setFiltroU(usuariosDB);
     setMsg('all')
   }
-}
 
-const [notUser,setNotuser] = useState(false)
-
-async function doFilter() {
-  if (worksFiltro === '') {
-    setFiltro(tareasDB);
+  // funcion para filtrar todos los usuarios activos
+  async function allUsersActive() {
+    setFiltroU(usuariosDB);
+    setFiltroU(usuariosDB.filter(users => users.state === 'activo'));
     setMsg('all')
-  } else {
+  }
+
+  // funcion para filtrar todos los usuarios inactivos
+  async function allUsersInactive() {
+    setFiltroU(usuariosDB);
+    setFiltroU(usuariosDB.filter(users => users.state === 'inactivo'));
+    setMsg('all')
+  }
+  
+  // funcion para filtrar todos los usuarios administradores
+  async function allUsersAdmin() {
+    setFiltroU(usuariosDB);
+    setFiltroU(usuariosDB.filter(users => users.role === "administrador"));
+    setMsg('all')
+  }
+
+  // funcion para filtrar todos los usuarios clientes
+  async function allUsersClient() {
+    setFiltroU(usuariosDB);
+    setFiltroU(usuariosDB.filter(users => users.role === 'client'));
+    setMsg('all')
+  }
+
+  // funcion para filtrar todos los usuarios por nombre
+  async function allUsersForName() {
+    if(nameUsuario !== ''){
+      setFiltroU(usuariosDB.filter(users => users.nameUser.toLowerCase() === nameUsuario.toLowerCase()));
+    }
+    else{
+      setFiltroU(usuariosDB);
+      setMsg('all')
+    }
+  }
+
+  // funcion para filtrar las tareas por el nombre que escoja el usuario
+  async function doFilter() {
+    if (worksFiltro === '') {
+      setFiltro(tareasDB);
+      setMsg('all')
+    } else {
       const filtered = filtro.filter(tarea =>
         (usuariosDB.find(user => user.idUser === tarea.idUserFK)?.nameUser.toLowerCase().includes(worksFiltro.toLowerCase()))
       );
-          
       if (filtered.length !== 0) {
         setMsg('one')
         setFiltro(filtered);
       } else {
         setFiltro([])
-        setNotuser(true);
+        setNotUser(true);
         setTimeout(() => {
-          setNotuser(false);
+          setNotUser(false);
         }, 6000);
         setTimeout(()=>{
           setFiltro(tareasDB);
@@ -158,43 +162,29 @@ async function doFilter() {
     }
   }
 
-//array de prueba con mis datos
-  const [yo,setYo] = useState([]);
-
-// aca se trae la informacion del locaStorage
+  // aca se trae la informacion del locaStorage
   async function getLocalStorage (){
     const usuarioEnLocalStorage = localStorage.getItem('usuarioEncontrado');
-
     if (usuarioEnLocalStorage) {
-      // Convertir la cadena JSON a un objeto JavaScript
-      const usuarioDesdeLocalStorage = JSON.parse(usuarioEnLocalStorage);
+      const usuarioDesdeLocalStorage = JSON.parse(usuarioEnLocalStorage); // Convertir la cadena JSON a un objeto JavaScript
       setYo(usuarioDesdeLocalStorage)
-      // Imprimir en la consola el usuario almacenado en localStorage
       console.log('Usuario encontrado en localStorage:', usuarioDesdeLocalStorage);
-    } else {
-      console.log('No hay usuario almacenado en localStorage.');
     }
   }
 
-  const administradoresCount = usuariosDB.filter(usuario => usuario.role === 'administrador').length;
-  const clientCount = usuariosDB.filter(usuario => usuario.role === 'client').length;
-  const usersActiveCount = usuariosDB.filter(usuario => usuario.state === 'activo').length;
-  const usersInactiveCount = usuariosDB.filter(usuario => usuario.state === 'inactivo').length;
-  
-  const listComplete = filtro.filter(tareas => tareas.state === 1).length;
-  const listincomplete = filtro.filter(tareas => tareas.state === 0).length;
-
-  const [showAdmin, setShowAdmin] = useState('users');
-  const [vista,setVista] = useState('');
-
+  // funcion para abrir la ventana de tareas
   function passList (){
     setShowAdmin('list') 
     setFiltro(tareasDB)
   }
+
+  // funcion para abrir la ventana de usuarios
   function passUsers (){
     setShowAdmin('users')
     setFiltroU(usuariosDB);
   }
+
+  //funcion para mini ventana de todos los usuarios
   function getAllU(){
     allUsers();
     if (vista === 'todos'){
@@ -204,6 +194,8 @@ async function doFilter() {
       setVista('todos');
     }
   }
+
+  //funcion para mini ventana de todos los usuarios por estado
   function getState(){
     if (vista === 'state'){
       setVista('');
@@ -212,6 +204,8 @@ async function doFilter() {
       setVista('state');
     }
   }
+
+  //funcion para mini ventana de todos los usuarios por rol
   function getRole(){
     if (vista === 'rol'){
       setVista('');
@@ -221,6 +215,7 @@ async function doFilter() {
     }
   }
 
+  // funcion para mini ventana con el diagrama de barras
   const [grafic,setGrafic] = useState('barras');
   function graficBar (){
     if (grafic !== 'barras'){
@@ -228,23 +223,24 @@ async function doFilter() {
     }
   }
 
+  // funcion para mini ventana con el diagrama de puntos
   function graficPoints (){
       if (grafic !== 'points'){
       setGrafic('points')
-      console.log(grafic)
     }
   }
   
+  // funcion para mini ventana con el diagrama de dona
   function graficDonut (){
     if (grafic !== 'donut'){
     setGrafic('donut')
-    console.log(grafic)
     }
   }
+
+  // funcion para mini ventana con el diagrama de zona polar
   function graficPolar (){
     if (grafic !== 'polar'){
     setGrafic('polar')
-    console.log(grafic)
     }
   }
 
@@ -293,7 +289,7 @@ async function doFilter() {
                 <div id='find_right'>
                   <label>buscar</label>
                   <input placeholder='Buscar por nombre' type='text' onChange={(e)=> setNameUsuario(e.target.value)}></input>
-                  <button onClick={allUsersForname}>filtrar</button>
+                  <button onClick={allUsersForName}>filtrar</button>
                 </div>
 
                 <div id='right'>

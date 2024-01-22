@@ -45,7 +45,6 @@ function Client() {
       description: desc,
       idUserFK: yo.idUser,
     };
-    console.log(data2);
     try {
       // Enviar la solicitud POST al servidor
       const response = await fetch(url, {
@@ -92,12 +91,10 @@ function Client() {
   }
 
   async function borrar(id) {
-    console.log(id);
     let urlDeleteList = `http://localhost:5000/deleteList/${id}`;
   
     try {
       const response = await axios.delete(urlDeleteList);
-      console.log('respuesta exitosa', response);
       getList();
     } catch (error) {
       console.error('error de peticion', error);
@@ -105,15 +102,12 @@ function Client() {
   }
 
   async function update(id) {
-    console.log(id);
     let urlUpdateList = `http://localhost:5000/updateList/${id}`;
   
     try {
       const response = await axios.put(urlUpdateList);
-      console.log('respuesta exitosa', response.data);
       getList();
     } catch (error) {
-      console.error('error de peticion', error);
     }
   }
   
@@ -125,12 +119,10 @@ function Client() {
       if (!response) {
         throw new Error('Error al obtener los datos');
       }
-      console.log(response)
       const data = await response.json();
       // Actualizamos el estado con los datos obtenidos
       setTareasDB(data);
       setTareasDB_2(data);
-      console.log(tareasDB);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -155,14 +147,10 @@ function Client() {
     const usuarioEnLocalStorage = localStorage.getItem('usuarioEncontrado');
 
     if (usuarioEnLocalStorage) {
-      // Convertir la cadena JSON a un objeto JavaScript
       const usuarioDesdeLocalStorage = JSON.parse(usuarioEnLocalStorage);
       setYo(usuarioDesdeLocalStorage)
-      // Imprimir en la consola el usuario almacenado en localStorage
       console.log('Usuario encontrado en localStorage:', usuarioDesdeLocalStorage);
-    } else {
-      console.log('No hay usuario almacenado en localStorage.');
-    }
+    } 
   }
 
   // Filtrar las tareas que cumplen con la condición
@@ -201,7 +189,6 @@ function Client() {
                   <th>contador</th>
                   <th>nombre tarea</th>
                   <th>detalle</th>
-                  <th>estado</th>
                   <th>¿Completar?</th>
                   <th>¿Borrar?</th>
                 </tr>
@@ -220,14 +207,10 @@ function Client() {
                         {tareas.description}
                       </div>
                     </th>
-                    <th id='estate_part'>
-                      {tareas.state === 1 &&( <p> {tareas.state === 1 ? 'Completada' : ''} </p> )}
-                      {tareas.state === 0 &&( <p> {tareas.state === 0 ? 'Pendiente' : ''} </p> )}
-                    </th>
+
                     <th>
-                      {tareas.state !== 1 &&(
-                        <button className='update-button' onClick={() => update(tareas._id)}> <AiOutlineCheckCircle /> </button>
-                      )}
+                      {tareas.state !== 1 &&(<button className='update-button' onClick={() => update(tareas._id)}> <AiOutlineCheckCircle /> </button>)}
+                      {tareas.state === 1 &&( <p> {tareas.state === 1 ? 'Completada' : ''} </p> )}
                     </th>
                     <th>
                       {drop  === false &&(
@@ -240,7 +223,6 @@ function Client() {
                           <button className='delete-button' onClick={() => borrar(tareas._id)}> <AiOutlineDelete /> </button>
                         </>
                       )} 
-                      
                     </th>
                   </tr>
                 ))}
@@ -250,7 +232,7 @@ function Client() {
             <div id='content_cards'>
               {filteredTareas.map((tarea, index) => (
                 <div className='card' key={tarea._id}>
-                  <div className='card-item'>
+                  <div>
                     <h2 className='card-title'>{tarea.nameList}</h2>
                     <p className='card-description'>{tarea.description}</p>
                   </div>

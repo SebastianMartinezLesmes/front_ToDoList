@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
@@ -17,12 +17,12 @@ function Dona({tareas}) {
             label: '# de tareas',
             data: [listComplete, listincomplete],
             backgroundColor: [
-            'rgba(255, 99, 132, 0.5)',
-            'rgba(54, 162, 235, 0.5)',
+                'rgba(44, 0, 155, 0.299)',
+                'rgba(180, 20, 210, 0.199)',
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
+                'rgba(225, 225, 225)',
+                'rgba(225, 225, 225)',
             ],
             borderWidth: 1,
             },

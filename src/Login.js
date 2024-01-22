@@ -53,19 +53,16 @@ function Login() {
 
       let number = 0;
       if( pswC.length < 7){ 
-        console.log('# caracteres password: '+pswC.length+' es menor a 8') 
         setNCaracters(true)
         number = number+1
       }
       
       if (!/[^\w\d]/.test(pswC)) {
-        console.log("La contraseña NO contiene caracteres especiales.");
         setNSinbols(true)
         number = number+1
       }
       
       if (!/[A-Z]/.test(pswC)) {
-        console.log('La cadena NO contiene al menos una letra mayúscula.');
         setNUpLeters(true)
         number = number+1
       } 
@@ -94,12 +91,9 @@ function Login() {
         setTimeout(() => { 
           setMsg(false);
         }, 3000); //3seg
-
       }
       else {
-        
-        console.log(`Correo NO encontrado, iniciando registro del usuario ${usuarioEncontrado_other}... `)
-        setTimeout(() => { 
+          setTimeout(() => { 
           setMsg(false);
         }, 4000);
         
@@ -116,16 +110,12 @@ function Login() {
           if (response.ok) {
             // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario.
             console.log('Usuario creado exitosamente'); 
-          } else {
-            console.error('Error al crear el usuario');
-          }
+          } 
         } catch (error) {
           console.error('Error al realizar la solicitud:', error);
         }
         
         setUsuariosDB((prevTareas) => [...prevTareas, data]);
-        console.log(data);
-
         setEmailC('');
         setNameC('');
         setPswC('');
@@ -175,7 +165,6 @@ function Login() {
     try {
       // Actualizar el estado 'usuariosDB' con el nuevo usuario
       setUsuariosDB((prevTareas) => [...prevTareas, data]);
-      console.log(data);
   
       // Buscar el usuario con el correo electrónico y la contraseña proporcionados
       const usuarioEncontrado = usuariosDB.find(
@@ -207,12 +196,9 @@ function Login() {
           
           // Imprimir en la consola el usuario almacenado en localStorage
           console.log('Usuario almacenado en localStorage exitosamente:', usuarioDesdeLocalStorage);
-        } else {
-          console.log('No hay usuario almacenado en localStorage.');
         }
 
       } else {
-        console.log('Usuario no encontrado');
         setMsnYo(true);
         setEmail('')
         setPsw('')
@@ -223,7 +209,6 @@ function Login() {
       }
     } catch (error) {
       console.error(error);
-      console.log('Fallo en alguna operación.');
     } finally {
       // Limpiar campos después de todo
       setEmail('');

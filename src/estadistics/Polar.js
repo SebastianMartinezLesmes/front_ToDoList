@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import { PolarArea } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -25,8 +25,8 @@ function Polar({tareas}) {
             label: '# of Votes',
             data: [listComplete, listincomplete],
             backgroundColor: [
-            'rgba(255, 99, 132, 0.5)',
-            'rgba(54, 162, 235, 0.5)',
+            'rgba(44, 0, 155, 0.399)',
+            'rgba(4, 0, 205, 0.199)',
             ],
             borderWidth: 1,
         },

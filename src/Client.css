@@ -152,9 +152,11 @@
 
   h2 {
     color: #333;
+    text-align: center;
   }
 
   .card-title {
+    width: 100%;
     background-color: transparent;
     font-style: italic;
     max-height: 30px;
@@ -162,6 +164,7 @@
   }
 
   .card-description {
+    text-align: center;
     color: #333;
     font-weight: bold;
     width: 100%;
