@@ -6,7 +6,6 @@ import Polar from './estadistics/Polar'//Diagrama polar
 import Dona from './estadistics/Dona';//Diagrama dona
 import Barra from './estadistics/Barra';//Diagrama barra
 import Points from './estadistics/Puntos';//Diagrama puntos
-import Spider from './estadistics/Spider';//Diagrama radar(Spider)
 
 function Admin(){
 

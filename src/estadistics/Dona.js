@@ -17,8 +17,8 @@ function Dona({tareas}) {
             label: '# de tareas',
             data: [listComplete, listincomplete],
             backgroundColor: [
-                'rgba(44, 0, 155, 0.299)',
-                'rgba(180, 20, 210, 0.199)',
+                'rgba(44, 0, 155, 0.399)',
+                'rgba(4, 0, 205, 0.199)',
             ],
             borderColor: [
                 'rgba(225, 225, 225)',
