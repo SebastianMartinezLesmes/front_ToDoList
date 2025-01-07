@@ -86,14 +86,10 @@
       border-radius: 15px;
       
       #find_right{
-        /* background-color: rgba(4, 0, 255, 0.199); */
         background-color: rgba(4, 0, 255, 0.199);
         border-radius: 15px;
         margin-bottom: 10px;
-        margin-left: 50px;
-        width: fill;
         height: 80px;
-
 
         label{
           margin: 5px;
@@ -106,7 +102,7 @@
           background-color: transparent;
           border: none;
           cursor: pointer;
-          padding-left: 50px;
+          padding-left: 3%;
           margin-left: 5px;
           height: 94%;
           font-size: 20px;
@@ -226,7 +222,7 @@
       border-radius: 15px;
       background-color: rgba(4, 0, 255, 0.199);
       border: solid 2px #fff;
-      width: fill;
+      width: 98%;
       height: 60px;
       label{
         margin-left: 5px;
@@ -244,7 +240,7 @@
         font-weight: bold;
         font-size: 20px;
         border: none;
-        width: 150px;
+        width: 10%;
         height: 100%;
       }
     }
