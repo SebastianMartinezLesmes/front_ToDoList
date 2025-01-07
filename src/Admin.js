@@ -286,9 +286,9 @@ function Admin(){
               <div id='right_content'>
 
                 <div id='find_right'>
-                  <label>buscar</label>
+                  <label>Buscar</label>
                   <input placeholder='Buscar por nombre' type='text' onChange={(e)=> setNameUsuario(e.target.value)}></input>
-                  <button onClick={allUsersForName}>filtrar</button>
+                  <button onClick={allUsersForName}>Filtrar</button>
                 </div>
 
                 <div id='right'>

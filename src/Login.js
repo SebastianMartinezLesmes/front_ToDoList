@@ -1,11 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { AiOutlineDelete, AiOutlineCheckCircle, AiOutlineLogout } from 'react-icons/ai';
 
 import './Login.css';
 import Admin from './Admin';
 import Client from './Client';
-
-import { useHistory } from 'react-router-dom';
 
 function Login() {
   useEffect(() => {
