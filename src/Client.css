@@ -99,6 +99,7 @@
       border-radius: 5px;
 
       .update-button,
+      .change-button,
       .delete-button {
         background-color: transparent;
         padding: 8px;
@@ -109,6 +110,9 @@
 
       .update-button{
         background-color: #2ecc71;
+      }
+      .change-button{
+        background-color: #d6d327;
       }
       .delete-button{
         background-color: #FF4040;

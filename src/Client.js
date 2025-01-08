@@ -241,7 +241,8 @@ const [dateSelected,setDateSelected] = useState("0000-00-00");
                   <th>Nombre tarea</th>
                   <th>Detalle</th>
                   <th>Fecha</th>
-                  <th>¿Completar?</th>
+                  <th>Editar</th>
+                  <th>Completar</th>
                   <th>¿Borrar?</th>
                 </tr>
               </thead>
@@ -263,6 +264,9 @@ const [dateSelected,setDateSelected] = useState("0000-00-00");
                       <div id="date_finish">
                         {tareas.date}
                       </div>
+                    </th>
+                    <th>
+                      <button class='change-button' onClick={() => showUpdate(tareas)}>Actualizar</button>
                     </th>
                     <th>
                       {tareas.state !== 1 &&(<button className='update-button' onClick={() => update(tareas._id)}> <AiOutlineCheckCircle /> </button>)}
