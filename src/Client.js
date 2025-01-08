@@ -15,6 +15,8 @@ function Client() {
 //funcionalidad para crear tareas
   const [title,setTitle] = useState("");
   const [desc,setDesc] = useState("");
+  const [date,setDate] = useState("2025-01-14");
+  const [msgDate,msgSetDate] = useState(false);
   const [msgTitle,setMsgTitle] = useState(false);
   const [msgDesc,setMsgDesc] = useState(false);
   const [hecha,setHecha] = useState(false)
@@ -25,26 +27,25 @@ function Client() {
       if ( title === '' ){ setMsgTitle(true); } else { setMsgTitle(false); }
       //mensaje para descripcion
       if ( desc === '' ){ setMsgDesc(true); } else { setMsgDesc(false); }
+      //mensaje para la fecha
+      if ( date === '' ){ msgSetDate(true); } else { msgSetDate(false); }
       
       setTimeout(() => {
         setMsgTitle(false);
         setMsgDesc(false);
-      }, 2000);
-      return; // Evitar continuar si hay campos no llenados
-    }
-    const data = {
-      nameList: title,
-      nameUser: yo.nameUser,
-      idUser: yo.idUser,
-    };
-  
+        setMsgDesc(false);
+      }, 1500);
+      return; // Evitar continuar si hay campos vacios
+    }  
     const url = 'http://localhost:5000/createList';
-    const data2 = {
+    const data = {
       idList: tareasDB.length + 1,
       nameList: title,
       description: desc,
       idUserFK: yo.idUser,
+      date: date,
     };
+    console.log(data)
     try {
       // Enviar la solicitud POST al servidor
       const response = await fetch(url, {
@@ -52,7 +53,7 @@ function Client() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data2),
+        body: JSON.stringify(data),
       });
   
       // Verificar si la solicitud fue exitosa (código 200)
@@ -63,12 +64,13 @@ function Client() {
 
         setTitle ('')
         setDesc ('')
+        setDate('')
 
         setTimeout(() => {
           setHecha(false);
         }, 3000);
         // Actualizar el estado (setTareasDB_2) para que React sepa que ha cambiado
-        setTareasDB_2((prevTareas) => [...prevTareas, data2]);
+        setTareasDB_2((prevTareas) => [...prevTareas, data]);
         getList();
       } else {
         console.error('Error al enviar la solicitud');
@@ -149,7 +151,7 @@ function Client() {
     if (usuarioEnLocalStorage) {
       const usuarioDesdeLocalStorage = JSON.parse(usuarioEnLocalStorage);
       setYo(usuarioDesdeLocalStorage)
-      console.log('Usuario encontrado en localStorage:', usuarioDesdeLocalStorage);
+      // console.log('Usuario encontrado en localStorage:', usuarioDesdeLocalStorage);
     } 
   }
 
@@ -176,6 +178,10 @@ function Client() {
               {msgDesc === true ? (<span> Descripción es requerida</span>): <p> Descripción:</p>}
               <textarea id='desc' value={desc} onChange={(e)=>setDesc(e.target.value)}></textarea> 
             </div>
+            <div> 
+              {msgDate === true ? (<span> Fecha es requerida</span>): <p> Fecha:</p>}
+              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+            </div>
             <button type='button' onClick={createWork} >Poner tarea</button>
             {hecha &&( <div id='goodmessage'> Tarea creada exitosamente</div>)}
           </form>
@@ -186,9 +192,10 @@ function Client() {
             <table>
               <thead>
                 <tr>
-                  <th>contador</th>
-                  <th>nombre tarea</th>
-                  <th>detalle</th>
+                  <th>Contador</th>
+                  <th>Nombre tarea</th>
+                  <th>Detalle</th>
+                  <th>Fecha</th>
                   <th>¿Completar?</th>
                   <th>¿Borrar?</th>
                 </tr>
@@ -207,7 +214,11 @@ function Client() {
                         {tareas.description}
                       </div>
                     </th>
-
+                    <th>
+                      <div id="date_finish">
+                        {tareas.date}
+                      </div>
+                    </th>
                     <th>
                       {tareas.state !== 1 &&(<button className='update-button' onClick={() => update(tareas._id)}> <AiOutlineCheckCircle /> </button>)}
                       {tareas.state === 1 &&( <p> {tareas.state === 1 ? 'Completada' : ''} </p> )}
@@ -234,6 +245,7 @@ function Client() {
                 <div className='card' key={tarea._id}>
                   <div>
                     <h2 className='card-title'>{tarea.nameList}</h2>
+                    <p className='card-date'>{tarea.date}</p>
                     <p className='card-description'>{tarea.description}</p>
                   </div>
                   <div className='card-actions'>
@@ -257,8 +269,8 @@ function Client() {
 
                   </div>
                   <div>
-                    {tarea.state === 1 &&( <p className='card-description'> {tarea.state === 1 ? 'Completada' : ''} </p> )}
-                    {tarea.state === 0 &&( <p className='card-description'> {tarea.state === 0 ? 'Pendiente' : ''} </p> )}
+                    {tarea.state === 1 &&( <p className='card-state'> {tarea.state === 1 ? 'Completada' : ''} </p> )}
+                    {tarea.state === 0 &&( <p className='card-state'> {tarea.state === 0 ? 'Pendiente' : ''} </p> )}
                   </div>
                 </div>
               ))}
