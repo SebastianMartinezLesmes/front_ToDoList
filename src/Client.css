@@ -190,6 +190,7 @@
     }
 
     .update-button,
+    .change-button,
     .delete-button {
       padding: 8px;
       border: none;
@@ -198,6 +199,9 @@
     }
     .update-button{
       background-color: #2ecc71;
+    }
+    .change-button{
+      background-color: #d6d327;
     }
     .delete-button{
       background-color: #FF4040;
@@ -224,4 +228,57 @@
 
 #goodmessage{
   color: black;
+}
+
+#updateForm {
+  position: fixed; /* Se fija al navegador, sobreponiéndose a todo */
+  top: 10px; /* Empuja el formulario hacia la parte superior de la página */
+  left: 50%; /* Lo coloca en el centro horizontal de la pantalla */
+  transform: translateX(-50%); /* Ajusta el formulario para que esté centrado exactamente */
+  background: linear-gradient(to bottom, rgb(109, 107, 230) 0%, rgba(112, 111, 175, 0.938) 80%);
+  color: aliceblue;
+  height: 90vh; /* Altura del 90% de la ventana */
+  width: 40vw; /* Ancho del 40% de la ventana */
+  border-radius: 5%;
+  z-index: 2; /* Asegura que el formulario se muestre por encima de todos los demás elementos */
+  padding: 20px; /* Un poco de espacio alrededor del contenido */
+  box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+  display: flex; /* Flexbox para el contenido */
+  flex-direction: column; /* Coloca los elementos del formulario en columna */
+  justify-content: space-between; /* Alineación al inicio del formulario */
+  align-items: center;
+  font-size: 200%;
+  h3{
+    color: aliceblue;
+  }
+  div{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    label{
+      margin-right: 10%;
+    }
+    input,textarea{
+      height: 100%;
+      width: 50%;
+      font-size: 60%;
+    }
+    button{
+      height: 120%;
+      width: 60%;
+      border-radius: 5%;
+      margin: 5px;
+      color: aliceblue;
+      border: solid 1px white;
+      font-size: 60%;
+    }
+    #act{
+      cursor: pointer;
+      background: #2ecc71;
+    }
+    #can{
+      cursor: pointer;
+      background: #FF4040;
+    }
+  }
 }

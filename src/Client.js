@@ -15,7 +15,7 @@ function Client() {
 //funcionalidad para crear tareas
   const [title,setTitle] = useState("");
   const [desc,setDesc] = useState("");
-  const [date,setDate] = useState("2025-01-14");
+  const [date,setDate] = useState("0000-00-00");
   const [msgDate,msgSetDate] = useState(false);
   const [msgTitle,setMsgTitle] = useState(false);
   const [msgDesc,setMsgDesc] = useState(false);
@@ -94,24 +94,69 @@ function Client() {
 
   async function borrar(id) {
     let urlDeleteList = `http://localhost:5000/deleteList/${id}`;
-  
     try {
-      const response = await axios.delete(urlDeleteList);
+      await axios.delete(urlDeleteList);
       getList();
     } catch (error) {
       console.error('error de peticion', error);
     }
   }
 
+  // update state
   async function update(id) {
     let urlUpdateList = `http://localhost:5000/updateList/${id}`;
-  
     try {
-      const response = await axios.put(urlUpdateList);
+      await axios.put(urlUpdateList);
       getList();
     } catch (error) {
     }
   }
+//  Update data
+const [updateTaskForm,setUpdateTaskForm] = useState(false);
+
+const [selectedTask, setSelectedTask] = useState("");
+const [titleSelected,setTitleSelected] = useState("");
+const [descSelected,setDescSelected] = useState("");
+const [dateSelected,setDateSelected] = useState("0000-00-00");
+
+  function showUpdate (tarea){
+    // console.log(tarea._id)
+    setSelectedTask(tarea._id)
+    setTitleSelected(tarea.nameList)
+    setDescSelected(tarea.description)
+    setDateSelected(tarea.date)
+    setUpdateTaskForm(true);
+  }
+
+  async function updateData() {
+    const data = {
+        nameList: titleSelected,
+        description: descSelected,
+        date: dateSelected,
+    };
+    console.log(data);
+    let urlUpdateListData = `http://localhost:5000/updateListData/${selectedTask}`;
+    try {
+        const response = await fetch(urlUpdateListData, {
+            method: 'PUT', // Método HTTP para actualizar datos
+            headers: {
+              'Content-Type': 'application/json', // Indicar que el cuerpo de la solicitud es JSON
+            },
+            body: JSON.stringify(data), // Convertir el objeto de datos a JSON
+        });
+
+        if (!response.ok) {
+          // Manejar errores HTTP
+          throw new Error(`Error en la solicitud: ${response.statusText}`);
+        }
+        const result = await response.json(); // Procesar la respuesta como JSON
+        console.log('Datos actualizados:', result);
+        getList(); // Actualizar la lista después de una solicitud exitosa
+        setUpdateTaskForm(false); // Cerrar el formulario de actualización
+    } catch (error) {
+        console.error('Fallo al actualizar los datos:', error);
+    }
+}
   
 // aca un metodo que trae los usuarios y los buarda en setTareasDB
   const UrlList = 'http://localhost:5000/getList';
@@ -241,7 +286,7 @@ function Client() {
             </table>
           ) : (
             <div id='content_cards'>
-              {filteredTareas.map((tarea, index) => (
+              {filteredTareas.map((tarea) => (
                 <div className='card' key={tarea._id}>
                   <div>
                     <h2 className='card-title'>{tarea.nameList}</h2>
@@ -249,13 +294,12 @@ function Client() {
                     <p className='card-description'>{tarea.description}</p>
                   </div>
                   <div className='card-actions'>
-
                     {tarea.state !== 1 &&(
                       <button className='update-button' onClick={() => update(tarea._id)}>
                          <AiOutlineCheckCircle /> 
                       </button>
                     )}
-
+                    <button className='change-button' onClick={() => showUpdate(tarea)}>Editar</button>
                     {drop  === false &&(
                       <>
                         <button className='delete-button' onClick={() => changeConfirmDrop()}>¿Borrar?</button>
@@ -266,7 +310,6 @@ function Client() {
                         <button className='delete-button' onClick={() => borrar(tarea._id)}> <AiOutlineDelete /> </button>
                       </>
                     )}
-
                   </div>
                   <div>
                     {tarea.state === 1 &&( <p className='card-state'> {tarea.state === 1 ? 'Completada' : ''} </p> )}
@@ -277,7 +320,28 @@ function Client() {
             </div>
           )}
         </div>
-
+        ---------------------------
+        {updateTaskForm && (
+          <div id='updateForm'>
+            <h3>Formulario de actualización</h3>
+            <div>
+              <label>Título:</label>
+              <input type="text" value={titleSelected} onChange={(e) => setTitleSelected(e.target.value)}/>
+            </div>
+            <div>
+              <label>Descripción:</label>
+              <textarea value={descSelected} onChange={(e) => setDescSelected(e.target.value)}/>
+            </div>
+            <div>
+              <label>Fecha:</label>
+              <input type="date" value={dateSelected} onChange={(e) => setDateSelected(e.target.value)}/>
+            </div>
+            <div>
+              <button id='act' onClick={() => updateData()}>Actualizar</button>
+              <button id='can' onClick={() => setUpdateTaskForm(false)}>Cancelar</button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
