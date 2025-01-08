@@ -324,7 +324,6 @@ const [dateSelected,setDateSelected] = useState("0000-00-00");
             </div>
           )}
         </div>
-        ---------------------------
         {updateTaskForm && (
           <div id='updateForm'>
             <h3>Formulario de actualización</h3>
